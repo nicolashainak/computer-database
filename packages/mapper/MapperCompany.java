@@ -4,16 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.company;
+import model.Company;
 
-public class mapperCompany {
-	public ArrayList<company> writeResultSet(ResultSet resultSet) throws SQLException {
-		ArrayList<company> company_list = new ArrayList<company>();
+public class MapperCompany {
+	public static ArrayList<Company> writeResultSet(ResultSet resultSet) throws SQLException {
+		ArrayList<Company> company_list = new ArrayList<Company>();
         while (resultSet.next()) {
             
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
-            company c = new company(id,name);
+            Company c = new Company(id,name);
             company_list.add(c);
         
         }

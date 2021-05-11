@@ -25,6 +25,11 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
+	public String toString() {
+		return String.format("<id = %s,name = %s,introduced= %s,discontinued = %s,company_id = %s>", this.id, this.name,this.introduced,this.discontinued,this.company_id);
+		
+	}
+	
 	
 	public Integer getId() {
 		return this.id;

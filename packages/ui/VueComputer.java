@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import model.Computer;
 
-public class vueComputer {
+public class VueComputer {
 	
-	public void affComputer(ArrayList<Computer> computer_list) {
+	public static void affComputer(ArrayList<Computer> computer_list) {
 		for (Computer c : computer_list) {
 			System.out.println("Id: " + c.getId());
 			System.out.println("Name: " + c.getName());

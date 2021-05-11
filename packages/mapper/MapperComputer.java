@@ -9,18 +9,24 @@ import java.util.ArrayList;
 
 import model.Computer;
 
-public class mapperComputer {
+public class MapperComputer {
 	
-	public ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {
+	public static ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {
 		boolean b = true;
 		ArrayList<Computer> computer_list = new ArrayList<Computer>();
-
+		LocalDate introduced = null;
+		LocalDate discontinued =null;
         while (resultSet.next()) {
             b=false;
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
-            LocalDate introduced = resultSet.getDate("introduced").toLocalDate();
-            LocalDate discontinued = resultSet.getDate("discontinued").toLocalDate();
+            if (resultSet.getDate("introduced")!=null) {
+            	introduced = resultSet.getDate("introduced").toLocalDate();
+            }
+            if (resultSet.getDate("discontinued")!=null) {            
+            	discontinued = resultSet.getDate("discontinued").toLocalDate();
+            
+            }
             int company_id = resultSet.getInt("company_id");
             Computer c = new Computer(id,name,introduced,discontinued,company_id);
             computer_list.add(c);

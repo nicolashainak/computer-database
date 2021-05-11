@@ -2,12 +2,12 @@ package ui;
 
 import java.util.ArrayList;
 
-import model.company;
+import model.Company;
 
-public class vueCompany {
+public class VueCompany {
 
-	public void affCompany(ArrayList<company> company_list) {
-		for (company c : company_list) {
+	public static void affCompany(ArrayList<Company> company_list) {
+		for (Company c : company_list) {
 			System.out.println("Id: " + c.getId());
 			System.out.println("Name: " + c.getName());
 					
