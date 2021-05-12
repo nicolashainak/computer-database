@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import model.Computer;
+import ui.Graphic;
+import ui.Page;
 import ui.VueCompany;
 import ui.VueComputer;
 import persistance.DaoCompany;
@@ -11,50 +13,145 @@ import persistance.DaoComputer;
 
 public class Actions {
 
-	private boolean always = true;
 	Scanner scanner = new Scanner(System.in);
 
 	public void boucle() throws Exception {
-
-		//while (always) {
-			Graphic.drawBase();
-			waitAction();
-
-		//}
-
+		Graphic.drawBase();
+		waitAction();
 	}
 
 	public void waitAction() throws Exception {
-
 		String s = scanner.nextLine();
 		int act = Integer.parseInt(s);
+		System.out.println(act);
 		switch (act) {
 		case 1:
 			showComputer();
+			break;
 		case 2:
 			showCompany();
+			break;
 		case 3:
 			searchComputer();
+			break;
 		case 4:
 			addComputer();
+			break;
 		case 5:
 			updateComputer();
+			break;
 		case 6:
 			deleteComputer();
+			break;
 		case 7:
 			stop();
-
+			break;
+		default:
+			break;
 		}
 
 	}
 
 	public void showComputer() throws Exception {
-		VueComputer.affComputer(DaoComputer.readDatabase());
+
+		boolean wait = true;
+		int i = 0;
+		int max = Page.nbPageComputer();
+		affichage(i,max);
+		while (wait) {
+			String s = scanner.nextLine();
+			int act = Integer.parseInt(s);
+			System.out.println(act);
+			switch (act) {
+			case 1:
+				if (i > 0) {
+					i--;
+				}
+				affichage(i,max);
+				break;
+			case 2:
+				if (i < max) {
+					i++;
+				}
+				affichage(i,max);
+
+				break;
+			case 3:
+				System.out.println("Wich page do you want to go ?");
+				String entrie = scanner.nextLine();
+				int goTo = Integer.parseInt(entrie);
+				if (0 <= goTo && goTo <= max) {
+					i = goTo;
+				}
+				affichage(i,max);
+				break;
+			case 4:
+				wait = false;
+				System.out.println("Exit to the database ");
+				break;
+
+			default:
+				affichage(i,max);
+				break;
+			}
+
+		}
 		boucle();
 	}
 
 	public void showCompany() throws Exception {
-		VueCompany.affCompany(DaoCompany.readDatabase());
+		boolean wait = true;
+		int i = 0;
+		int max = Page.nbPageCompany();
+		System.out.println("Page " + i + " / " + max);
+		VueCompany.affCompany(DaoCompany.readDatabase(i));
+		Graphic.drawPage(i);
+		while (wait) {
+			String s = scanner.nextLine();
+			int act = Integer.parseInt(s);
+			System.out.println(act);
+			switch (act) {
+			case 1:
+				if (i > 0) {
+					i--;
+				}
+				System.out.println("Page " + i + " / " + max);
+				VueCompany.affCompany(DaoCompany.readDatabase(i));
+				Graphic.drawPage(i);
+				break;
+			case 2:
+				if (i < max) {
+					i++;
+				}
+				System.out.println("Page " + i + " / " + max);
+				VueCompany.affCompany(DaoCompany.readDatabase(i));
+				Graphic.drawPage(i);
+
+				break;
+			case 3:
+				System.out.println("Wich page do you want to go ?");
+				String entrie = scanner.nextLine();
+				int goTo = Integer.parseInt(entrie);
+				if (0 <= goTo && goTo <= max) {
+					i = goTo;
+				}
+				System.out.println("Page " + i + " / " + max);
+				VueCompany.affCompany(DaoCompany.readDatabase(i));
+				Graphic.drawPage(i);
+				break;
+			case 4:
+				wait = false;
+				System.out.println("Exit to the database ");
+				break;
+
+			default:
+				System.out.println("Page " + i + " / " + max);
+				VueCompany.affCompany(DaoCompany.readDatabase(i));
+				Graphic.drawPage(i);
+				break;
+			}
+
+		}
 		boucle();
 	}
 
@@ -111,7 +208,7 @@ public class Actions {
 		boucle();
 	}
 
-	public void deleteComputer() throws Exception{
+	public void deleteComputer() throws Exception {
 		System.out.println("Id of the computer you want to change ");
 		int n = Integer.parseInt(scanner.nextLine());
 		DaoComputer.deleteComputer(n);
@@ -120,7 +217,14 @@ public class Actions {
 
 	public void stop() {
 		System.out.println("Bye Bye My friend !");
-		//this.always = false;
+		// this.always = false;
+	}
+	
+	public void affichage(int i, int max ) throws Exception {
+		System.out.println("Page " + i + " / " + max);
+		VueComputer.affComputer(DaoComputer.readDatabase(i));
+		Graphic.drawPage(i);
+		
 	}
 
 }

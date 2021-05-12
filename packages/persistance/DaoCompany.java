@@ -16,11 +16,13 @@ public class DaoCompany {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 
-	public static ArrayList<Company> readDatabase() throws Exception {
+	public static ArrayList<Company> readDatabase(int i ) throws Exception {
 		try {
 
 			Connection connection = Database.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("select * from company");
+			int limit = 20;
+			int offset = 20 * i;
+			PreparedStatement preparedStatement = connection.prepareStatement("select * from company limit "+limit +" offset "+ offset);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			return MapperCompany.writeResultSet(resultSet);
 
@@ -29,6 +31,16 @@ public class DaoCompany {
 		} finally {
 
 		}
+	}
+	public static int nbCompany() throws Exception  {
+		Connection connection=Database.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM company ;");
+		ResultSet resultSet  = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			int id = Integer.parseInt (resultSet.getString(1));
+			return id ;
+		}
+		return 0;
 	}
 
 }

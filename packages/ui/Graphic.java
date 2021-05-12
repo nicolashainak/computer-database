@@ -1,4 +1,4 @@
-package cli;
+package ui;
 
 public class Graphic {
 
@@ -11,4 +11,18 @@ public class Graphic {
 		System.out.println("[6] Delete a Computer ");
 		System.out.println("[7] Exit");
 	}
+	
+	public static void drawPage(int i ) throws Exception {
+		String s = "\n  ";
+		if (i>0) {
+			s=s+"[1]Prev \t";
+		}
+		if (i<Page.nbPageComputer()) {
+		s=s+"[2]Next \t";
+		}
+		s=s+"[3]Go To Page ... \t";
+		s=s+"[4]EXIT ";
+		System.out.println(s);
+	}
+	
 }

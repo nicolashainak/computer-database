@@ -15,12 +15,17 @@ import ui.VueComputer;
 
 public class DaoComputer {
 
-	public static ArrayList<Computer> readDatabase() throws Exception {
+	public static ArrayList<Computer> readDatabase(int i) throws Exception {
 		try {
-
+			
 			Connection connection = Database.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("select * from computer");
+			int limit = 20;
+			int offset = 20 * i;
+			PreparedStatement preparedStatement = connection.prepareStatement("select * from computer limit "+limit +" offset "+ offset);
 			ResultSet resultSet = preparedStatement.executeQuery();
+//			preparedStatement.setInt(1, 20);
+//			preparedStatement.setInt(2, 20);
+			
 			return MapperComputer.writeResultSet(resultSet);
 
 		} catch (Exception e) {
@@ -72,7 +77,8 @@ public class DaoComputer {
 	public static void updateComputer(int idComputer, Computer c) throws Exception {
 
 		Connection connection = Database.getConnection();
-		PreparedStatement preparedStatement = connection.prepareStatement("update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? where id = ?");
+		PreparedStatement preparedStatement = connection.prepareStatement(
+				"update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? where id = ?");
 		preparedStatement.setString(1, c.getName());
 		Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
 		Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
@@ -83,11 +89,22 @@ public class DaoComputer {
 		preparedStatement.executeUpdate();
 
 	}
-	public static void deleteComputer(int idComputer) throws Exception{
+
+	public static void deleteComputer(int idComputer) throws Exception {
 		Connection connection = Database.getConnection();
 		PreparedStatement preparedStatement = connection.prepareStatement("delete from computer where id=?");
 		preparedStatement.setInt(1, idComputer);
 		preparedStatement.executeUpdate();
-		
+
+	}
+	public static int nbComputer()throws Exception{
+		Connection connection=Database.getConnection();
+		PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM computer ;");
+		ResultSet resultSet  = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			int id = Integer.parseInt (resultSet.getString(1));
+			return id ;
+		}
+		return 0;
 	}
 }
