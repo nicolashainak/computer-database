@@ -8,8 +8,7 @@ public class VueCompany {
 
 	public static void affCompany(ArrayList<Company> company_list) {
 		for (Company c : company_list) {
-			System.out.println("Id: " + c.getId());
-			System.out.println("Name: " + c.getName());
+			System.out.println("Id: " + c.getId()+"Name: " + c.getName());
 					
 		
 		}

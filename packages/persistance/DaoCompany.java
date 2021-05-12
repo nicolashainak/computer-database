@@ -15,25 +15,20 @@ public class DaoCompany {
 	private Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
-	
+
 	public static ArrayList<Company> readDatabase() throws Exception {
 		try {
-			
+
 			Connection connection = Database.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement("select * from company");
-			ResultSet resultSet=preparedStatement.executeQuery();
+			ResultSet resultSet = preparedStatement.executeQuery();
 			return MapperCompany.writeResultSet(resultSet);
-			
-		}catch(Exception e){
-			throw e ;
-		}finally {
-			
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+
 		}
 	}
-	
-	
-	
-    }
-	
 
-
+}

@@ -2,7 +2,6 @@ package cli;
 
 public class Graphic {
 
-	
 	public static void drawBase() {
 		System.out.println("[1] Show Computer Database");
 		System.out.println("[2] Show Company Database");
