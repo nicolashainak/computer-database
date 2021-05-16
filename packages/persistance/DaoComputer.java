@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import com.mysql.cj.xdevapi.Type;
+
 import mapper.MapperComputer;
 import model.Computer;
 import ui.VueComputer;
@@ -40,7 +42,9 @@ public class DaoComputer {
 			Connection connection = Database.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					"INSERT INTO computer( name,introduced,discontinued,company_id)" + "VALUES(?,?,?,?);");
+			
 			preparedStatement.setString(1, c.getName());
+			
 			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
 			Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
 			preparedStatement.setTimestamp(2, ts1);

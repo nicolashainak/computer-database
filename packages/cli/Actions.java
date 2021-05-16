@@ -163,6 +163,8 @@ public class Actions {
 	}
 
 	public void addComputer() throws Exception {
+		String retour ="";
+		Boolean pb =false;
 		System.out.println("Name of the new computer");
 		String name = scanner.nextLine();
 		System.out.println(" Years introduced");
@@ -179,8 +181,13 @@ public class Actions {
 		int d2 = Integer.parseInt(scanner.nextLine());
 		System.out.println("Id of the company  ");
 		int company_id = Integer.parseInt(scanner.nextLine());
+		if ( y1*525600+m1*43800+d1*1440 > y2*525600+m2*43800+d2*1440 || y1 < 1970 || y2 < 1970) {
+			System.out.println("Date problem, years must be supperior to 1970 and introduced date inferior to discontnued date");
+			System.out.println("The computer has not be add to te base ");
+		}else {
 		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), company_id);
 		DaoComputer.newComputer(c);
+		}
 		boucle();
 	}
 
@@ -203,8 +210,13 @@ public class Actions {
 		int d2 = Integer.parseInt(scanner.nextLine());
 		System.out.println("Id of the company  ");
 		int company_id = Integer.parseInt(scanner.nextLine());
+		if (y1*525600+m1*43800+d1*1440 > y2*525600+m2*43800+d2*1440|| y1 < 1970 || y2 < 1970) {
+			System.out.println("Date problem, years must be supperior to 1970 and introduced date inferior to discontnued date");
+			System.out.println("The computer has not be add to te base ");
+		}else {
 		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), company_id);
 		DaoComputer.updateComputer(id, c);
+		}
 		boucle();
 	}
 
