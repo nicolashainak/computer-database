@@ -17,18 +17,18 @@ import ui.VueComputer;
 
 public class DaoComputer {
 
-	public static ArrayList<Computer> readDatabase(int i) throws Exception {
+	public static ArrayList<Computer> readDatabase(int i,int nbParPage) throws Exception {
 		try {
 			
 			Connection connection = Database.getConnection();
-			int limit = 20;
-			int offset = 20 * i;
+			int limit = nbParPage;
+			int offset = nbParPage * i;
 			PreparedStatement preparedStatement = connection.prepareStatement("select * from computer limit "+limit +" offset "+ offset);
 			ResultSet resultSet = preparedStatement.executeQuery();
 //			preparedStatement.setInt(1, 20);
 //			preparedStatement.setInt(2, 20);
 			
-			return MapperComputer.writeResultSet(resultSet);
+			return (MapperComputer.writeResultSet(resultSet));
 
 		} catch (Exception e) {
 			throw e;

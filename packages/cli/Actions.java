@@ -53,37 +53,39 @@ public class Actions {
 	}
 
 	public void showComputer() throws Exception {
-
+		Page page=new Page(DaoComputer.readDatabase(0,20));
 		boolean wait = true;
-		int i = 0;
-		int max = Page.nbPageComputer();
-		affichage(i,max);
+		int i=0;
+		int limit=20;
+		page=affichage(page,i,limit);
 		while (wait) {
+			i=0;
 			String s = scanner.nextLine();
 			int act = Integer.parseInt(s);
 			System.out.println(act);
 			switch (act) {
 			case 1:
-				if (i > 0) {
-					i--;
+				if (page.getNbPage() > 0) {
+					i=-1;
+					
 				}
-				affichage(i,max);
+				page=affichage(page,i,limit);
 				break;
 			case 2:
-				if (i < max) {
-					i++;
+				if (page.getNbPage()<page.getNbPageMax()) {
+					i=1;
 				}
-				affichage(i,max);
+				page=affichage(page,i,limit);
 
 				break;
 			case 3:
 				System.out.println("Wich page do you want to go ?");
 				String entrie = scanner.nextLine();
 				int goTo = Integer.parseInt(entrie);
-				if (0 <= goTo && goTo <= max) {
-					i = goTo;
+				if (0 <= goTo && goTo <= page.getNbPageMax()) {
+					i = goTo-page.getNbPage();
 				}
-				affichage(i,max);
+				page=affichage(page,i,limit);
 				break;
 			case 4:
 				wait = false;
@@ -91,7 +93,7 @@ public class Actions {
 				break;
 
 			default:
-				affichage(i,max);
+				page=affichage(page,i,limit);
 				break;
 			}
 
@@ -102,7 +104,7 @@ public class Actions {
 	public void showCompany() throws Exception {
 		boolean wait = true;
 		int i = 0;
-		int max = Page.nbPageCompany();
+		int max = DaoCompany.nbPageCompany();
 		System.out.println("Page " + i + " / " + max);
 		VueCompany.affCompany(DaoCompany.readDatabase(i));
 		Graphic.drawPage(i);
@@ -232,11 +234,12 @@ public class Actions {
 		// this.always = false;
 	}
 	
-	public void affichage(int i, int max ) throws Exception {
-		System.out.println("Page " + i + " / " + max);
-		VueComputer.affComputer(DaoComputer.readDatabase(i));
+	public Page affichage(Page page,int i,int limit) throws Exception {
+		page=new Page(DaoComputer.readDatabase(page.getNbPage()+i,limit),page.getNbPage()+i,limit);
+		System.out.println("Page " + i + " / " + page.getNbPageMax());
+		VueComputer.affComputer(page.getComputerList());
 		Graphic.drawPage(i);
-		
+		return page;
 	}
 
 }

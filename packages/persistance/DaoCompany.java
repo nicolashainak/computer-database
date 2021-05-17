@@ -42,5 +42,10 @@ public class DaoCompany {
 		}
 		return 0;
 	}
+	public static int nbPageCompany () throws Exception {
+		int nbCompany = DaoCompany.nbCompany();
+		int nbPageCompany = (nbCompany - (nbCompany%20)) /20;
+		return nbPageCompany;
+	}
 
 }
