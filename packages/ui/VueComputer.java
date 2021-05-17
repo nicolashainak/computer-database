@@ -7,7 +7,7 @@ import model.Computer;
 public class VueComputer {
 	
 	public static void affComputer(ArrayList<Computer> computer_list) {
-		System.out.println("id \t Name \t Introduced \t Discontinued \t Company_id");
+		System.out.println("id \t Name \t Introduced \t Discontinued \t Company_id \t Company_name");
 		System.out.println("-------------------------------");
 		for (Computer c : computer_list) {
 			
@@ -15,7 +15,8 @@ public class VueComputer {
 			+"\t"+ c.getName()
 			+"\t \t \t \t" + c.getIntroduced()
 			+"\t \t" + c.getDiscontinued()
-			+"\t \t" + c.getCompany_id());
+			+"\t \t" + c.getCompany_id().getId()
+			+"\t \t" + c.getCompany_id().getName());
 		}
 	}
 }

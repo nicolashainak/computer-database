@@ -8,9 +8,9 @@ public class Computer {
     private String name  ;
     private LocalDate introduced ;
     private LocalDate discontinued ;
-    private int company_id  ;
+    private Company company_id  ;
 //without id 
-	public Computer( String name,LocalDate introduced,LocalDate discontinued,int company_id ) {
+	public Computer( String name,LocalDate introduced,LocalDate discontinued,Company company_id ) {
 		this.id=null;
 		this.name = name;
 		this.introduced = introduced;
@@ -18,18 +18,13 @@ public class Computer {
 		this.company_id = company_id;
 	}
 	//with id
-	public Computer( Integer id,String name,LocalDate introduced,LocalDate discontinued,int company_id ) {
+	public Computer( Integer id,String name,LocalDate introduced,LocalDate discontinued,Company company_id ) {
 		this.id=id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
-	public String toString() {
-		return String.format("<id = %s,name = %s,introduced= %s,discontinued = %s,company_id = %s>", this.id, this.name,this.introduced,this.discontinued,this.company_id);
-		
-	}
-	
 	
 	public Integer getId() {
 		return this.id;
@@ -44,8 +39,12 @@ public class Computer {
 	public LocalDate getDiscontinued() {
 		return this.discontinued;
 	}
-	public int getCompany_id() {
+	public Company getCompany_id() {
 		return this.company_id;
+	}
+	public String toString() {
+		String str = "Id= " +this.id+" Name = "+this.name+" Introduced = "+this.introduced+" Discontinued = "+this.discontinued+" Company id = "+this.company_id.getId()+" Company Name = "+this.company_id.getName();
+		return str;	
 	}
 	
 }

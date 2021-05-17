@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import model.Company;
 import model.Computer;
 
 public class MapperComputer {
@@ -28,7 +29,9 @@ public class MapperComputer {
             
             }
             int company_id = resultSet.getInt("company_id");
-            Computer c = new Computer(id,name,introduced,discontinued,company_id);
+            String company_name=resultSet.getString("company.name");
+            
+            Computer c = new Computer(id,name,introduced,discontinued,new Company(company_id,company_name));
             computer_list.add(c);
               
         }		

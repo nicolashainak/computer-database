@@ -19,4 +19,18 @@ public class MapperCompany {
         }
         return company_list;
     }
+	
+	public static Company companyById(ResultSet resultSet) throws SQLException {
+		Company c = new Company(0,null);
+		if (resultSet.next()) {
+			int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            c.setId(id);
+            c.setName(name);
+		}
+		
+		return c;
+	}
+	
+	
 }

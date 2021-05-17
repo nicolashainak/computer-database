@@ -12,12 +12,12 @@ public class Graphic {
 		System.out.println("[7] Exit");
 	}
 	
-	public static void drawPage(int i ) throws Exception {
+	public static void drawPage(int numeroPage,int nbPage ) throws Exception {
 		String s = "\n  ";
-		if (i>0) {
+		if (numeroPage>0) {
 			s=s+"[1]Prev \t";
 		}
-		if (i<Page.nbPageComputer()) {
+		if (numeroPage<nbPage) {
 		s=s+"[2]Next \t";
 		}
 		s=s+"[3]Go To Page ... \t";

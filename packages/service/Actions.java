@@ -1,8 +1,9 @@
-package cli;
+package service;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import mapper.MapperCompany;
 import model.Computer;
 import ui.Graphic;
 import ui.Page;
@@ -14,7 +15,9 @@ import persistance.DaoComputer;
 public class Actions {
 
 	Scanner scanner = new Scanner(System.in);
-
+	DaoCompany daoCompany = DaoCompany.getInstance();
+	DaoComputer daoComputer = DaoComputer.getInstance();
+	
 	public void boucle() throws Exception {
 		Graphic.drawBase();
 		waitAction();
@@ -53,7 +56,7 @@ public class Actions {
 	}
 
 	public void showComputer() throws Exception {
-		Page page=new Page(DaoComputer.readDatabase(0,20));
+		Page page=new Page(daoComputer.readDatabase(0,20),daoComputer.nbComputer());
 		boolean wait = true;
 		int i=0;
 		int limit=20;
@@ -104,10 +107,10 @@ public class Actions {
 	public void showCompany() throws Exception {
 		boolean wait = true;
 		int i = 0;
-		int max = DaoCompany.nbPageCompany();
+		int max = daoCompany.nbPageCompany();
 		System.out.println("Page " + i + " / " + max);
-		VueCompany.affCompany(DaoCompany.readDatabase(i));
-		Graphic.drawPage(i);
+		VueCompany.affCompany(daoCompany.readDatabase(i));
+		Graphic.drawPage(i,max);
 		while (wait) {
 			String s = scanner.nextLine();
 			int act = Integer.parseInt(s);
@@ -118,16 +121,16 @@ public class Actions {
 					i--;
 				}
 				System.out.println("Page " + i + " / " + max);
-				VueCompany.affCompany(DaoCompany.readDatabase(i));
-				Graphic.drawPage(i);
+				VueCompany.affCompany(daoCompany.readDatabase(i));
+				Graphic.drawPage(i,max);
 				break;
 			case 2:
 				if (i < max) {
 					i++;
 				}
 				System.out.println("Page " + i + " / " + max);
-				VueCompany.affCompany(DaoCompany.readDatabase(i));
-				Graphic.drawPage(i);
+				VueCompany.affCompany(daoCompany.readDatabase(i));
+				Graphic.drawPage(i,max);
 
 				break;
 			case 3:
@@ -138,8 +141,8 @@ public class Actions {
 					i = goTo;
 				}
 				System.out.println("Page " + i + " / " + max);
-				VueCompany.affCompany(DaoCompany.readDatabase(i));
-				Graphic.drawPage(i);
+				VueCompany.affCompany(daoCompany.readDatabase(i));
+				Graphic.drawPage(i,max);
 				break;
 			case 4:
 				wait = false;
@@ -148,8 +151,8 @@ public class Actions {
 
 			default:
 				System.out.println("Page " + i + " / " + max);
-				VueCompany.affCompany(DaoCompany.readDatabase(i));
-				Graphic.drawPage(i);
+				VueCompany.affCompany(daoCompany.readDatabase(i));
+				Graphic.drawPage(i,max);
 				break;
 			}
 
@@ -160,7 +163,7 @@ public class Actions {
 	public void searchComputer() throws Exception {
 		System.out.println("ID of the computer you want ?");
 		int n = Integer.parseInt(scanner.nextLine());
-		VueComputer.affComputer(DaoComputer.searchComputer(n));
+		VueComputer.affComputer(daoComputer.searchComputer(n));
 		boucle();
 	}
 
@@ -187,8 +190,9 @@ public class Actions {
 			System.out.println("Date problem, years must be supperior to 1970 and introduced date inferior to discontnued date");
 			System.out.println("The computer has not be add to te base ");
 		}else {
-		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), company_id);
-		DaoComputer.newComputer(c);
+			
+		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), (daoCompany.getCompany(company_id)));
+		daoComputer.newComputer(c);
 		}
 		boucle();
 	}
@@ -216,8 +220,8 @@ public class Actions {
 			System.out.println("Date problem, years must be supperior to 1970 and introduced date inferior to discontnued date");
 			System.out.println("The computer has not be add to te base ");
 		}else {
-		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), company_id);
-		DaoComputer.updateComputer(id, c);
+		Computer c = new Computer(name, LocalDate.of(y1, m1, d1), LocalDate.of(y2, m2, d2), (daoCompany.getCompany(company_id)));
+		daoComputer.updateComputer(id, c);
 		}
 		boucle();
 	}
@@ -225,7 +229,7 @@ public class Actions {
 	public void deleteComputer() throws Exception {
 		System.out.println("Id of the computer you want to change ");
 		int n = Integer.parseInt(scanner.nextLine());
-		DaoComputer.deleteComputer(n);
+		daoComputer.deleteComputer(n);
 		boucle();
 	}
 
@@ -235,10 +239,10 @@ public class Actions {
 	}
 	
 	public Page affichage(Page page,int i,int limit) throws Exception {
-		page=new Page(DaoComputer.readDatabase(page.getNbPage()+i,limit),page.getNbPage()+i,limit);
-		System.out.println("Page " + i + " / " + page.getNbPageMax());
+		page=new Page(daoComputer.readDatabase( page.getNbPage()+i , limit) , page.getNbPage()+i, limit, daoComputer.nbComputer());
+		System.out.println("Page " + page.getNbPage() + " / " + page.getNbPageMax());
 		VueComputer.affComputer(page.getComputerList());
-		Graphic.drawPage(i);
+		Graphic.drawPage(i,page.nbPageComputer());
 		return page;
 	}
 

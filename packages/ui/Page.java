@@ -11,17 +11,22 @@ public class Page {
 	private int nbPageMax;
 	private int nbPage;
 	private int nbComputerParPage;
-	public Page (ArrayList<Computer> computerList) throws Exception {
+	private int nbComputer;
+	
+	public Page (ArrayList<Computer> computerList,int nbC) throws Exception {
 		this.computerList=computerList;
-		this.nbPageMax=nbPageComputer();
 		this.nbPage=0;
 		this.nbComputerParPage=20;
-	}
-	public Page (ArrayList<Computer> computerList,int nbPage,int limit) throws Exception {
-		this.computerList=computerList;
+		this.nbComputer=nbC;
 		this.nbPageMax=nbPageComputer();
+		
+	}
+	public Page (ArrayList<Computer> computerList,int nbPage,int limit,int nbC) throws Exception {
+		this.computerList=computerList;
 		this.nbPage=nbPage;
 		this.nbComputerParPage=limit;
+		this.nbComputer=nbC;
+		this.nbPageMax=nbPageComputer();
 	}
 	
 	public void setNbPage(int i ) {
@@ -46,9 +51,8 @@ public class Page {
 		return this.computerList;
 	}
 	
-	public static int nbPageComputer () throws Exception {
-		int nbComputer = DaoComputer.nbComputer();
-		int nbPageComputer = (nbComputer - (nbComputer%20)) /20;
+	public int nbPageComputer () throws Exception {
+		int nbPageComputer = (this.nbComputer - (this.nbComputer%this.nbComputerParPage)) /this.nbComputerParPage;
 		return nbPageComputer;
 	}
 	
