@@ -49,10 +49,10 @@ public class DaoCompany {
 		}
 	}
 	
-	public  Company getCompany(int i ) throws SQLException {
+	public  Company getCompany(int i) throws SQLException {
 		Connection connection = Database.getConnection();
 		PreparedStatement preparedStatement = connection.prepareStatement(rqtCompanyById);
-		
+		preparedStatement.setInt(1, i);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		Company company = null;
 		try {
@@ -61,7 +61,7 @@ public class DaoCompany {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Database.close();
+		//Database.close();
 		return company; 
 	}
 	public int nbCompany() throws Exception  {

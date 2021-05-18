@@ -10,6 +10,7 @@ import junit.framework.TestSuite;
 public class MapperComputerTest 
     extends TestCase
 {
+	private MapperComputer Mapper;
     /**
      * Create the test case
      *
