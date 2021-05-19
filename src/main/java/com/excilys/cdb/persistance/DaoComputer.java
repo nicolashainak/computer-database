@@ -1,22 +1,21 @@
 package com.excilys.cdb.persistance;
 
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-//import com.mysql.cj.xdevapi.Type;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.ui.VueComputer;
+
 
 public class DaoComputer {
-
+	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
 	private DaoComputer() {
 	}
 
@@ -32,9 +31,10 @@ public class DaoComputer {
 		return INSTANCE;
 	}
 
-	public ArrayList<Computer> readDatabase(int i, int nbParPage) throws Exception {
+	public ArrayList<Computer> readDatabase(int i, int nbParPage) {
+		ArrayList<Computer> db = new ArrayList<Computer>();
+		
 		try {
-
 			Connection connection = Database.getConnection();
 			int limit = nbParPage;
 			int offset = nbParPage * i;
@@ -42,18 +42,16 @@ public class DaoComputer {
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Computer> db = MapperComputer.writeResultSet(resultSet);
-			// Database.close();
-			return (db);
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-
-		}
+			db = MapperComputer.writeResultSet(resultSet);
+			//Database.close();
+		} catch (SQLException e)  {
+			logger.error("MySQL error : " + e);
+		} 
+		
+		return db ;
 	}
 
-	public void newComputer(Computer c) throws Exception {
+	public void newComputer(Computer c)  {
 		try {
 			Connection connection = Database.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(rqtInsert);
@@ -73,61 +71,71 @@ public class DaoComputer {
 			}
 			preparedStatement.setInt(4, c.getCompany_id().getId());
 			preparedStatement.executeUpdate();
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			// Database.close();
-		}
+		} catch (SQLException e)  {
+			logger.error("MySQL error : " + e);
+		} 
+	
 	}
-
-	public ArrayList<Computer> searchComputer(int idComputer) throws Exception {
+	///////  Changer en return Computer --> ajouter methode mapper pour 1 seul ordi cf company 
+	public ArrayList<Computer> searchComputer(int idComputer) {
+		ArrayList<Computer> db = new ArrayList<Computer>();
 		try {
 			Connection connection = Database.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(rqtSearch);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			return MapperComputer.writeResultSet(resultSet);
+			db = MapperComputer.writeResultSet(resultSet);
 
-		} catch (Exception e) {
-			throw e;
-		} finally {
+		}catch (SQLException e)  {
+				logger.error("MySQL error : " + e);
+			} 
+		return db;
+	}
+
+	public void updateComputer(int idComputer, Computer c)  {
+		try {
+			Connection connection = Database.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(rqtUpdate);
+			preparedStatement.setString(1, c.getName());
+			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
+			Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
+			preparedStatement.setTimestamp(2, ts1);
+			preparedStatement.setTimestamp(3, ts2);
+			preparedStatement.setInt(4, c.getCompany_id().getId());
+			preparedStatement.setInt(5, idComputer);
+			preparedStatement.executeUpdate();
 			//Database.close();
-		}
+		}catch (SQLException e)  {
+			logger.error("MySQL error : " + e);
+		} 
+	}
+	public void deleteComputer(int idComputer) {
+		try {
+			Connection connection = Database.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(rqtDeleteById);
+			preparedStatement.setInt(1, idComputer);
+			preparedStatement.executeUpdate();
+			//Database.close();
+		}catch (SQLException e)  {
+			logger.error("MySQL error : " + e);
+		} 
 	}
 
-	public void updateComputer(int idComputer, Computer c) throws Exception {
-
-		Connection connection = Database.getConnection();
-		PreparedStatement preparedStatement = connection.prepareStatement(rqtUpdate);
-		preparedStatement.setString(1, c.getName());
-		Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
-		Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
-		preparedStatement.setTimestamp(2, ts1);
-		preparedStatement.setTimestamp(3, ts2);
-		preparedStatement.setInt(4, c.getCompany_id().getId());
-		preparedStatement.setInt(5, idComputer);
-		preparedStatement.executeUpdate();
-		//Database.close();
-	}
-
-	public void deleteComputer(int idComputer) throws Exception {
-		Connection connection = Database.getConnection();
-		PreparedStatement preparedStatement = connection.prepareStatement(rqtDeleteById);
-		preparedStatement.setInt(1, idComputer);
-		preparedStatement.executeUpdate();
-		//Database.close();
-
-	}
-
-	public int nbComputer() throws Exception {
-		Connection connection = Database.getConnection();
-		PreparedStatement preparedStatement = connection.prepareStatement(rqtNbComputer);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if (resultSet.next()) {
-			int id = Integer.parseInt(resultSet.getString(1));
-			return id;
-		}
-		return 0;
+	public int nbComputer() {
+		try {
+			Connection connection = Database.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(rqtNbComputer);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int id = Integer.parseInt(resultSet.getString(1));
+				return id;
+			}
+			
+		}catch (SQLException e)  {
+				logger.error("MySQL error : " + e);
+			} 
+			
+			return 0;
 	}
 
 }

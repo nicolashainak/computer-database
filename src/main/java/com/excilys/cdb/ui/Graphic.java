@@ -12,7 +12,7 @@ public class Graphic {
 		System.out.println("[7] Exit");
 	}
 	
-	public static void drawPage(int numeroPage,int nbPage ) throws Exception {
+	public static void drawPage(int numeroPage,int nbPage )  {
 		String s = "\n  ";
 		if (numeroPage>0) {
 			s=s+"[1]Prev \t";

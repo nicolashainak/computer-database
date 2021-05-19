@@ -3,8 +3,6 @@ package com.excilys.cdb.ui;
 import java.util.ArrayList;
 
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistance.DaoCompany;
-import com.excilys.cdb.persistance.DaoComputer;
 
 public class Page {
 	private ArrayList<Computer> computerList;
@@ -13,7 +11,7 @@ public class Page {
 	private int nbComputerParPage;
 	private int nbComputer;
 	
-	public Page (ArrayList<Computer> computerList,int nbC) throws Exception {
+	public Page (ArrayList<Computer> computerList,int nbC) {
 		this.computerList=computerList;
 		this.nbPage=0;
 		this.nbComputerParPage=20;
@@ -21,7 +19,7 @@ public class Page {
 		this.nbPageMax=nbPageComputer();
 		
 	}
-	public Page (ArrayList<Computer> computerList,int nbPage,int limit,int nbC) throws Exception {
+	public Page (ArrayList<Computer> computerList,int nbPage,int limit,int nbC) {
 		this.computerList=computerList;
 		this.nbPage=nbPage;
 		this.nbComputerParPage=limit;
@@ -51,7 +49,7 @@ public class Page {
 		return this.computerList;
 	}
 	
-	public int nbPageComputer () throws Exception {
+	public int nbPageComputer ()  {
 		int nbPageComputer = (this.nbComputer - (this.nbComputer%this.nbComputerParPage)) /this.nbComputerParPage;
 		return nbPageComputer;
 	}

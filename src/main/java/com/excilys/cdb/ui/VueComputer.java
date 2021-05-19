@@ -11,7 +11,7 @@ public class VueComputer {
 		System.out.println("-------------------------------");
 		for (Computer c : computer_list) {
 			
-			System.out.println( c.getId()
+			System.out.println( c.getId().get()
 			+"\t"+ c.getName()
 			+"\t \t \t \t" + c.getIntroduced()
 			+"\t \t" + c.getDiscontinued()

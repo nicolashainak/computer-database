@@ -4,9 +4,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Scanner;
-
-import com.excilys.cdb.mapper.MapperCompany;
-
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.ui.Graphic;
 import com.excilys.cdb.ui.Page;
@@ -21,12 +18,12 @@ public class Actions {
 	DaoCompany daoCompany = DaoCompany.getInstance();
 	DaoComputer daoComputer = DaoComputer.getInstance();
 	
-	public void boucle() throws Exception {
+	public void boucle(){
 		Graphic.drawBase();
 		waitAction();
 	}
 
-	public void waitAction() throws Exception {
+	public void waitAction()  {
 		String s = scanner.nextLine();
 		int act = Integer.parseInt(s);
 		System.out.println(act);
@@ -58,7 +55,7 @@ public class Actions {
 
 	}
 
-	public void showComputer() throws Exception {
+	public void showComputer()  {
 		Page page=new Page(daoComputer.readDatabase(0,20),daoComputer.nbComputer());
 		boolean wait = true;
 		int i=0;
@@ -107,7 +104,7 @@ public class Actions {
 		boucle();
 	}
 
-	public void showCompany() throws Exception {
+	public void showCompany()  {
 		boolean wait = true;
 		int i = 0;
 		int max = daoCompany.nbPageCompany();
@@ -163,14 +160,14 @@ public class Actions {
 		boucle();
 	}
 
-	public void searchComputer() throws Exception {
+	public void searchComputer()  {
 		System.out.println("ID of the computer you want ?");
 		int n = Integer.parseInt(scanner.nextLine());
 		VueComputer.affComputer(daoComputer.searchComputer(n));
 		boucle();
 	}
 
-	public void addComputer() throws Exception {
+	public void addComputer() {
 		System.out.println("Name of the new computer");
 		String name = scanner.nextLine();
 		System.out.println(" Years introduced");
@@ -194,7 +191,6 @@ public class Actions {
 				System.out.println("Date problem, years must be supperior to 1970 and introduced date inferior to discontnued date");
 				System.out.println("The computer has not be add to te base ");
 			}else {
-				System.out.println("ouech");
 				System.out.println((company_id));
 				Computer c = new Computer(name, ld1, ld2, (daoCompany.getCompany(company_id)));
 				daoComputer.newComputer(c);
@@ -233,7 +229,7 @@ public class Actions {
 		return Optional.ofNullable(result);
 		
 	}
-	public void updateComputer() throws Exception {
+	public void updateComputer() {
 		System.out.println("Id of the computer you want to change ");
 		int id = Integer.parseInt(scanner.nextLine());
 		System.out.println("Name of the computer after change");
@@ -262,7 +258,7 @@ public class Actions {
 		boucle();
 	}
 
-	public void deleteComputer() throws Exception {
+	public void deleteComputer() {
 		System.out.println("Id of the computer you want to change ");
 		int n = Integer.parseInt(scanner.nextLine());
 		daoComputer.deleteComputer(n);
@@ -274,7 +270,7 @@ public class Actions {
 		// this.always = false;
 	}
 	
-	public Page affichage(Page page,int i,int limit) throws Exception {
+	public Page affichage(Page page,int i,int limit)  {
 		page=new Page(daoComputer.readDatabase( page.getNbPage()+i , limit) , page.getNbPage()+i, limit, daoComputer.nbComputer());
 		System.out.println("Page " + page.getNbPage() + " / " + page.getNbPageMax());
 		VueComputer.affComputer(page.getComputerList());

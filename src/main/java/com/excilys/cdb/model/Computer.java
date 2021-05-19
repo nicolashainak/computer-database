@@ -1,6 +1,5 @@
 package com.excilys.cdb.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Optional;
 
