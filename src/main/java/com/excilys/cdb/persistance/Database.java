@@ -7,6 +7,11 @@ import java.sql.SQLException;
 public class Database {
 	private static Connection connect = null;
 	private static void open() throws SQLException {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		}catch(Exception e){
+			
+		}
 			 connect = DriverManager
 					.getConnection("jdbc:mysql://localhost:3306/computer-database-db","admincdb","qwerty1234");
 	}
