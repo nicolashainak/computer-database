@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or
-                            <a href="textCdb.jsp" class="btn btn-default">Cancel</a>
+                            <a href="../cdb/DataBase" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

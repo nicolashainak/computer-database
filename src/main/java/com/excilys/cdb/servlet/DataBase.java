@@ -19,9 +19,9 @@ import java.util.* ;
 public class DataBase  extends HttpServlet {
 		DaoComputer daoComputer = DaoComputer.getInstance();
 
-	 public  void doGet(HttpServletRequest request, HttpServletResponse response)
+	/* public  void doGet(HttpServletRequest request, HttpServletResponse response)
 	 throws ServletException, IOException  {
-		 	ArrayList<Computer> computerList = daoComputer.readDatabase(0, 20);
+		 	ArrayList<Computer> computerList = daoComputer.readDatabase(0, 10);
 		 	request.setAttribute("computerList",computerList );
 			int nbOrdi=daoComputer.nbComputer();
 			request.setAttribute("nbOrdi",nbOrdi );
@@ -29,11 +29,25 @@ public class DataBase  extends HttpServlet {
 		
 
 		
-	}
-
-	/* public  void doPost(HttpServletRequest request, HttpServletResponse response)
-	 throws ServletException, IOException  {
-	
-		doGet(request, response) ;
 	}*/
+
+	 public  void doPost(HttpServletRequest request, HttpServletResponse response)
+	 throws ServletException, IOException  {
+		 	
+			ArrayList<Computer> computerList = daoComputer.readDatabase(0, 10);
+		 	request.setAttribute("computerList",computerList );
+			int nbOrdi=daoComputer.nbComputer();
+			request.setAttribute("nbOrdi",nbOrdi );
+			String button=request.getParameter("button");
+			if ("button1".equals(button)) {
+				computerList = daoComputer.readDatabase(0, 10);
+			}else if ("button3".equals(button)) {
+				computerList = daoComputer.readDatabase(0, 50);
+			}else if ("button3".equals(button)) {
+				computerList = daoComputer.readDatabase(0, 100);
+			}
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
+		
+
+	}
 }	

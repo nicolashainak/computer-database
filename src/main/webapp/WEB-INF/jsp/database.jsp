@@ -121,9 +121,11 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+        <form action="${pageContext.request.contextPath}/Database">
+            <button type="submit" name="button" value = "button1" class="btn btn-default">10</button>
+            <button type="submit" name="button" value = "button2" class="btn btn-default">50</button>
+            <button type="submit" name="button" value = "button3" class="btn btn-default">100</button>
+        </form>
         </div>
 
     </footer>
