@@ -5,56 +5,53 @@ import java.util.ArrayList;
 import com.excilys.cdb.model.Computer;
 
 public class Page {
-	private ArrayList<Computer> computerList;
-	private int nbPageMax;
-	private int nbPage;
+	private int numPage;
 	private int nbComputerParPage;
-	private int nbComputer;
-	
-	public Page (ArrayList<Computer> computerList,int nbC) {
-		this.computerList=computerList;
-		this.nbPage=0;
-		this.nbComputerParPage=20;
-		this.nbComputer=nbC;
-		this.nbPageMax=nbPageComputer();
-		
+	private int nbComputerRequest;
+
+	public Page() {
+		this.numPage = 1;
+		this.nbComputerParPage = 10;
+		this.nbComputerRequest = 0;
 	}
-	public Page (ArrayList<Computer> computerList,int nbPage,int limit,int nbC) {
-		this.computerList=computerList;
-		this.nbPage=nbPage;
-		this.nbComputerParPage=limit;
-		this.nbComputer=nbC;
-		this.nbPageMax=nbPageComputer();
-	}
-	
-	public void setNbPage(int i ) {
-		if (i<this.nbPageMax) {
-			this.nbPage=i;
+
+	public void setNumPage(int i) {
+		if (i < this.getNbPageMax()) {
+			this.numPage = i;
 		}
 	}
+
 	public void setNbComputerParPage(int i) {
-		this.nbComputerParPage=i;
+		this.nbComputerParPage = i;
 	}
-	
-	public int getNbPage() {
-		return this.nbPage;
+
+	public int getNumPage() {
+		return this.numPage;
 	}
+
 	public int getNbPageMax() {
-		return this.nbPageMax;
+		int nbPageComputer = (this.nbComputerRequest - (this.nbComputerRequest % this.nbComputerParPage))
+				/ this.nbComputerParPage;
+		return nbPageComputer;
 	}
+
+	public int getNbComputerRequest() {
+		return nbComputerRequest;
+	}
+
+	public void setNbComputerRequest(int nbComputerRequest) {
+		this.nbComputerRequest = nbComputerRequest;
+	}
+
 	public int getNbComputerParPage() {
 		return this.nbComputerParPage;
 	}
-	public ArrayList<Computer> getComputerList() {
-		return this.computerList;
+
+	@Override
+	public String toString() {
+		return "Page [numPage=" + numPage + ", nbComputerParPage=" + nbComputerParPage + ", nbComputerRequest="
+				+ nbComputerRequest + "]";
 	}
 	
-	public int nbPageComputer ()  {
-		int nbPageComputer = (this.nbComputer - (this.nbComputer%this.nbComputerParPage)) /this.nbComputerParPage;
-		return nbPageComputer;
-	}
-	
-	
-	
-	
+
 }

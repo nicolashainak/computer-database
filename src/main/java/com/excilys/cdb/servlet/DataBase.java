@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistance.DaoComputer;
 import com.excilys.cdb.service.Actions;
+import com.excilys.cdb.service.Service;
+import com.excilys.cdb.ui.Page;
 
 import java.io.* ;
 import java.text.* ;
@@ -17,37 +19,54 @@ import java.util.* ;
 
 @WebServlet ("/DataBase")
 public class DataBase  extends HttpServlet {
-		DaoComputer daoComputer = DaoComputer.getInstance();
-
-	/* public  void doGet(HttpServletRequest request, HttpServletResponse response)
-	 throws ServletException, IOException  {
-		 	ArrayList<Computer> computerList = daoComputer.readDatabase(0, 10);
-		 	request.setAttribute("computerList",computerList );
-			int nbOrdi=daoComputer.nbComputer();
-			request.setAttribute("nbOrdi",nbOrdi );
+		private Service service =Service.getInstance();
+		private Page page =new Page();
+	public  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		 	
+			
+			page.setNbComputerRequest(service.getNbComputerTotal(page));
+			
+			
+			String button=request.getParameter("button");
+			String numeroPage=request.getParameter("num");
+			
+			if (numeroPage != null && !numeroPage.isEmpty()) {
+				
+				
+				page.setNumPage(page.getNumPage()+Integer.parseInt(numeroPage));
+			}
+		
+			
+			
+			if ("button1".equals(button)) {
+				page.setNbComputerParPage(10);
+			}else if ("button2".equals(button)){
+				page.setNbComputerParPage(50);
+			}else if ("button3".equals(button)) {
+				page.setNbComputerParPage(100);
+			}
+			
+			List <Computer> computerList = service.getListComputer(this.page); 
+		
+			
+			request.setAttribute("computerList",computerList );
+			request.setAttribute("page",page );
+			System.out.println(page);
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
 		
 
 		
-	}*/
+	}
 
-	 public  void doPost(HttpServletRequest request, HttpServletResponse response)
+	/* public  void doPost(HttpServletRequest request, HttpServletResponse response)
 	 throws ServletException, IOException  {
 		 	
 			ArrayList<Computer> computerList = daoComputer.readDatabase(0, 10);
-		 	request.setAttribute("computerList",computerList );
 			int nbOrdi=daoComputer.nbComputer();
 			request.setAttribute("nbOrdi",nbOrdi );
-			String button=request.getParameter("button");
-			if ("button1".equals(button)) {
-				computerList = daoComputer.readDatabase(0, 10);
-			}else if ("button3".equals(button)) {
-				computerList = daoComputer.readDatabase(0, 50);
-			}else if ("button3".equals(button)) {
-				computerList = daoComputer.readDatabase(0, 100);
-			}
+			
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
 		
 
-	}
+	}*/
 }	

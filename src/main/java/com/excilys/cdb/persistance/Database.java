@@ -6,24 +6,31 @@ import java.sql.SQLException;
 
 public class Database {
 	private static Connection connect = null;
-	private static void open() throws SQLException {
+
+	private static void open() {
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-		}catch(Exception e){
-			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
 		}
-			 connect = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/computer-database-db","admincdb","qwerty1234");
+
+		try {
+			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/computer-database-db", "admincdb",
+					"qwerty1234");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	public static Connection getConnection() throws SQLException {
-		if (connect==null) {
+
+	public static Connection getConnection() {
+
+		if (connect == null) {
 			open();
+
 		}
+
 		return connect;
 	}
-	public static void close() throws SQLException {
-		  if (connect != null) {
-              connect.close();
-          }
-	}
+
 }

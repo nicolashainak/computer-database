@@ -13,12 +13,12 @@ import com.excilys.cdb.model.Computer;
 public class MapperComputer {
 	
 	public static ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {
-		boolean b = true;
+		
 		ArrayList<Computer> computer_list = new ArrayList<Computer>();
 		LocalDate introduced = null;
 		LocalDate discontinued =null;
         while (resultSet.next()) {
-            b=false;
+            
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             if (resultSet.getDate("introduced")!=null) {
@@ -36,9 +36,7 @@ public class MapperComputer {
               
         }		
         
-        if (b) {
-        	System.out.println("L'ordinateur n'a pas été trouver" );
-        }
+       
         return computer_list;
 	}
 }

@@ -22,7 +22,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-              ${nbOrdi} Computers found
+              ${page.nbComputerRequest} Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -108,20 +108,52 @@
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
+              <c:if test="${page.numPage == 1}">
+              <li><a href="?num=0">${page.numPage}</a></li>
+              <li><a href="?num=1">${page.numPage+1}</a></li>
+              <li><a href="?num=2">${page.numPage+2}</a></li>
+              <li><a href="?num=3">${page.numPage+3}</a></li>
+              <li><a href="?num=4">${page.numPage+4}</a></li>
+              </c:if>
+               <c:if test="${page.numPage == 2}">
+              <li><a href="?num=-1">${page.numPage-1}</a></li>
+              <li><a href="?num=0">${page.numPage}</a></li>
+              <li><a href="?num=1">${page.numPage+1}</a></li>
+              <li><a href="?num=2">${page.numPage+2}</a></li>
+              <li><a href="?num=3">${page.numPage+3}</a></li>
+              </c:if>
+               <c:if test="${page.numPage>=3 && page.numPage<=page.getNbPageMax()-2}">
+              <li><a href="?num=-2">${page.numPage-2}</a></li>
+              <li><a href="?num=-1">${page.numPage-1}</a></li>
+              <li><a href="?num=0">${page.numPage}</a></li>
+              <li><a href="?num=1">${page.numPage+1}</a></li>
+              <li><a href="?num=2">${page.numPage+2}</a></li>
+              </c:if>
+               <c:if test="${page.numPage == page.getNbPageMax()}">
+              <li><a href="?num=-3">${page.numPage-3}</a></li>
+              <li><a href="?num=-2">${page.numPage-2}</a></li>
+              <li><a href="?num=-1">${page.numPage-1}</a></li>
+              <li><a href="?num=0">${page.numPage}</a></li>
+              <li><a href="?num=1">${page.numPage+1}</a></li>
+              </c:if>
+               <c:if test="${page.numPage == page.getNbPageMax()-1}">
+              <li><a href="?num=-4">${page.numPage-4}</a></li>
+              <li><a href="?num=-3">${page.numPage-3}</a></li>
+              <li><a href="?num=-2">${page.numPage-2}</a></li>
+              <li><a href="?num=-1">${page.numPage-1}</a></li>
+              <li><a href="?num=0">${page.numPage}</a></li>
+              </c:if>
+              
               <li>
                 <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
+            
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-        <form action="${pageContext.request.contextPath}/Database">
+        <form action="${pageContext.request.contextPath}/DataBase" >
             <button type="submit" name="button" value = "button1" class="btn btn-default">10</button>
             <button type="submit" name="button" value = "button2" class="btn btn-default">50</button>
             <button type="submit" name="button" value = "button3" class="btn btn-default">100</button>
@@ -129,9 +161,9 @@
         </div>
 
     </footer>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/dashboard.js"></script>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/dashboard.js"></script>
 
 </body>
 </html>
