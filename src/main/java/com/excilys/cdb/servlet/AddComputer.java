@@ -15,8 +15,8 @@ import java.text.* ;
 import java.util.* ;
 
 
-@WebServlet ("/DataBase")
-public class DataBase  extends HttpServlet {
+@WebServlet ("/AddComputer")
+public class AddComputer  extends HttpServlet {
 		DaoComputer daoComputer = DaoComputer.getInstance();
 
 	 public  void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,7 +25,7 @@ public class DataBase  extends HttpServlet {
 		 	request.setAttribute("computerList",computerList );
 			int nbOrdi=daoComputer.nbComputer();
 			request.setAttribute("nbOrdi",nbOrdi );
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/addComputer.jsp" ).forward( request, response );
 		
 
 		

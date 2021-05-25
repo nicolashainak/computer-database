@@ -1,7 +1,7 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
@@ -14,16 +14,20 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../DataBase.java"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/DataBase"> Application - Computer Database </a>
         </div>
     </header>
-
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                    <h1>Add Computer</h1>
-                    <form action="addComputer" method="POST">
+                    <div class="label label-default pull-right">
+                        id: 0
+                    </div>
+                    <h1>Edit Computer</h1>
+
+                    <form action="editComputer" method="POST">
+                        <input type="hidden" value="0" id="id"/> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -42,12 +46,12 @@
                                 <select class="form-control" id="companyId" >
                                     <option value="0">--</option>
                                 </select>
-                            </div>                  
+                            </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Add" class="btn btn-primary">
+                            <input type="submit" value="Edit" class="btn btn-primary">
                             or
-                            <a href="textCdb.jsp" class="btn btn-default">Cancel</a>
+                            <a href="../cdb/DataBase" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

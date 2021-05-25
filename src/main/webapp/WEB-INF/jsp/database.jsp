@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/DataBase"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -34,7 +34,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="../cdb/AddComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -77,21 +77,23 @@
                     </tr>
                 </thead>
                 <!-- Browse attribute computers -->
+              
                 <tbody id="results">
-                    
+                   <c:forEach items="${computerList}" var="computer" >
+   
               		<tr>
                         <td class="editMode">
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="editComputer.html" onclick="">MacBook Pro</a>
+                            <a href="../cdb/EditComputer" onclick="">${computer.name}</a>
                         </td>
-                        <td>2006-01-10</td>
-                        <td></td>
-                        <td>Apple Inc.</td>
+                        <td>${computer.introduced}</td>
+                        <td>${computer.discontinued}</td>
+                        <td>${computer.company_id.id}</td>
 
                     </tr>
-                   
+  				</c:forEach>                 
                     
                 </tbody>
             </table>
