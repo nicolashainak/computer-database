@@ -1,8 +1,6 @@
-package com.excilys.cdb.ui;
+package com.excilys.cdb.model;
 
 import java.util.ArrayList;
-
-import com.excilys.cdb.model.Computer;
 
 public class Page {
 	private int numPage;
@@ -16,7 +14,7 @@ public class Page {
 	}
 
 	public void setNumPage(int i) {
-		if (i < this.getNbPageMax()) {
+		if (i < this.getNbPageMax()+1) {
 			this.numPage = i;
 		}
 	}
@@ -31,7 +29,7 @@ public class Page {
 
 	public int getNbPageMax() {
 		int nbPageComputer = (this.nbComputerRequest - (this.nbComputerRequest % this.nbComputerParPage))
-				/ this.nbComputerParPage;
+				/ this.nbComputerParPage+1;
 		return nbPageComputer;
 	}
 

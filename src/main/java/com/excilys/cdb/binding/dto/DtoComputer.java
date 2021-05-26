@@ -1,9 +1,14 @@
-package com.excilys.cdb.model;
+package com.excilys.cdb.binding.dto;
 
 public class DtoComputer {
+	@Override
+	public String toString() {
+		return "DtoComputer [name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", company=" + company + "]";
+	}
 	private String name;
 	private String introduced;
-	private String discontnued;
+	private String discontinued;
 	private String company;
 	
 	public DtoComputer() {
@@ -11,7 +16,7 @@ public class DtoComputer {
 	public DtoComputer( String name , String introduced,String discontinued,String company) {
 		this.name=name;
 		this.introduced=introduced;
-		this.discontnued=discontinued;
+		this.discontinued=discontinued;
 		this.company=company;
 	}
 	public String getName() {
@@ -26,11 +31,11 @@ public class DtoComputer {
 	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
-	public String getDiscontnued() {
-		return discontnued;
+	public String getDiscontinued() {
+		return discontinued;
 	}
-	public void setDiscontnued(String discontnued) {
-		this.discontnued = discontnued;
+	public void setDiscontinued(String discontinued) {
+		this.discontinued = discontinued;
 	}
 	public String getCompany() {
 		return company;

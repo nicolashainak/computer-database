@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.Service;
-import com.excilys.cdb.ui.Page;
+
 import java.io.* ;
 import java.util.* ;
 
@@ -26,7 +27,9 @@ public class DataBase  extends HttpServlet {
 			String numeroPage=request.getParameter("num");
 			
 			if (numeroPage != null && !numeroPage.isEmpty()) {
-				if (page.getNumPage()+Integer.parseInt(numeroPage)!=0 && page.getNumPage()+Integer.parseInt(numeroPage)!= page.getNbPageMax()) {
+				
+				if (page.getNumPage()+Integer.parseInt(numeroPage)>0 && page.getNumPage()+Integer.parseInt(numeroPage)< page.getNbPageMax()+1) {
+					
 					page.setNumPage(page.getNumPage()+Integer.parseInt(numeroPage));
 				}
 			}
@@ -34,19 +37,23 @@ public class DataBase  extends HttpServlet {
 			
 			
 			if ("button1".equals(button)) {
+				page.setNumPage(1);
 				page.setNbComputerParPage(10);
 			}else if ("button2".equals(button)){
+				page.setNumPage(1);
 				page.setNbComputerParPage(50);
 			}else if ("button3".equals(button)) {
+				page.setNumPage(1);
 				page.setNbComputerParPage(100);
 			}
 			
 			List <Computer> computerList = service.getListComputer(this.page); 
 		
+		
 			
 			request.setAttribute("computerList",computerList );
 			request.setAttribute("page",page );
-			System.out.println(page);
+			
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
 		
 

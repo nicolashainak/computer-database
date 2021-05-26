@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.binding.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.ui.Page;
+import com.excilys.cdb.model.Page;
 
 public class DaoComputer {
 	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
@@ -36,7 +36,7 @@ public class DaoComputer {
 	public List<Computer> getListComputer(Page page) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 
-		Connection connection = Database.getConnection();
+		Connection connection = CdbConnection.getConnection();
 		try {// connection dans les parenthèses
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
 
@@ -56,7 +56,7 @@ public class DaoComputer {
 		ArrayList<Computer> db = new ArrayList<Computer>();
 
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			int limit = nbParPage;
 			int offset = nbParPage * i;
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
@@ -73,26 +73,34 @@ public class DaoComputer {
 	}
 
 	public void newComputer(Computer c) {
+		
 		try {
-			Connection connection = Database.getConnection();
+			
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
+			
 
 			preparedStatement.setString(1, c.getName());
 			if (c.getIntroduced() != null) {
-				Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
-				preparedStatement.setTimestamp(2, ts1);
+				Date ts1 = Date.valueOf(c.getIntroduced());
+				preparedStatement.setDate(2, ts1);
 			} else {
 				preparedStatement.setNull(2, 0);
 			}
 			if (c.getDiscontinued() != null) {
-				Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
-				preparedStatement.setTimestamp(3, ts2);
+				Date ts2 = (Date.valueOf(c.getDiscontinued()));
+				preparedStatement.setDate(3, ts2);
 			} else {
 				preparedStatement.setNull(3, 0);
 			}
+			if (c.getCompany_id().getId()==0) {
+				preparedStatement.setNull(4,0);
+			}else {
 			preparedStatement.setInt(4, c.getCompany_id().getId());
+			}
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			
 			logger.error("MySQL error : " + e);
 		}
 
@@ -103,7 +111,7 @@ public class DaoComputer {
 	public ArrayList<Computer> searchComputer(int idComputer) {
 		ArrayList<Computer> db = new ArrayList<Computer>();
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCH);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -117,7 +125,7 @@ public class DaoComputer {
 
 	public void updateComputer(int idComputer, Computer c) {
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTUPDATE);
 			preparedStatement.setString(1, c.getName());
 			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
@@ -135,7 +143,7 @@ public class DaoComputer {
 
 	public void deleteComputer(int idComputer) {
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTDELETEBYID);
 			preparedStatement.setInt(1, idComputer);
 			preparedStatement.executeUpdate();
@@ -147,7 +155,7 @@ public class DaoComputer {
 
 	public int nbComputer() {
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {

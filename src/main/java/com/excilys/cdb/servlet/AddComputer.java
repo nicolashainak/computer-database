@@ -32,6 +32,7 @@ public class AddComputer  extends HttpServlet {
 		String discontinued = request.getParameter("discontinued");
 		String company = request.getParameter("company");
 		service.addComputer(name,introduced,discontinued,company);
+		
 		doGet(request, response) ;
 	}
 }	

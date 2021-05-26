@@ -1,5 +1,7 @@
 package com.excilys.cdb.mapper;
 
+import com.excilys.cdb.binding.mapper.MapperComputer;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

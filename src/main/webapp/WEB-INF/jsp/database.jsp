@@ -129,14 +129,14 @@
               <li><a href="?num=1">${page.numPage+1}</a></li>
               <li><a href="?num=2">${page.numPage+2}</a></li>
               </c:if>
-               <c:if test="${page.numPage == page.getNbPageMax()}">
+               <c:if test="${page.numPage == page.getNbPageMax()-1}">
               <li><a href="?num=-3">${page.numPage-3}</a></li>
               <li><a href="?num=-2">${page.numPage-2}</a></li>
               <li><a href="?num=-1">${page.numPage-1}</a></li>
               <li><a href="?num=0">${page.numPage}</a></li>
               <li><a href="?num=1">${page.numPage+1}</a></li>
               </c:if>
-               <c:if test="${page.numPage == page.getNbPageMax()-1}">
+               <c:if test="${page.numPage == page.getNbPageMax()}">
               <li><a href="?num=-4">${page.numPage-4}</a></li>
               <li><a href="?num=-3">${page.numPage-3}</a></li>
               <li><a href="?num=-2">${page.numPage-2}</a></li>

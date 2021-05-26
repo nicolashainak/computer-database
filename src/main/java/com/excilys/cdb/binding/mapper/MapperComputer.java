@@ -1,4 +1,4 @@
-package com.excilys.cdb.mapper;
+package com.excilys.cdb.binding.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,10 +15,10 @@ public class MapperComputer {
 	public static ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {
 		
 		ArrayList<Computer> computer_list = new ArrayList<Computer>();
-		LocalDate introduced = null;
-		LocalDate discontinued =null;
+		
         while (resultSet.next()) {
-            
+        	LocalDate introduced = null;
+    		LocalDate discontinued =null;
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             if (resultSet.getDate("introduced")!=null) {

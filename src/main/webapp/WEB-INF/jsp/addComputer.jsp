@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" name="name" class="form-control" id="computerName" placeholder="Computer name">
+                                <input type="text" name="name" class="form-control" id="computerName" placeholder="Computer name"required="required">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>

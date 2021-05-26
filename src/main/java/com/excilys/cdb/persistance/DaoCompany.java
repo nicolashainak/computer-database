@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.binding.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +22,17 @@ public class DaoCompany {
 	private DaoCompany() {
 	} 
 
-	private static DaoCompany INSTANCE = new DaoCompany();
+	private static DaoCompany instance = new DaoCompany();
 
 	public static DaoCompany getInstance() {
-		return INSTANCE;
+		return instance;
 	}
 
 	public List<Company> getListCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
 
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTALL);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -48,7 +48,7 @@ public class DaoCompany {
 		ArrayList<Company> db = new ArrayList<Company>();
 		try {
 
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			int limit = 20;
 			int offset = 20 * i;
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTALLLIMIT);
@@ -66,7 +66,7 @@ public class DaoCompany {
 	public Company getCompany(int i) {
 		Company company = null;
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYID);
 			preparedStatement.setInt(1, i);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,7 +80,7 @@ public class DaoCompany {
 
 	public int nbCompany() {
 		try {
-			Connection connection = Database.getConnection();
+			Connection connection = CdbConnection.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPANY);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
@@ -95,7 +95,7 @@ public class DaoCompany {
 
 	public int nbPageCompany() {
 		int nbCompany = nbCompany();
-		int nbPageCompany = (nbCompany - (nbCompany % 20)) / 20;
+		int nbPageCompany = (nbCompany - (nbCompany % 20)) / 20 +1;
 		return nbPageCompany;
 	}
 
