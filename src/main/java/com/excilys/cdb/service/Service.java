@@ -2,6 +2,7 @@ package com.excilys.cdb.service;
 
 import java.util.List;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistance.DaoCompany;
 import com.excilys.cdb.persistance.DaoComputer;
@@ -19,7 +20,7 @@ public class Service {
 	}
 	
 	private DaoComputer daoComputer=DaoComputer.getInstance();
-	
+	private DaoCompany daoCompany=DaoCompany.getInstance();
 	public List<Computer> getListComputer(Page page){
 		return daoComputer.getListComputer(page);
 		
@@ -29,6 +30,11 @@ public class Service {
 		
 		return daoComputer.nbComputer();
 	}
-	
+	public List<Company> getListCompany(){
+		return daoCompany.getListCompany();
+	}
+	public void addComputer(String name,String introduced,String discontinued,String company) {
+		
+	}
 	
 }
