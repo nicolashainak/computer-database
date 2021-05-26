@@ -36,5 +36,7 @@ public class Service {
 	public void addComputer(String name,String introduced,String discontinued,String company) {
 		
 	}
-	
+	public Company getCompanyById(int id_company) {
+		return daoCompany.getCompany(id_company);
+	}
 }
