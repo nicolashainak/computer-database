@@ -31,9 +31,9 @@ public class DataBase  extends HttpServlet {
 			String numeroPage=request.getParameter("num");
 			
 			if (numeroPage != null && !numeroPage.isEmpty()) {
-				
-				
-				page.setNumPage(page.getNumPage()+Integer.parseInt(numeroPage));
+				if (page.getNumPage()+Integer.parseInt(numeroPage)!=0 && page.getNumPage()+Integer.parseInt(numeroPage)!= page.getNbPageMax()) {
+					page.setNumPage(page.getNumPage()+Integer.parseInt(numeroPage));
+				}
 			}
 		
 			

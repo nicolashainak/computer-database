@@ -104,7 +104,7 @@
         <div class="container text-center">
             <ul class="pagination">
                 <li>
-                    <a href="#" aria-label="Previous">
+                    <a href="?num=-1" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
@@ -145,7 +145,7 @@
               </c:if>
               
               <li>
-                <a href="#" aria-label="Next">
+                <a href="?num=1" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

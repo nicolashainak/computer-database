@@ -21,7 +21,7 @@ public class EditComputer  extends HttpServlet {
 
 	 public  void doGet(HttpServletRequest request, HttpServletResponse response)
 	 throws ServletException, IOException  {
-		 	ArrayList<Computer> computerList = daoComputer.readDatabase(0, 20);
+		 	ArrayList<Computer> computerList = daoComputer.getListComputer(0, 20);
 		 	request.setAttribute("computerList",computerList );
 			int nbOrdi=daoComputer.nbComputer();
 			request.setAttribute("nbOrdi",nbOrdi );
