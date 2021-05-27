@@ -31,8 +31,8 @@ public class DaoCompany {
 	public List<Company> getListCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
 
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();){
+		
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTALL);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,9 +46,9 @@ public class DaoCompany {
 
 	public ArrayList<Company> readDatabase(int i) {
 		ArrayList<Company> db = new ArrayList<Company>();
-		try {
+		try (Connection connection = CdbConnection.getConnection();) {
 
-			Connection connection = CdbConnection.getConnection();
+			
 			int limit = 20;
 			int offset = 20 * i;
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTALLLIMIT);
@@ -65,8 +65,8 @@ public class DaoCompany {
 
 	public Company getCompany(int i) {
 		Company company = null;
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();) {
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYID);
 			preparedStatement.setInt(1, i);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -79,8 +79,8 @@ public class DaoCompany {
 	}
 
 	public int nbCompany() {
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();) {
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPANY);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {

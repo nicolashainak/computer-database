@@ -36,8 +36,8 @@ public class DaoComputer {
 	public List<Computer> getListComputer(Page page) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 
-		Connection connection = CdbConnection.getConnection();
-		try {// connection dans les parenthèses
+		
+		try (Connection connection = CdbConnection.getConnection();){// connection dans les parenthèses
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
 
 			preparedStatement.setInt(1, page.getNbComputerParPage());
@@ -55,8 +55,8 @@ public class DaoComputer {
 	public ArrayList<Computer> getListComputer(int i, int nbParPage) {
 		ArrayList<Computer> db = new ArrayList<Computer>();
 
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();) {
+			
 			int limit = nbParPage;
 			int offset = nbParPage * i;
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
@@ -74,9 +74,9 @@ public class DaoComputer {
 
 	public void newComputer(Computer c) {
 		
-		try {
+		try (Connection connection = CdbConnection.getConnection();){
 			
-			Connection connection = CdbConnection.getConnection();
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
 			
 
@@ -110,8 +110,8 @@ public class DaoComputer {
 	/////// cf company
 	public ArrayList<Computer> searchComputer(int idComputer) {
 		ArrayList<Computer> db = new ArrayList<Computer>();
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();){
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCH);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -124,8 +124,8 @@ public class DaoComputer {
 	}
 
 	public void updateComputer(int idComputer, Computer c) {
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();) {
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTUPDATE);
 			preparedStatement.setString(1, c.getName());
 			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
@@ -142,8 +142,8 @@ public class DaoComputer {
 	}
 
 	public void deleteComputer(int idComputer) {
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection();){
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTDELETEBYID);
 			preparedStatement.setInt(1, idComputer);
 			preparedStatement.executeUpdate();
@@ -154,8 +154,8 @@ public class DaoComputer {
 	}
 
 	public int nbComputer() {
-		try {
-			Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getConnection(); ){
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
