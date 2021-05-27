@@ -25,9 +25,14 @@ public class CdbConnection {
 
 	public static Connection getConnection() {
 
-		if (connect == null) {
-			open();
+		try {
+			if (connect == null || connect.isClosed()) {
+				open();
 
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return connect;

@@ -19,7 +19,6 @@ public class DataBase  extends HttpServlet {
 		private Page page =new Page();
 	public  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		 	
-			
 			page.setNbComputerRequest(service.getNbComputerTotal(page));
 			
 			

@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="AddComputer" method="POST">
+                    <form action="AddComputer" method="POST" name="formAddComputer">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -58,5 +58,8 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
     </section>
+    <script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+    <script src="./js/formValidation.js"></script>
 </body>
 </html>

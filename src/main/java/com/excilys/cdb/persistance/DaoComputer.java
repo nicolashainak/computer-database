@@ -36,8 +36,7 @@ public class DaoComputer {
 	public List<Computer> getListComputer(Page page) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 
-		
-		try (Connection connection = CdbConnection.getConnection();){// connection dans les parenthèses
+		try (Connection connection = CdbConnection.getConnection();) {// connection dans les parenthèses
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
 
 			preparedStatement.setInt(1, page.getNbComputerParPage());
@@ -56,7 +55,7 @@ public class DaoComputer {
 		ArrayList<Computer> db = new ArrayList<Computer>();
 
 		try (Connection connection = CdbConnection.getConnection();) {
-			
+
 			int limit = nbParPage;
 			int offset = nbParPage * i;
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
@@ -73,12 +72,10 @@ public class DaoComputer {
 	}
 
 	public void newComputer(Computer c) {
-		
-		try (Connection connection = CdbConnection.getConnection();){
-			
-			
+
+		try (Connection connection = CdbConnection.getConnection();) {
+
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
-			
 
 			preparedStatement.setString(1, c.getName());
 			if (c.getIntroduced() != null) {
@@ -93,14 +90,14 @@ public class DaoComputer {
 			} else {
 				preparedStatement.setNull(3, 0);
 			}
-			if (c.getCompany_id().getId()==0) {
-				preparedStatement.setNull(4,0);
-			}else {
-			preparedStatement.setInt(4, c.getCompany_id().getId());
+			if (c.getCompany_id().getId() == 0) {
+				preparedStatement.setNull(4, 0);
+			} else {
+				preparedStatement.setInt(4, c.getCompany_id().getId());
 			}
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			
+
 			logger.error("MySQL error : " + e);
 		}
 
@@ -110,8 +107,8 @@ public class DaoComputer {
 	/////// cf company
 	public ArrayList<Computer> searchComputer(int idComputer) {
 		ArrayList<Computer> db = new ArrayList<Computer>();
-		try (Connection connection = CdbConnection.getConnection();){
-			
+		try (Connection connection = CdbConnection.getConnection();) {
+
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCH);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -125,7 +122,7 @@ public class DaoComputer {
 
 	public void updateComputer(int idComputer, Computer c) {
 		try (Connection connection = CdbConnection.getConnection();) {
-			
+
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTUPDATE);
 			preparedStatement.setString(1, c.getName());
 			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
@@ -142,8 +139,8 @@ public class DaoComputer {
 	}
 
 	public void deleteComputer(int idComputer) {
-		try (Connection connection = CdbConnection.getConnection();){
-			
+		try (Connection connection = CdbConnection.getConnection();) {
+
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTDELETEBYID);
 			preparedStatement.setInt(1, idComputer);
 			preparedStatement.executeUpdate();
@@ -154,16 +151,19 @@ public class DaoComputer {
 	}
 
 	public int nbComputer() {
-		try (Connection connection = CdbConnection.getConnection(); ){
-			
-			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);
+		
+		try (Connection connection = CdbConnection.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);) {
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				int id = Integer.parseInt(resultSet.getString(1));
 				return id;
 			}
+			
 
 		} catch (SQLException e) {
+			
 			logger.error("MySQL error : " + e);
 		}
 
