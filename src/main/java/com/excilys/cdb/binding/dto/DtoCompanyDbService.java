@@ -1,14 +1,24 @@
 package com.excilys.cdb.binding.dto;
 
+import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.Service;
 
 public class DtoCompanyDbService {
-	private int id;
+	private Integer id;
 	private String name;
 	
 	public DtoCompanyDbService(int id, String name) {
 		this.id=id;
 		this.name=name;
+	}
+	public DtoCompanyDbService(Computer computer) {
+	
+		if (computer.getId().isPresent()) {
+			this.id=computer.getId().get();	
+		}else {
+			this.id=null;
+		}
+		this.name=computer.getName();
 	}
 	public DtoCompanyDbService(int id) {
 		this.id=id;

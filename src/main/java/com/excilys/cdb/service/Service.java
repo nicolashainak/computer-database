@@ -45,16 +45,6 @@ public class Service {
 	public void addComputer(Computer computer) {
 		daoComputer.newComputer(computer);
 	}
-//	public void addComputer(String name,String introduced,String discontinued,String company_id) {
-//		DtoCompanyServletService dtoCompany =new DtoCompanyServletService(Integer.parseInt(company_id));
-//		if(ValidationDtoCompany.getInstance().isValidDto(dtoCompany)) {
-//			DtoComputerServletService dtoComputer = new DtoComputerServletService(name,introduced,discontinued,dtoCompany);
-//			if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)){
-//				Computer computer = MapperDtoComputerServletService.dtoToComputer(dtoComputer);
-//				daoComputer.newComputer(computer);
-//			}
-//		}
-//	}
 
 	public Company getCompanyById(int id_company) {
 		return daoCompany.getCompanyById(id_company);

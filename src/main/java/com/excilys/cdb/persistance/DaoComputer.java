@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.binding.dto.DtoComputerDbService;
 import com.excilys.cdb.binding.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
@@ -51,28 +53,9 @@ public class DaoComputer {
 		return listComputer;
 	}
 
-	public ArrayList<Computer> getListComputer(int i, int nbParPage) {
-		ArrayList<Computer> db = new ArrayList<Computer>();
 
-		try (Connection connection = CdbConnection.getConnection();) {
-
-			int limit = nbParPage;
-			int offset = nbParPage * i;
-			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
-			preparedStatement.setInt(1, limit);
-			preparedStatement.setInt(2, offset);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			db = MapperComputer.writeResultSet(resultSet);
-			// Database.close();
-		} catch (SQLException e) {
-			logger.error("MySQL error : " + e);
-		}
-
-		return db;
-	}
-
-	public void newComputer(Computer c) {
-
+	public void newComputer(Computer computer) {
+		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 		try (Connection connection = CdbConnection.getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
