@@ -15,7 +15,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/DataBase"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/Dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -90,7 +90,7 @@
                         </td>
                         <td>${computer.introduced}</td>
                         <td>${computer.discontinued}</td>
-                        <td>${computer.company_id.id}</td>
+                        <td>${computer.company_id.name}</td>
 
                     </tr>
   				</c:forEach>                 
@@ -153,7 +153,7 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-        <form action="${pageContext.request.contextPath}/DataBase" >
+        <form action="${pageContext.request.contextPath}/Dashboard" >
             <button type="submit" name="button" value = "button1" class="btn btn-default">10</button>
             <button type="submit" name="button" value = "button2" class="btn btn-default">50</button>
             <button type="submit" name="button" value = "button3" class="btn btn-default">100</button>

@@ -1,6 +1,6 @@
 package com.excilys.cdb.binding.dto;
 
-public class DtoComputer {
+public class DtoComputerServletService {
 	@Override
 	public String toString() {
 		return "DtoComputer [name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
@@ -9,11 +9,11 @@ public class DtoComputer {
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private String company;
+	private DtoCompanyServletService company;
 	
-	public DtoComputer() {
+	public DtoComputerServletService() {
 	}
-	public DtoComputer( String name , String introduced,String discontinued,String company) {
+	public DtoComputerServletService( String name , String introduced,String discontinued,DtoCompanyServletService company) {
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
@@ -37,10 +37,10 @@ public class DtoComputer {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-	public String getCompany() {
+	public DtoCompanyServletService getCompany() {
 		return company;
 	}
-	public void setCompany(String company) {
+	public void setCompany(DtoCompanyServletService company) {
 		this.company = company;
 	}
 	

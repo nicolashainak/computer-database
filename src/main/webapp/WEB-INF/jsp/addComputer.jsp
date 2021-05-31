@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/DataBase"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/Dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or
-                            <a href="../cdb/DataBase" class="btn btn-default">Cancel</a>
+                            <a href="../cdb/Dashboard" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

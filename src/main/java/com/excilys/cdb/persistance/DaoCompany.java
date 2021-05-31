@@ -16,6 +16,7 @@ public class DaoCompany {
 	private final static String RQTSELECTALL = "select id,name from company  ;";
 	private final static String RQTSELECTALLLIMIT = "select id,name from company limit  ? offset ? ;";
 	private final static String RQTCOMPANYBYID = "select id,name from company where id =? ";
+	private final static String RQTCOMPANYBYNAME = "select id,name from company where name = ? ";
 	private final static String RQTNBCOMPANY = "SELECT COUNT(*) FROM company ;";
 	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
 
@@ -63,14 +64,14 @@ public class DaoCompany {
 		return db;
 	}
 
-	public Company getCompany(int i) {
+	public Company getCompanyById(int i) {
 		Company company = null;
 		try (Connection connection = CdbConnection.getConnection();) {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYID);
 			preparedStatement.setInt(1, i);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			company = MapperCompany.companyById(resultSet);
+			company = MapperCompany.getThisCompany(resultSet);
 		} catch (SQLException e) {
 			logger.error("MySQL error : " + e);
 		}
@@ -78,6 +79,21 @@ public class DaoCompany {
 		return company;
 	}
 
+	public Company getCompanyByName(String name) {
+		Company company = null;
+		try (Connection connection = CdbConnection.getConnection();) {
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYNAME);
+			preparedStatement.setString(1, name);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			company = MapperCompany.getThisCompany(resultSet);
+		} catch (SQLException e) {
+			logger.error("MySQL error : " + e);
+		}
+		// Database.close();
+		return company;
+	}
+	
 	public int nbCompany() {
 		try (Connection connection = CdbConnection.getConnection();) {
 			
@@ -91,12 +107,6 @@ public class DaoCompany {
 			logger.error("MySQL error : " + e);
 		}
 		return 0;
-	}
-
-	public int nbPageCompany() {
-		int nbCompany = nbCompany();
-		int nbPageCompany = (nbCompany - (nbCompany % 20)) / 20 +1;
-		return nbPageCompany;
 	}
 
 }

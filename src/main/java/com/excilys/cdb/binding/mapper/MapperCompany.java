@@ -20,7 +20,7 @@ public class MapperCompany {
         return company_list;
     }
 	
-	public static Company companyById(ResultSet resultSet) throws SQLException {
+	public static Company getThisCompany(ResultSet resultSet) throws SQLException {
 		Company c = new Company(0,null);
 		if (resultSet.next()) {
 			int id = resultSet.getInt("id");

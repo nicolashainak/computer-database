@@ -1,5 +1,5 @@
 /**
- * 
+ * Manque vérif introduced < discontinued , + verif 30-02 
  */
 
  $(document).submit (function (event) {

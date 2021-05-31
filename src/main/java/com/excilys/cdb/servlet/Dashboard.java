@@ -13,9 +13,10 @@ import java.io.* ;
 import java.util.* ;
 
 
-@WebServlet ("/DataBase")
-public class DataBase  extends HttpServlet {
+@WebServlet ("/Dashboard")
+public class Dashboard  extends HttpServlet {
 		private Service service =Service.getInstance();
+		// regarder http session Mettre page en attribut de ca .
 		private Page page =new Page();
 	public  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		 	
@@ -53,7 +54,7 @@ public class DataBase  extends HttpServlet {
 			request.setAttribute("computerList",computerList );
 			request.setAttribute("page",page );
 			
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp" ).forward( request, response );
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/dashboard.jsp" ).forward( request, response );
 		
 
 		
