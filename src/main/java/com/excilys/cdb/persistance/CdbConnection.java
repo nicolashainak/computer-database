@@ -4,10 +4,33 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class CdbConnection {
-	private static Connection connect = null;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
-	private static void open() {
+public class CdbConnection {
+	//private static Connection connect = null;
+	 private static HikariConfig config = new HikariConfig();
+	 private static HikariDataSource ds;
+
+	    
+	 static {
+	        config.setJdbcUrl( "jdbc:mysql://localhost:3306/computer-database-db" );
+	        config.setUsername( "admincdb" );
+	        config.setPassword( "qwerty1234" );
+	        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+	        ds = new HikariDataSource( config );
+	    }
+	    private CdbConnection() {
+	    
+	    }
+	    
+	    public static Connection getConnection() throws SQLException {
+	        return ds.getConnection();
+	    }
+	    
+	    
+	   /* 
+	    	private static void open() {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -36,6 +59,6 @@ public class CdbConnection {
 		}
 
 		return connect;
-	}
+	}*/
 
 }

@@ -31,7 +31,10 @@ public class DaoComputer {
 	private final static String RQTUPDATE = "update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? where id = ?";
 	private final static String RQTDELETEBYID = "delete from computer where id=?";
 	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
-
+	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id limit ? offset ? order by ? ;";
+	
+	
+	
 	public static DaoComputer getInstance() {
 		return instance;
 	}
@@ -85,7 +88,23 @@ public class DaoComputer {
 		}
 
 	}
+	public List<Computer> orderBy(Page page, String collonne ) {
+		List<Computer> listComputer = new ArrayList<Computer>();
+		try (Connection connection = CdbConnection.getConnection();) {
+			PreparedStatement preparedStatement = connection.prepareStatement(RQTORDERBY);
+			preparedStatement.setInt(1, page.getNbComputerParPage());
 
+			preparedStatement.setInt(2, page.getNbComputerParPage() * (page.getNumPage() - 1));
+			preparedStatement.setString(3,collonne);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			listComputer = MapperComputer.writeResultSet(resultSet);
+		}	 catch (SQLException e) {
+
+			logger.error("MySQL error : " + e);
+		}
+		return listComputer;
+	}
+	
 	/////// Changer en return Computer --> ajouter methode mapper pour 1 seul ordi
 	/////// cf company
 	public ArrayList<Computer> searchComputer(int idComputer) {
@@ -152,5 +171,7 @@ public class DaoComputer {
 
 		return 0;
 	}
+	
+	
 
 }

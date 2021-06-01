@@ -22,7 +22,7 @@ public class Dashboard  extends HttpServlet {
 		 	
 			page.setNbComputerRequest(service.getNbComputerTotal(page));
 			
-			
+			String order = request.getParameter("order");
 			String button=request.getParameter("button");
 			String numeroPage=request.getParameter("num");
 			
@@ -47,8 +47,12 @@ public class Dashboard  extends HttpServlet {
 				page.setNbComputerParPage(100);
 			}
 			
-			List <Computer> computerList = service.getListComputer(this.page); 
-		
+			if (order!=null) {
+				List <Computer> computerList=service.orderBy(order, page);
+			}else {
+			
+				List <Computer> computerList = service.getListComputer(this.page); 
+			}
 		
 			
 			request.setAttribute("computerList",computerList );
