@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.binding.dto.DtoComputerDbService;
 import com.excilys.cdb.binding.mapper.MapperComputer;
+import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 
@@ -61,22 +62,21 @@ public class DaoComputer {
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
 
 			preparedStatement.setString(1, c.getName());
+			
 			if (c.getIntroduced() != null) {
-				Date ts1 = Date.valueOf(c.getIntroduced());
-				preparedStatement.setDate(2, ts1);
+				preparedStatement.setDate(2, c.getIntroduced());
 			} else {
 				preparedStatement.setNull(2, 0);
 			}
 			if (c.getDiscontinued() != null) {
-				Date ts2 = (Date.valueOf(c.getDiscontinued()));
-				preparedStatement.setDate(3, ts2);
+				preparedStatement.setDate(3, c.getDiscontinued());
 			} else {
 				preparedStatement.setNull(3, 0);
 			}
-			if (c.getCompany_id().getId() == 0) {
+			if (c.getCompany().getId() == 0) {
 				preparedStatement.setNull(4, 0);
 			} else {
-				preparedStatement.setInt(4, c.getCompany_id().getId());
+				preparedStatement.setInt(4, c.getCompany().getId());
 			}
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

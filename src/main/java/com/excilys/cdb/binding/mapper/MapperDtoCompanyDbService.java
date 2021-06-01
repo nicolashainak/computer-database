@@ -8,8 +8,8 @@ import com.excilys.cdb.service.Service;
 
 public class MapperDtoCompanyDbService {
 
-	public static DtoCompanyServletService mapperDtoFromCompanyDbService(Company company) {
-		return new DtoCompanyServletService(company.getId(),company.getName());
+	public static DtoCompanyDbService mapperDtoFromCompanyDbService(Company company) {
+		return new DtoCompanyDbService(company.getId(),company.getName());
 	}
 	
 	public static Company mapperDtoToCompanyDbService(DtoCompanyDbService dtoCompany) {

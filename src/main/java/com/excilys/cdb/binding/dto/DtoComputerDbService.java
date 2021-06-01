@@ -3,7 +3,6 @@ package com.excilys.cdb.binding.dto;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import com.excilys.cdb.model.Company;
 
 public class DtoComputerDbService {
 
@@ -14,12 +13,22 @@ public class DtoComputerDbService {
     private DtoCompanyDbService company  ;
     
     
-    public DtoComputerDbService(DtoComputerDbServiceBuilder computerBuilder) {
-    	super();
-    	this.name=computerBuilder.name;
-    	this.introduced=computerBuilder.introduced;
-    	this.discontinued=computerBuilder.discontinued;
-    	this.company=computerBuilder.company;
+    public DtoComputerDbService(String name,LocalDate introduced,LocalDate discontinued, DtoCompanyDbService company ) {
+    	this.name=name;
+    	if (introduced==null) {
+    	this.introduced=null;
+    	}else {
+        	this.introduced=Date.valueOf(introduced);
+        	
+    	}
+    	if (discontinued==null) {
+        	this.discontinued=null;
+        	}else {
+            	this.discontinued=Date.valueOf(discontinued);
+            	
+        	}
+    	
+    	this.company=company;
     	
     }
 
@@ -64,35 +73,7 @@ public class DtoComputerDbService {
 	
 	
 	
-	public static class DtoComputerDbServiceBuilder{
-		private String name ;
-	    private Date introduced ;
-	    private Date discontinued ;
-	    private DtoCompanyDbService company ;
-	    
-	    public DtoComputerDbServiceBuilder(String name) {
-	    	this.name=name;
-	    }
-	    
-	    public DtoComputerDbServiceBuilder withIntroduced(Date introduced) {
-	    	this.introduced=introduced;
-	    	return this;
-	    }
-	    
-	    public DtoComputerDbServiceBuilder withDiscontinued(Date discontinued) {
-	    	this.discontinued=discontinued;
-	    	return this;
-	    }
-	    
-	    public DtoComputerDbServiceBuilder withCompany(DtoCompanyDbService company) {
-	    	this.company=company;
-	    	return this;
-	    }
-	    
-	    public DtoComputerDbService build() {
-	    	return new DtoComputerDbService(this);
-	    }
-	    
-	}
 	
 }
+	
+
