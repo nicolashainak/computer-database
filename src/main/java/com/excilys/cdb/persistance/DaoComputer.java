@@ -32,7 +32,7 @@ public class DaoComputer {
 	private final static String RQTDELETEBYID = "delete from computer where id=?";
 	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
 	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id ORDER BY ";
-	
+	private final static String RQTSEARCHWITH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id  WHERE computer.name = ? OR company.name = ? ORDER BY ";
 	
 	
 	
