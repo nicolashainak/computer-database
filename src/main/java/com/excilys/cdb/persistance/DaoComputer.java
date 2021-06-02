@@ -31,7 +31,8 @@ public class DaoComputer {
 	private final static String RQTUPDATE = "update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? where id = ?";
 	private final static String RQTDELETEBYID = "delete from computer where id=?";
 	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
-	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id limit ? offset ? order by ? ;";
+	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id ORDER BY ";
+	
 	
 	
 	
@@ -88,14 +89,17 @@ public class DaoComputer {
 		}
 
 	}
-	public List<Computer> orderBy(Page page, String collonne ) {
+	public List<Computer> orderBy(Page page, String collonne,Boolean reverse ) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		try (Connection connection = CdbConnection.getConnection();) {
-			PreparedStatement preparedStatement = connection.prepareStatement(RQTORDERBY);
+			PreparedStatement preparedStatement;
+			if (reverse) {
+				 preparedStatement = connection.prepareStatement(RQTORDERBY+collonne+" DESC limit ? offset ?");	
+			}else {
+				 preparedStatement = connection.prepareStatement(RQTORDERBY+collonne+" limit ? offset ?");
+			}
 			preparedStatement.setInt(1, page.getNbComputerParPage());
-
 			preparedStatement.setInt(2, page.getNbComputerParPage() * (page.getNumPage() - 1));
-			preparedStatement.setString(3,collonne);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			listComputer = MapperComputer.writeResultSet(resultSet);
 		}	 catch (SQLException e) {

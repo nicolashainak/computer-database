@@ -58,9 +58,10 @@ public class Service {
 		return daoCompany.nbCompany();
 	}
 	
-	public List<Computer> orderBy(String collonne,Page page) {
-		return daoComputer.orderBy(page,collonne);
-		
+	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
+
+		return daoComputer.orderBy(page, collonne, reverse);
+
 	}
 
 }
