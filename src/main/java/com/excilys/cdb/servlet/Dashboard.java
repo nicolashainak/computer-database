@@ -17,13 +17,14 @@ public class Dashboard extends HttpServlet {
 	private Service service = Service.getInstance();
 	// regarder http session Mettre page en attribut de ca .
 	private Page page = new Page();
-	private String orderBy = "";
+	private String orderBy = "computer.id";
 	private Boolean reverse = false;
+	private Boolean isSearching = false;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		page.setNbComputerRequest(service.getNbComputerTotal(page));
-
+		String search = request.getParameter("search");
 		String order = request.getParameter("order");
 		String button = request.getParameter("button");
 		String numeroPage = request.getParameter("num");
@@ -63,7 +64,16 @@ public class Dashboard extends HttpServlet {
 		} else {
 			computerList = service.getListComputer(this.page);
 		}
-
+	
+		if ("".equals(search)) {
+			this.isSearching = false;
+		} else if(search != null){
+			this.isSearching=true;
+			computerList = service.search(page, search, orderBy);
+		}else if (isSearching){
+			computerList = service.search(page, search, orderBy);
+		}
+		
 		request.setAttribute("computerList", computerList);
 		request.setAttribute("page", page);
 
@@ -73,15 +83,6 @@ public class Dashboard extends HttpServlet {
 
 	/*
 	 * public void doPost(HttpServletRequest request, HttpServletResponse response)
-	 * throws ServletException, IOException {
-	 * 
-	 * ArrayList<Computer> computerList = daoComputer.readDatabase(0, 10); int
-	 * nbOrdi=daoComputer.nbComputer(); request.setAttribute("nbOrdi",nbOrdi );
-	 * 
-	 * this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/database.jsp"
-	 * ).forward( request, response );
-	 * 
-	 * 
-	 * }
+	 * throws ServletException, IOException { }
 	 */
 }

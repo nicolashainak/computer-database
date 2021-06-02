@@ -39,4 +39,31 @@ public class MapperComputer {
        
         return computer_list;
 	}
+public static Computer writeAResultSet(ResultSet resultSet) throws SQLException {
+		
+		Computer computer = new Computer();
+		
+        while (resultSet.next()) {
+        	LocalDate introduced = null;
+    		LocalDate discontinued =null;
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            if (resultSet.getDate("introduced")!=null) {
+            	introduced = resultSet.getDate("introduced").toLocalDate();
+            }
+            if (resultSet.getDate("discontinued")!=null) {            
+            	discontinued = resultSet.getDate("discontinued").toLocalDate();
+            
+            }
+            int company_id = resultSet.getInt("company_id");
+            String company_name=resultSet.getString("company.name");
+            
+             computer = new Computer(id,name,introduced,discontinued,new Company(company_id,company_name));
+            
+              
+        }		
+        
+       
+        return computer;
+	}
 }

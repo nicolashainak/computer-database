@@ -10,6 +10,10 @@ public class Computer {
     private LocalDate discontinued ;
     private Company company_id  ;
 //without id 
+    
+    public Computer() {
+    	
+    };
 	public Computer( String name,LocalDate introduced,LocalDate discontinued,Company company_id ) {
 		this.id=null;
 		this.name = name;

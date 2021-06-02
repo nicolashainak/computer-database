@@ -33,6 +33,11 @@ public class Service {
 
 	}
 
+	public Computer searchComputer(int id) {
+		
+		return daoComputer.searchComputer(id);
+	}
+	
 	public int getNbComputerTotal(Page page) {
 
 		return daoComputer.nbComputer();
@@ -56,6 +61,11 @@ public class Service {
 
 	public int getNbCompany() {
 		return daoCompany.nbCompany();
+	}
+	
+	public List<Computer> search(Page page, String search, String collonne) {
+		return daoComputer.searchComputerWith(page,search, collonne);
+
 	}
 	
 	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {

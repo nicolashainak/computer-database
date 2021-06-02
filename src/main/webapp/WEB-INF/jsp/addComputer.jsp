@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="AddComputer" method="POST" name="formAddComputer">
+                    <form href="../cdb/Dashboard" action="AddComputer" method="POST" name="formAddComputer">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
                             </div>                  
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Add" class="btn btn-primary">
+                            <input  type="submit" value="Add" class="btn btn-primary">
                             or
                             <a href="../cdb/Dashboard" class="btn btn-default">Cancel</a>
                         </div>

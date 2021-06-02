@@ -86,7 +86,7 @@
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="../cdb/EditComputer" onclick="">${computer.name}</a>
+                            <a href="../cdb/EditComputer?id=${computer.id.get()}" onclick="">${computer.name}</a>
                         </td>
                         <td>${computer.introduced}</td>
                         <td>${computer.discontinued}</td>

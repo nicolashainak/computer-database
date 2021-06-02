@@ -32,10 +32,8 @@ public class DaoComputer {
 	private final static String RQTDELETEBYID = "delete from computer where id=?";
 	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
 	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id ORDER BY ";
-	private final static String RQTSEARCHWITH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id  WHERE computer.name = ? OR company.name = ? ORDER BY ";
-	
-	
-	
+	private final static String RQTSEARCHWITH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id  WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ";
+
 	public static DaoComputer getInstance() {
 		return instance;
 	}
@@ -50,6 +48,7 @@ public class DaoComputer {
 
 			preparedStatement.setInt(2, page.getNbComputerParPage() * (page.getNumPage() - 1));
 			ResultSet resultSet = preparedStatement.executeQuery();
+	
 			listComputer = MapperComputer.writeResultSet(resultSet);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -58,6 +57,22 @@ public class DaoComputer {
 		return listComputer;
 	}
 
+	public List<Computer> searchComputerWith(Page page, String search,String collonne) {
+		List<Computer> listComputer = new ArrayList<Computer>();
+		try (Connection connection = CdbConnection.getConnection();) {
+			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCHWITH+collonne+" limit ? offset ?");
+			preparedStatement.setString(1,"%"+search+"%");
+			preparedStatement.setString(2,"%"+search+"%");
+			preparedStatement.setInt(3, page.getNbComputerParPage());
+			preparedStatement.setInt(4, page.getNbComputerParPage() * (page.getNumPage() - 1));
+			ResultSet resultSet = preparedStatement.executeQuery();
+			listComputer = MapperComputer.writeResultSet(resultSet);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listComputer;
+	}
 
 	public void newComputer(Computer computer) {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
@@ -66,7 +81,7 @@ public class DaoComputer {
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
 
 			preparedStatement.setString(1, c.getName());
-			
+
 			if (c.getIntroduced() != null) {
 				preparedStatement.setDate(2, c.getIntroduced());
 			} else {
@@ -89,41 +104,43 @@ public class DaoComputer {
 		}
 
 	}
-	public List<Computer> orderBy(Page page, String collonne,Boolean reverse ) {
+
+	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		try (Connection connection = CdbConnection.getConnection();) {
 			PreparedStatement preparedStatement;
 			if (reverse) {
-				 preparedStatement = connection.prepareStatement(RQTORDERBY+collonne+" DESC limit ? offset ?");	
-			}else {
-				 preparedStatement = connection.prepareStatement(RQTORDERBY+collonne+" limit ? offset ?");
+				preparedStatement = connection.prepareStatement(RQTORDERBY + collonne + " DESC limit ? offset ?");
+			} else {
+				preparedStatement = connection.prepareStatement(RQTORDERBY + collonne + " limit ? offset ?");
 			}
 			preparedStatement.setInt(1, page.getNbComputerParPage());
 			preparedStatement.setInt(2, page.getNbComputerParPage() * (page.getNumPage() - 1));
 			ResultSet resultSet = preparedStatement.executeQuery();
 			listComputer = MapperComputer.writeResultSet(resultSet);
-		}	 catch (SQLException e) {
+		} catch (SQLException e) {
 
 			logger.error("MySQL error : " + e);
 		}
 		return listComputer;
 	}
-	
+
 	/////// Changer en return Computer --> ajouter methode mapper pour 1 seul ordi
 	/////// cf company
-	public ArrayList<Computer> searchComputer(int idComputer) {
-		ArrayList<Computer> db = new ArrayList<Computer>();
+	public Computer searchComputer(int idComputer) {
+		Computer computer = new Computer();
+		
 		try (Connection connection = CdbConnection.getConnection();) {
-
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCH);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			db = MapperComputer.writeResultSet(resultSet);
+			computer = MapperComputer.writeAResultSet(resultSet);
 
 		} catch (SQLException e) {
 			logger.error("MySQL error : " + e);
 		}
-		return db;
+		return computer;
 	}
 
 	public void updateComputer(int idComputer, Computer c) {
@@ -157,7 +174,7 @@ public class DaoComputer {
 	}
 
 	public int nbComputer() {
-		
+
 		try (Connection connection = CdbConnection.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);) {
 
@@ -166,16 +183,13 @@ public class DaoComputer {
 				int id = Integer.parseInt(resultSet.getString(1));
 				return id;
 			}
-			
 
 		} catch (SQLException e) {
-			
+
 			logger.error("MySQL error : " + e);
 		}
 
 		return 0;
 	}
-	
-	
 
 }
