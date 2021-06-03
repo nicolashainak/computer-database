@@ -195,7 +195,7 @@ public class DaoComputer {
 
 	public void deleteComputer(int idComputer) {
 		try (Connection connection = CdbConnection.getInstance().getConnection();) {
-
+			System.out.println("delete id " + idComputer);
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTDELETEBYID);
 			preparedStatement.setInt(1, idComputer);
 			preparedStatement.executeUpdate();

@@ -83,6 +83,9 @@ public class Service {
 	public void updateComputer(int id,Computer computer) {
 		daoComputer.updateComputer(id, computer);
 	}
+	public void deleteComputer(int idComputer) {
+		daoComputer.deleteComputer(idComputer);
+	}
 	
 
 }

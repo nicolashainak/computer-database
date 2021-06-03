@@ -83,7 +83,7 @@
    
               		<tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${computer.id.get()}">
                         </td>
                         <td>
                             <a href="../cdb/EditComputer?id=${computer.id.get()}" onclick="">${computer.name}</a>

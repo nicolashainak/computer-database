@@ -142,8 +142,23 @@ public class Dashboard extends HttpServlet {
 		session.setAttribute(PAGE, page);
 	}
 
-	/*
-	 * public void doPost(HttpServletRequest request, HttpServletResponse response)
-	 * throws ServletException, IOException { }
-	 */
+	
+	 public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException { 
+		 this.session = request.getSession();
+		 List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
+		 System.out.println(request.getParameter("selection"));
+		 try {
+			 System.out.println("try");
+			 int id_computer;
+			 for(String stringID:selection) {
+				 System.out.println(stringID);
+				 id_computer=Integer.parseInt(stringID);
+				 service.deleteComputer(id_computer);
+			 }
+		 }catch(NumberFormatException  e){
+			 System.out.println("catch");
+		 }
+		 doGet(request,response);
+	}
+	 
 }
