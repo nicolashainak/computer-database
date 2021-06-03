@@ -21,17 +21,19 @@ public class AddComputer extends HttpServlet {
 	Service service = Service.getInstance();
 
 	private void addComputer(String name, String introduced, String discontinued, String company_id) {
-		try {	
+		try {
+
 			DtoCompanyServletService dtoCompany = new DtoCompanyServletService(Integer.parseInt(company_id));
 			if (ValidationDtoCompany.getInstance().isValidDto(dtoCompany)) {
+
 				DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
 						dtoCompany);
 				if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)) {
-					
+
 					service.addComputer(MapperDtoComputerServletService.dtoToComputer(dtoComputer));
 				}
 			}
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			e.getStackTrace();
 		}
 	}

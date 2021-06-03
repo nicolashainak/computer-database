@@ -41,7 +41,7 @@ public class DaoComputer {
 	public List<Computer> getListComputer(Page page) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 
-		try (Connection connection = CdbConnection.getConnection();) {// connection dans les parenthèses
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {// connection dans les parenthèses
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTCOMPUTERALL);
 
 			preparedStatement.setInt(1, page.getNbComputerParPage());
@@ -59,7 +59,7 @@ public class DaoComputer {
 
 	public List<Computer> searchComputerWith(Page page, String search,String collonne) {
 		List<Computer> listComputer = new ArrayList<Computer>();
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCHWITH+collonne+" limit ? offset ?");
 			preparedStatement.setString(1,"%"+search+"%");
 			preparedStatement.setString(2,"%"+search+"%");
@@ -75,7 +75,7 @@ public class DaoComputer {
 	}
 
 	public int nbElementSearch(String search) {
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNOMBREELEMENTSSEARCH);
 			preparedStatement.setString(1, "%"+search+"%");
@@ -96,7 +96,7 @@ public class DaoComputer {
 	}
 	public void newComputer(Computer computer) {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTINSERT);
 
@@ -127,7 +127,7 @@ public class DaoComputer {
 
 	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
 		List<Computer> listComputer = new ArrayList<Computer>();
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			PreparedStatement preparedStatement;
 			if (reverse) {
 				preparedStatement = connection.prepareStatement(RQTORDERBY + collonne + " DESC limit ? offset ?");
@@ -150,7 +150,7 @@ public class DaoComputer {
 	public Computer searchComputer(int idComputer) {
 		Computer computer = new Computer();
 		
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSEARCH);
 			preparedStatement.setInt(1, idComputer);
@@ -164,7 +164,7 @@ public class DaoComputer {
 	}
 
 	public void updateComputer(int idComputer, Computer c) {
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTUPDATE);
 			preparedStatement.setString(1, c.getName());
@@ -182,7 +182,7 @@ public class DaoComputer {
 	}
 
 	public void deleteComputer(int idComputer) {
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTDELETEBYID);
 			preparedStatement.setInt(1, idComputer);
@@ -195,7 +195,7 @@ public class DaoComputer {
 
 	public int nbComputer() {
 
-		try (Connection connection = CdbConnection.getConnection();
+		try (Connection connection = CdbConnection.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPUTER);) {
 
 			ResultSet resultSet = preparedStatement.executeQuery();

@@ -76,5 +76,13 @@ public class Service {
 		return daoComputer.orderBy(page, collonne, reverse);
 
 	}
+	
+	public void deleteCompany(int company_id) {
+		daoCompany.delet(company_id);
+	}
+	public void updateComputer(Computer computer) {
+		
+	}
+	
 
 }

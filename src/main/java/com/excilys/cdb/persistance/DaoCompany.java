@@ -18,6 +18,9 @@ public class DaoCompany {
 	private final static String RQTCOMPANYBYID = "select id,name from company where id =? ";
 	private final static String RQTCOMPANYBYNAME = "select id,name from company where name = ? ";
 	private final static String RQTNBCOMPANY = "SELECT COUNT(*) FROM company ;";
+	private final static String RQTDELETECOMPUTER="DELET  FROM computer LEFT JOIN company ON company.id = computer.company_id WHERE company.id = ?";
+	private final static String RQTDELETECOMPANY="DELET  FROM company WHERE company.id = ?";
+	
 	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
 
 	private DaoCompany() {
@@ -32,7 +35,7 @@ public class DaoCompany {
 	public List<Company> getListCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
 
-		try (Connection connection = CdbConnection.getConnection();){
+		try (Connection connection = CdbConnection.getInstance().getConnection();){
 		
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTSELECTALL);
@@ -47,7 +50,7 @@ public class DaoCompany {
 
 	public ArrayList<Company> readDatabase(int i) {
 		ArrayList<Company> db = new ArrayList<Company>();
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			
 			int limit = 20;
@@ -66,7 +69,7 @@ public class DaoCompany {
 
 	public Company getCompanyById(int i) {
 		Company company = null;
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYID);
 			preparedStatement.setInt(1, i);
@@ -81,7 +84,7 @@ public class DaoCompany {
 
 	public Company getCompanyByName(String name) {
 		Company company = null;
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTCOMPANYBYNAME);
 			preparedStatement.setString(1, name);
@@ -95,7 +98,7 @@ public class DaoCompany {
 	}
 	
 	public int nbCompany() {
-		try (Connection connection = CdbConnection.getConnection();) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTNBCOMPANY);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -107,6 +110,50 @@ public class DaoCompany {
 			logger.error("MySQL error : " + e);
 		}
 		return 0;
+	}
+	
+	
+	
+	public void delet(int company_id) {
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
+
+			try (PreparedStatement preparedStatement1 = connection.prepareStatement(RQTDELETECOMPUTER);
+					PreparedStatement preparedStatement2 = connection.prepareStatement(RQTDELETECOMPANY);) {
+				
+				//instruction 1 à 1
+				connection.setAutoCommit(false);
+				
+				preparedStatement1.setInt(1, company_id);
+				preparedStatement1.execute();
+
+				preparedStatement2.setInt(2,company_id);
+				preparedStatement2.execute();
+				
+				connection.commit();
+
+				
+			} catch (SQLException del) {
+				
+				if (connection != null) {
+					try {
+						logger.error(" error  Delete: " + del);
+						connection.rollback();
+					} catch (SQLException e) {
+						logger.error("MySQL error : " + e);
+					}
+				}
+			} finally {
+				try {
+					connection.setAutoCommit(true);
+				} catch (SQLException ero) {
+					logger.error("MySQL error : " + ero);
+				}
+			}
+
+		} catch (SQLException error) {
+			logger.error("MySQL error connection : " + error);
+			
+		}
 	}
 
 }

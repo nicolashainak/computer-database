@@ -34,7 +34,7 @@ public class EditComputer  extends HttpServlet {
 					dtoCompany);
 			if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)) {
 					
-				Service.getInstance().addComputer(MapperDtoComputerServletService.dtoToComputer(dtoComputer));
+				Service.getInstance().updateComputer(MapperDtoComputerServletService.dtoToComputer(dtoComputer));
 			}
 		}
 	}catch(NumberFormatException e) {

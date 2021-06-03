@@ -11,7 +11,7 @@ public class CdbConnection {
 	//private static Connection connect = null;
 	 private static HikariConfig config = new HikariConfig();
 	 private static HikariDataSource ds;
-
+	private static CdbConnection instance;
 	    
 	 static {
 	        config.setJdbcUrl( "jdbc:mysql://localhost:3306/computer-database-db" );
@@ -23,10 +23,16 @@ public class CdbConnection {
 	    private CdbConnection() {
 	    
 	    }
-	    
-	    public static Connection getConnection() throws SQLException {
+	    public static CdbConnection getInstance() {
+			if (instance == null) {
+				instance = new CdbConnection();
+			}
+			return instance;
+	    }
+	    public Connection getConnection() throws SQLException {
 	        return ds.getConnection();
 	    }
+	    
 	    
 	    
 	   /* 
