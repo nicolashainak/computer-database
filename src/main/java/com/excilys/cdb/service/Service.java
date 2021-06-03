@@ -33,6 +33,9 @@ public class Service {
 
 	}
 
+	public int nbComputerSearch(String search) {
+		return daoComputer.nbElementSearch(search);
+	}
 	public Computer searchComputer(int id) {
 		
 		return daoComputer.searchComputer(id);

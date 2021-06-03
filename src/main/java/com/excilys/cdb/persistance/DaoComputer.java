@@ -33,7 +33,7 @@ public class DaoComputer {
 	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
 	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id ORDER BY ";
 	private final static String RQTSEARCHWITH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id  WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ";
-
+	private static final String RQTNOMBREELEMENTSSEARCH = "SELECT COUNT(computer.id)FROM computer LEFT JOIN company on company.id = computer.company_id WHERE computer.name LIKE ? OR company.name LIKE ? ";
 	public static DaoComputer getInstance() {
 		return instance;
 	}
@@ -74,6 +74,26 @@ public class DaoComputer {
 		return listComputer;
 	}
 
+	public int nbElementSearch(String search) {
+		try (Connection connection = CdbConnection.getConnection();) {
+
+			PreparedStatement preparedStatement = connection.prepareStatement(RQTNOMBREELEMENTSSEARCH);
+			preparedStatement.setString(1, "%"+search+"%");
+			preparedStatement.setString(2, "%"+search+"%");
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int nbSearch = Integer.parseInt(resultSet.getString(1));
+				return nbSearch;
+			}
+
+			
+		}catch (SQLException e){
+			logger.error("MySQL error : " + e);
+			return 0;
+		}
+		return 0; 
+	}
 	public void newComputer(Computer computer) {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 		try (Connection connection = CdbConnection.getConnection();) {

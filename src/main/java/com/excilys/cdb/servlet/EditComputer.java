@@ -60,10 +60,7 @@ public class EditComputer  extends HttpServlet {
 		 if (isCorrectInt(id)) {
 			 Computer computer = Service.getInstance().searchComputer(Integer.parseInt(id));
 			 request.setAttribute("computer", computer);
-		 }else {
-			 response.sendRedirect("dashboard");
 		 }
-		
 
 			
 

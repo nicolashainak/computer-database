@@ -9,7 +9,6 @@ public class Computer {
     private LocalDate introduced ;
     private LocalDate discontinued ;
     private Company company_id  ;
-//without id 
     
     public Computer() {
     	
@@ -21,7 +20,7 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
-	//with id
+
 	public Computer( Integer id,String name,LocalDate introduced,LocalDate discontinued,Company company_id ) {
 		this.id=id;
 		this.name = name;
