@@ -16,69 +16,66 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistance.DaoComputer;
 import com.excilys.cdb.service.Service;
 
-import java.io.* ;
-import java.text.* ;
-import java.util.* ;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
+@WebServlet("/EditComputer")
+public class EditComputer extends HttpServlet {
+	DaoComputer daoComputer = DaoComputer.getInstance();
 
-@WebServlet ("/EditComputer")
-public class EditComputer  extends HttpServlet {
-		DaoComputer daoComputer = DaoComputer.getInstance();
-		
-	
-	private void updateComputer(String name, String introduced, String discontinued, String company_id) {
-				try {	
+	private void updateComputer(String name, String introduced, String discontinued, String company_id, int id) {
+		try {
+			System.out.println("dans lze try");
 			DtoCompanyServletService dtoCompany = new DtoCompanyServletService(Integer.parseInt(company_id));
-		if (ValidationDtoCompany.getInstance().isValidDto(dtoCompany)) {
+			if (ValidationDtoCompany.getInstance().isValidDto(dtoCompany)) {
+				System.out.println(("validcompany"));
 				DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
-					dtoCompany);
-			if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)) {
-					
-				Service.getInstance().updateComputer(MapperDtoComputerServletService.dtoToComputer(dtoComputer));
+						dtoCompany);
+				if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)) {
+					System.out.println(("validcomputer"));
+					Service.getInstance().updateComputer(id,
+							MapperDtoComputerServletService.dtoToComputer(dtoComputer));
+				}
 			}
-		}
-	}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			e.getStackTrace();
 		}
 	}
-		
+
 	public boolean isCorrectInt(String id) {
 		try {
 			Integer.parseInt(id);
 			return true;
-		}catch(NumberFormatException e) {
-			return false ;
+		} catch (NumberFormatException e) {
+			return false;
 		}
-		
-	}
-	 public  void doGet(HttpServletRequest request, HttpServletResponse response)
-	 throws ServletException, IOException  {
-		 List<Company> listCompany = Service.getInstance().getListCompany();
-		 request.setAttribute("listCompany", listCompany);
-		 String id = request.getParameter("id");
-		 request.setAttribute("id", id);
-		 if (isCorrectInt(id)) {
-			 Computer computer = Service.getInstance().searchComputer(Integer.parseInt(id));
-			 request.setAttribute("computer", computer);
-		 }
 
-			
-
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/jsp/editComputer.jsp" ).forward( request, response );
-		
-
-		
 	}
 
-	 public  void doPost(HttpServletRequest request, HttpServletResponse response)
-	 throws ServletException, IOException  {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Company> listCompany = Service.getInstance().getListCompany();
+		request.setAttribute("listCompany", listCompany);
+		String id = request.getParameter("id");
+		request.setAttribute("id", id);
+		if (isCorrectInt(id)) {
+			Computer computer = Service.getInstance().searchComputer(Integer.parseInt(id));
+			request.setAttribute("computer", computer);
+		}
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp").forward(request, response);
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
 		String company = request.getParameter("company");
-		this.updateComputer(name, introduced, discontinued, company);
-		
-		//response.sendRedirect("dashboard")
-		doGet(request,response);
+		this.updateComputer(name, introduced, discontinued, company, Integer.parseInt(id));
+
+		// response.sendRedirect("dashboard")
+		doGet(request, response);
 	}
-}	
+}

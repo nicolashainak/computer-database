@@ -12,7 +12,7 @@ public class DtoCompanyServletService {
 	}
 
 	public DtoCompanyServletService(int id) {
-
+		this.id = id;
 		this.name = Service.getInstance().getCompanyById(id).getName();
 	}
 

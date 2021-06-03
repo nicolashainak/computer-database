@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
                     <h1>Edit Computer</h1>
 
                     <form action="EditComputer" method="POST">
-                        <input type="hidden" value="${id}" id="id"/> <!-- TODO: Change this value with the computer id -->
+                        <input type="hidden" name="id" value="${id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>

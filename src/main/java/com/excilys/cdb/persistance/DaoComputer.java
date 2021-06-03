@@ -163,16 +163,28 @@ public class DaoComputer {
 		return computer;
 	}
 
-	public void updateComputer(int idComputer, Computer c) {
+	public void updateComputer(int idComputer, Computer computer) {
+		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 		try (Connection connection = CdbConnection.getInstance().getConnection();) {
 
 			PreparedStatement preparedStatement = connection.prepareStatement(RQTUPDATE);
+			
 			preparedStatement.setString(1, c.getName());
-			Timestamp ts1 = new Timestamp(Date.valueOf(c.getIntroduced()).getTime());
-			Timestamp ts2 = new Timestamp(Date.valueOf(c.getDiscontinued()).getTime());
-			preparedStatement.setTimestamp(2, ts1);
-			preparedStatement.setTimestamp(3, ts2);
-			preparedStatement.setInt(4, c.getCompany_id().getId());
+			if (c.getIntroduced() != null) {
+				preparedStatement.setDate(2, c.getIntroduced());
+			} else {
+				preparedStatement.setNull(2, 0);
+			}
+			if (c.getDiscontinued() != null) {
+				preparedStatement.setDate(3, c.getDiscontinued());
+			} else {
+				preparedStatement.setNull(3, 0);
+			}
+			if (c.getCompany().getId() == 0) {
+				preparedStatement.setNull(4, 0);
+			} else {
+				preparedStatement.setInt(4, c.getCompany().getId());
+			}
 			preparedStatement.setInt(5, idComputer);
 			preparedStatement.executeUpdate();
 			// Database.close();

@@ -80,8 +80,8 @@ public class Service {
 	public void deleteCompany(int company_id) {
 		daoCompany.delet(company_id);
 	}
-	public void updateComputer(Computer computer) {
-		
+	public void updateComputer(int id,Computer computer) {
+		daoComputer.updateComputer(id, computer);
 	}
 	
 

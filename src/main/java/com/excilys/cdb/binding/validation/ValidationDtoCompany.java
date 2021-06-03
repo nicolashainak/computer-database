@@ -21,12 +21,14 @@ public class ValidationDtoCompany {
 		if (this.validId(dtoCompany.getId()) ) {
 			if(this.isZero) {
 				if (dtoCompany.getName()!=null) {
+
 					return false;
 				}
 			}
 			return true ;
 		}
-		
+		System.out.println("novaldidi");
+
 		return false;
 	}
 
