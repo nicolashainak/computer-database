@@ -1,5 +1,7 @@
 package com.excilys.cdb.servlet;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,44 +9,47 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.cdb.binding.dto.DtoCompanyServletService;
+import com.excilys.cdb.App;
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
-import com.excilys.cdb.binding.validation.ValidationDtoCompany;
 import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.persistance.DaoComputer;
 import com.excilys.cdb.service.MyService;
 
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 @WebServlet("/EditComputer")
 public class EditComputer extends HttpServlet {
-	@Autowired
-	MyService service;
-	@Autowired
-	ValidationDtoCompany validationDtoCompany;
-	@Autowired
-	ValidationDtoComputer validationDtoComputer;
-	private void updateComputer(String name, String introduced, String discontinued, String company_id, int id) {
-		
+
+	private MyService service;
+	private ValidationDtoComputer validationDtoComputer;
+	private MapperDtoComputerServletService mapperDtoComputerServletService;
+
+	@Override
+	public void init() {
 		try {
-			//new avec argument ca reste ?
-			DtoCompanyServletService dtoCompany = new DtoCompanyServletService(Integer.parseInt(company_id));
-			if (validationDtoCompany.isValidDto(dtoCompany)) {
-				DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
-						dtoCompany);
-				if (validationDtoComputer.isValidDto(dtoComputer)) {
-					service.updateComputer(id,
-							MapperDtoComputerServletService.dtoToComputer(dtoComputer));
-				}
-			}
-		} catch (NumberFormatException e) {
-			e.getStackTrace();
+			super.init();
+			ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+			service = context.getBean(MyService.class);
+			validationDtoComputer = context.getBean(ValidationDtoComputer.class);
+			mapperDtoComputerServletService = context.getBean(MapperDtoComputerServletService.class);
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+
+	}
+
+	private void updateComputer(String name, String introduced, String discontinued, String companyId, int id) {
+
+		DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
+				companyId);
+		if (validationDtoComputer.isValidDto(dtoComputer)) {
+			
+			service.updateComputer(id, mapperDtoComputerServletService.dtoToComputer(dtoComputer));
+		}
+
 	}
 
 	public boolean isCorrectInt(String id) {
@@ -76,8 +81,8 @@ public class EditComputer extends HttpServlet {
 		String name = request.getParameter("name");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
-		String company = request.getParameter("company");
-		this.updateComputer(name, introduced, discontinued, company, Integer.parseInt(id));
+		String companyId = request.getParameter("company");
+		this.updateComputer(name, introduced, discontinued, companyId, Integer.parseInt(id));
 
 		// response.sendRedirect("dashboard")
 		doGet(request, response);

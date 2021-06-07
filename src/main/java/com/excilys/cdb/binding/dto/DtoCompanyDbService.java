@@ -5,7 +5,7 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.MyService;
 
 
-@Bean 
+
 public class DtoCompanyDbService {
 	private Integer id;
 	private String name;

@@ -9,11 +9,11 @@ public class DtoComputerServletService {
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private DtoCompanyServletService company;
+	private String company;
 	
 	public DtoComputerServletService() {
 	}
-	public DtoComputerServletService( String name , String introduced,String discontinued,DtoCompanyServletService company) {
+	public DtoComputerServletService( String name , String introduced,String discontinued,String company) {
 		this.name=name;
 		this.introduced=introduced;
 		this.discontinued=discontinued;
@@ -37,10 +37,10 @@ public class DtoComputerServletService {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-	public DtoCompanyServletService getCompany() {
+	public String getCompany() {
 		return company;
 	}
-	public void setCompany(DtoCompanyServletService company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
 	

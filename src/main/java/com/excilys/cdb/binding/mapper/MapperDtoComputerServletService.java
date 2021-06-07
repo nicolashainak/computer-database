@@ -4,25 +4,29 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 
 @Component
 public class MapperDtoComputerServletService {
-	public static Computer dtoToComputer(DtoComputerServletService dtoComputer) {
+		
+	public  Computer dtoToComputer(DtoComputerServletService dtoComputer) {
 		LocalDate introduced = null;
 		LocalDate discontinued = null;
+		Company company= null;
 		if (!dtoComputer.getIntroduced().equals("")) {
 		introduced = LocalDate.parse(dtoComputer.getIntroduced());
 		}
 		if(!dtoComputer.getDiscontinued().equals("")) {
 		discontinued = LocalDate.parse(dtoComputer.getDiscontinued());
 		}
+		if (!"".equals(dtoComputer.getCompany())) {
+			
+			company=new Company(Integer.parseInt(dtoComputer.getCompany()),"");
+		}
 		
-		Computer computer = new Computer (dtoComputer.getName(),introduced,discontinued,
-				MapperDtoCompanyServletService.mapperDtoToCompanyServletService(dtoComputer.getCompany()));
 		
-		
-		return computer;
+		return new Computer(dtoComputer.getName(),introduced,discontinued,company);
 	}
 }

@@ -1,5 +1,8 @@
 package com.excilys.cdb.servlet;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.excilys.cdb.App;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.MyService;
@@ -17,8 +21,7 @@ import java.util.*;
 
 @WebServlet("/Dashboard")
 public class Dashboard extends HttpServlet {
-	@Autowired
-	private MyService service ;
+
 	// regarder http session Mettre page en attribut de ca .
 	private static final String PAGE = "page";
 	private static final String ORDERBY = "orderBy";
@@ -26,7 +29,9 @@ public class Dashboard extends HttpServlet {
 	private static final String ISSEARCHING = "isSearching";
 	private static final String LASTSEARCH = "lastSearch";
 	private static final String COMPUTERLIST = "computerList";
+	private static final String TABLEAUAFFICHAGE = "tableauAffichage";
 	private HttpSession session;
+	private MyService service;
 
 	private void initialisationSession(HttpSession session) {
 		session.setAttribute(PAGE, new Page());
@@ -35,16 +40,31 @@ public class Dashboard extends HttpServlet {
 		session.setAttribute(ISSEARCHING, false);
 		session.setAttribute(LASTSEARCH, "");
 		session.setAttribute(COMPUTERLIST, new ArrayList());
+		session.setAttribute(TABLEAUAFFICHAGE, new int[5]);
+
+	}
+
+	@Override
+	public void init() {
+		try {
+			super.init();
+			ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+			service = context.getBean(MyService.class);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.session = request.getSession();
+
 		if (session.getAttribute(PAGE) == null) {
 			this.initialisationSession(session);
 			this.initPage();
+
 		}
-	
+
 		String search = request.getParameter("search");
 		String order = request.getParameter("order");
 		String button = request.getParameter("button");
@@ -54,7 +74,8 @@ public class Dashboard extends HttpServlet {
 		this.updateNbParPage(button);
 		this.updateOrder(order);
 		this.updateSearch(search);
-
+		this.updateAffichage();
+		request.setAttribute("tableauAffichage", session.getAttribute(TABLEAUAFFICHAGE));
 		request.setAttribute("computerList", (List<Computer>) session.getAttribute(COMPUTERLIST));
 		request.setAttribute("page", (Page) session.getAttribute(PAGE));
 
@@ -84,11 +105,9 @@ public class Dashboard extends HttpServlet {
 
 		if (numeroPage != null && !numeroPage.isEmpty()) {
 			Page page = (Page) session.getAttribute(PAGE);
-			if (page.getNumPage() + Integer.parseInt(numeroPage) > 0
-					&& page.getNumPage() + Integer.parseInt(numeroPage) < page.getNbPageMax() + 1) {
 
-				page.setNumPage(page.getNumPage() + Integer.parseInt(numeroPage));
-			}
+			page.setNumPage(Integer.parseInt(numeroPage));
+
 			session.setAttribute(PAGE, page);
 		}
 	}
@@ -123,6 +142,7 @@ public class Dashboard extends HttpServlet {
 		} else if (search != null) {
 			session.setAttribute(ISSEARCHING, true);
 			Page page = (Page) session.getAttribute(PAGE);
+			page.setNumPage(1);
 			session.setAttribute(COMPUTERLIST, service.search(page, search, (String) session.getAttribute(ORDERBY)));
 			page.setNbComputerRequest(service.nbComputerSearch(search));
 			session.setAttribute(LASTSEARCH, search);
@@ -140,27 +160,38 @@ public class Dashboard extends HttpServlet {
 
 	private void initPage() {
 		Page page = (Page) session.getAttribute(PAGE);
+		page.setNumPage(1);
 		page.setNbComputerRequest(service.getNbComputerTotal(page));
 		session.setAttribute(PAGE, page);
 	}
 
-	
-	 public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException { 
-		 this.session = request.getSession();
-		 List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
-		 System.out.println(request.getParameter("selection"));
-		 try {
-			 System.out.println("try");
-			 int id_computer;
-			 for(String stringID:selection) {
-				 System.out.println(stringID);
-				 id_computer=Integer.parseInt(stringID);
-				 service.deleteComputer(id_computer);
-			 }
-		 }catch(NumberFormatException  e){
-			 System.out.println("catch");
-		 }
-		 doGet(request,response);
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.session = request.getSession();
+		List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
+		System.out.println(request.getParameter("selection"));
+		try {
+			System.out.println("try");
+			int id_computer;
+			for (String stringID : selection) {
+				System.out.println(stringID);
+				id_computer = Integer.parseInt(stringID);
+				service.deleteComputer(id_computer);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("catch");
+		}
+		doGet(request, response);
 	}
-	 
+
+	private void updateAffichage() {
+		int[] tableau = (int[]) session.getAttribute(TABLEAUAFFICHAGE);
+		Page page = (Page) session.getAttribute(PAGE);
+		for (int i = 0; i < 5; i++) {
+			tableau[i] = page.getNumPage() + i - 2 < 1 || page.getNumPage() + i - 2 > page.getNbPageMax() ? -1
+					: page.getNumPage() + i - 2;
+		}
+
+		session.setAttribute(TABLEAUAFFICHAGE, tableau);
+	}
+
 }

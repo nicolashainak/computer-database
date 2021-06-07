@@ -1,5 +1,7 @@
 package com.excilys.cdb.servlet;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,10 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.cdb.binding.dto.DtoCompanyServletService;
+import com.excilys.cdb.App;
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
-import com.excilys.cdb.binding.validation.ValidationDtoCompany;
 import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.MyService;
@@ -19,28 +20,34 @@ import java.util.*;
 
 @WebServlet("/AddComputer")
 public class AddComputer extends HttpServlet {
-	@Autowired
-	MyService service;
-	@Autowired
-	ValidationDtoCompany validationDtoCompany;
-	@Autowired
-	ValidationDtoComputer validationDtoComputer;
-	private void addComputer(String name, String introduced, String discontinued, String company_id) {
+
+	private MyService service;
+	private ValidationDtoComputer validationDtoComputer;
+	private MapperDtoComputerServletService mapperDtoComputerServletService;
+
+	@Override
+	public void init() {
 		try {
-
-			DtoCompanyServletService dtoCompany = new DtoCompanyServletService(Integer.parseInt(company_id));
-			if (validationDtoCompany.isValidDto(dtoCompany)) {
-
-				DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
-						dtoCompany);
-				if (validationDtoComputer.isValidDto(dtoComputer)) {
-
-					service.addComputer(MapperDtoComputerServletService.dtoToComputer(dtoComputer));
-				}
-			}
-		} catch (NumberFormatException e) {
-			e.getStackTrace();
+			super.init();
+			ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+			service = context.getBean(MyService.class);
+			validationDtoComputer = context.getBean(ValidationDtoComputer.class);
+			mapperDtoComputerServletService = context.getBean(MapperDtoComputerServletService.class);
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+
+	}
+
+	private void addComputer(String name, String introduced, String discontinued, String company_id) {
+
+		DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
+				company_id);
+		if (validationDtoComputer.isValidDto(dtoComputer)) {
+
+			service.addComputer(mapperDtoComputerServletService.dtoToComputer(dtoComputer));
+		}
+
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

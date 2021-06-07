@@ -18,18 +18,22 @@ public class ValidationDtoComputer {
 	
 	public Boolean isValidDto(DtoComputerServletService dtoComputer) {
 		
-		if( dtoComputer.getName().equals("") ){
+		if( "".equals(dtoComputer.getName()) ){
 			return false ;
 		}
-		if (!dtoComputer.getIntroduced().equals("") && !dtoComputer.getDiscontinued().equals("")){
+		if (!"".equals(dtoComputer.getIntroduced()) && !"".equals(dtoComputer.getDiscontinued())){
 			try {
-			if (LocalDate.parse(dtoComputer.getIntroduced()).isAfter(LocalDate.parse(dtoComputer.getDiscontinued()))) {
-				return false;
-			}
+				if (LocalDate.parse(dtoComputer.getIntroduced()).isAfter(LocalDate.parse(dtoComputer.getDiscontinued()))) {
+					return false;
+				}
+				if( !"".equals(dtoComputer.getCompany()) &&  Integer.parseInt(dtoComputer.getCompany())<=0  ) {
+					return false;
+				}
 			}catch(RuntimeException e){
 				e.getStackTrace();
 				return false;
 			}
+		
 		}
 		
 		return true;

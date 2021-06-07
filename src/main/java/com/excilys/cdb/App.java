@@ -14,8 +14,8 @@ import com.excilys.cdb.persistance.DaoComputer;
  *
  */
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.cdb.service"})
-@PropertySource("classpath:application.properties")
+@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.servlet","com.excilys.cdb.ui"})
+//@PropertySource("classpath:application.properties")
 public class App 
 {
 	public static void main(String[] args)  {

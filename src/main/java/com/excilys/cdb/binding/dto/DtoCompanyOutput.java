@@ -1,26 +1,17 @@
 package com.excilys.cdb.binding.dto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.service.MyService;
 
-public class DtoCompanyServletService {
+public class DtoCompanyOutput {
 	private int id;
 	private String name;
-
-	public DtoCompanyServletService(int id, String name) {
+	
+	public DtoCompanyOutput(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
-	public DtoCompanyServletService(int id) {
-		this.id = id;
-		this.name = MyService.getInstance().getCompanyById(id).getName();
-	}
-
-	public DtoCompanyServletService(String name) {
-		this.id = MyService.getInstance().getCompanyByName(name).getId();
-		;
-		this.name = name;
-	}
 
 	public int getId() {
 		return this.id;

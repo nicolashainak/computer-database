@@ -103,53 +103,36 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
+                 <c:if test="${page.numPage != 1}">
                 <li>
-                    <a href="?num=-1" aria-label="Previous">
+                    <a href="?num=${page.numPage-1}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
-              <c:if test="${page.numPage == 1}">
-              <li><a href="?num=0">${page.numPage}</a></li>
-              <li><a href="?num=1">${page.numPage+1}</a></li>
-              <li><a href="?num=2">${page.numPage+2}</a></li>
-              <li><a href="?num=3">${page.numPage+3}</a></li>
-              <li><a href="?num=4">${page.numPage+4}</a></li>
+               </c:if>
+              <c:if test="${tableauAffichage[0]!= -1}">
+              <li><a href="?num=${ tableauAffichage[0]}">${tableauAffichage[0]}</a></li>
               </c:if>
-               <c:if test="${page.numPage == 2}">
-              <li><a href="?num=-1">${page.numPage-1}</a></li>
-              <li><a href="?num=0">${page.numPage}</a></li>
-              <li><a href="?num=1">${page.numPage+1}</a></li>
-              <li><a href="?num=2">${page.numPage+2}</a></li>
-              <li><a href="?num=3">${page.numPage+3}</a></li>
+              <c:if test="${tableauAffichage[1]!= -1}">
+             <li><a href="?num=${ tableauAffichage[1]}">${tableauAffichage[1]}</a></li>
               </c:if>
-               <c:if test="${page.numPage>=3 && page.numPage<=page.getNbPageMax()-2}">
-              <li><a href="?num=-2">${page.numPage-2}</a></li>
-              <li><a href="?num=-1">${page.numPage-1}</a></li>
-              <li><a href="?num=0">${page.numPage}</a></li>
-              <li><a href="?num=1">${page.numPage+1}</a></li>
-              <li><a href="?num=2">${page.numPage+2}</a></li>
+              <c:if test="${tableauAffichage[2]!= -1}">
+              <li><a href="?num=${ tableauAffichage[2]}">${tableauAffichage[2]}</a></li>
               </c:if>
-               <c:if test="${page.numPage == page.getNbPageMax()-1}">
-              <li><a href="?num=-3">${page.numPage-3}</a></li>
-              <li><a href="?num=-2">${page.numPage-2}</a></li>
-              <li><a href="?num=-1">${page.numPage-1}</a></li>
-              <li><a href="?num=0">${page.numPage}</a></li>
-              <li><a href="?num=1">${page.numPage+1}</a></li>
+              <c:if test="${tableauAffichage[3]!= -1}">
+              <li><a href="?num=${ tableauAffichage[3]}">${tableauAffichage[3]}</a></li>
               </c:if>
-               <c:if test="${page.numPage == page.getNbPageMax()}">
-              <li><a href="?num=-4">${page.numPage-4}</a></li>
-              <li><a href="?num=-3">${page.numPage-3}</a></li>
-              <li><a href="?num=-2">${page.numPage-2}</a></li>
-              <li><a href="?num=-1">${page.numPage-1}</a></li>
-              <li><a href="?num=0">${page.numPage}</a></li>
+              <c:if test="${tableauAffichage[4]!= -1}">
+              <li><a href="?num=${ tableauAffichage[4]}">${tableauAffichage[4]}</a></li>
               </c:if>
-              
+           
+              <c:if test="${page.numPage != page.getNbPageMax()}">
               <li>
-                <a href="?num=1" aria-label="Next">
+                <a href="?num=${page.numPage+1}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
-            
+            </c:if>
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
