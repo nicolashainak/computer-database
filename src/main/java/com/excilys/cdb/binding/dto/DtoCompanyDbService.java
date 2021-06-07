@@ -1,12 +1,16 @@
 package com.excilys.cdb.binding.dto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.Service;
+import com.excilys.cdb.service.MyService;
 
+
+@Bean 
 public class DtoCompanyDbService {
 	private Integer id;
 	private String name;
-	
+	@Autowired
+	MyService service;
 	public DtoCompanyDbService(int id, String name) {
 		this.id=id;
 		this.name=name;
@@ -22,10 +26,10 @@ public class DtoCompanyDbService {
 	}
 	public DtoCompanyDbService(int id) {
 		this.id=id;
-		this.name=Service.getInstance().getCompanyById(id).getName();
+		this.name=service.getCompanyById(id).getName();
 	}
 	public DtoCompanyDbService(String name) {
-		this.id=Service.getInstance().getCompanyByName(name).getId();;
+		this.id=service.getCompanyByName(name).getId();;
 		this.name=name;
 	}
 	

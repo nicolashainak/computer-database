@@ -1,4 +1,5 @@
 package com.excilys.cdb.servlet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistance.DaoComputer;
-import com.excilys.cdb.service.Service;
+import com.excilys.cdb.service.MyService;
 
 import java.io.*;
 import java.text.*;
@@ -22,19 +23,22 @@ import java.util.*;
 
 @WebServlet("/EditComputer")
 public class EditComputer extends HttpServlet {
-	DaoComputer daoComputer = DaoComputer.getInstance();
-
+	@Autowired
+	MyService service;
+	@Autowired
+	ValidationDtoCompany validationDtoCompany;
+	@Autowired
+	ValidationDtoComputer validationDtoComputer;
 	private void updateComputer(String name, String introduced, String discontinued, String company_id, int id) {
+		
 		try {
-			System.out.println("dans lze try");
+			//new avec argument ca reste ?
 			DtoCompanyServletService dtoCompany = new DtoCompanyServletService(Integer.parseInt(company_id));
-			if (ValidationDtoCompany.getInstance().isValidDto(dtoCompany)) {
-				System.out.println(("validcompany"));
+			if (validationDtoCompany.isValidDto(dtoCompany)) {
 				DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
 						dtoCompany);
-				if (ValidationDtoComputer.getInstance().isValidDto(dtoComputer)) {
-					System.out.println(("validcomputer"));
-					Service.getInstance().updateComputer(id,
+				if (validationDtoComputer.isValidDto(dtoComputer)) {
+					service.updateComputer(id,
 							MapperDtoComputerServletService.dtoToComputer(dtoComputer));
 				}
 			}
@@ -54,12 +58,12 @@ public class EditComputer extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Company> listCompany = Service.getInstance().getListCompany();
+		List<Company> listCompany = service.getListCompany();
 		request.setAttribute("listCompany", listCompany);
 		String id = request.getParameter("id");
 		request.setAttribute("id", id);
 		if (isCorrectInt(id)) {
-			Computer computer = Service.getInstance().searchComputer(Integer.parseInt(id));
+			Computer computer = service.searchComputer(Integer.parseInt(id));
 			request.setAttribute("computer", computer);
 		}
 

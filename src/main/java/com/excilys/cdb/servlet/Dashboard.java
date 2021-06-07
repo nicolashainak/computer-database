@@ -1,4 +1,5 @@
 package com.excilys.cdb.servlet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,14 +10,15 @@ import javax.servlet.http.HttpSession;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.service.Service;
+import com.excilys.cdb.service.MyService;
 
 import java.io.*;
 import java.util.*;
 
 @WebServlet("/Dashboard")
 public class Dashboard extends HttpServlet {
-	private Service service = Service.getInstance();
+	@Autowired
+	private MyService service ;
 	// regarder http session Mettre page en attribut de ca .
 	private static final String PAGE = "page";
 	private static final String ORDERBY = "orderBy";

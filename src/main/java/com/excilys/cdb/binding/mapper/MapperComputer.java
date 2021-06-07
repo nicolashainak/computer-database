@@ -1,15 +1,13 @@
 package com.excilys.cdb.binding.mapper;
-
+import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
+@Component 
 public class MapperComputer {
 	
 	public static ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {

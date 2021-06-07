@@ -1,11 +1,10 @@
 package com.excilys.cdb.persistance;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 
+@Repository
 public class DaoComputer {
 	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
 

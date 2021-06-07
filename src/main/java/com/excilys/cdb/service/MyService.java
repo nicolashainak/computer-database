@@ -1,32 +1,25 @@
 package com.excilys.cdb.service;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-import com.excilys.cdb.binding.dto.DtoCompanyServletService;
-import com.excilys.cdb.binding.dto.DtoComputerServletService;
-import com.excilys.cdb.binding.mapper.MapperDtoCompanyServletService;
-import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.persistance.DaoCompany;
 import com.excilys.cdb.persistance.DaoComputer;
-import com.excilys.cdb.binding.validation.ValidationDtoCompany;
-import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 
-public class Service {
 
-	private static Service instance = new Service();
+@Service
+public class MyService {
 
-	private Service() {
-	}
-
-	public static Service getInstance() {
-		return instance;
-	}
-
-	private DaoComputer daoComputer = DaoComputer.getInstance();
-	private DaoCompany daoCompany = DaoCompany.getInstance();
+	
+	@Autowired
+	private DaoComputer daoComputer ;
+	@Autowired
+	private DaoCompany daoCompany ;
 
 	public List<Computer> getListComputer(Page page) {
 		return daoComputer.getListComputer(page);

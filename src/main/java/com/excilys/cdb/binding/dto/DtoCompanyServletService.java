@@ -1,6 +1,6 @@
 package com.excilys.cdb.binding.dto;
 
-import com.excilys.cdb.service.Service;
+import com.excilys.cdb.service.MyService;
 
 public class DtoCompanyServletService {
 	private int id;
@@ -13,11 +13,11 @@ public class DtoCompanyServletService {
 
 	public DtoCompanyServletService(int id) {
 		this.id = id;
-		this.name = Service.getInstance().getCompanyById(id).getName();
+		this.name = MyService.getInstance().getCompanyById(id).getName();
 	}
 
 	public DtoCompanyServletService(String name) {
-		this.id = Service.getInstance().getCompanyByName(name).getId();
+		this.id = MyService.getInstance().getCompanyByName(name).getId();
 		;
 		this.name = name;
 	}

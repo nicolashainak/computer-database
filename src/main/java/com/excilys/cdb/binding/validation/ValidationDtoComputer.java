@@ -1,23 +1,20 @@
 package com.excilys.cdb.binding.validation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.persistance.DaoCompany;
 
-
+@Component
 public class ValidationDtoComputer {
 
 	private ValidationDtoComputer() {
 	}
 
-	private static ValidationDtoComputer instance = new ValidationDtoComputer();
-
-	public static ValidationDtoComputer getInstance() {
-		return instance;
-	}
-	
-	DaoCompany daoCompany=DaoCompany.getInstance();
+	@Autowired
+	DaoCompany daoCompany;
 	
 	public Boolean isValidDto(DtoComputerServletService dtoComputer) {
 		

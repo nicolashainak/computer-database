@@ -1,11 +1,12 @@
 package com.excilys.cdb.binding.mapper;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.binding.dto.DtoCompanyDbService;
-import com.excilys.cdb.binding.dto.DtoCompanyServletService;
-import com.excilys.cdb.binding.dto.DtoComputerDbService;
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.service.Service;
 
+import com.excilys.cdb.model.Company;
+
+
+@Component
 public class MapperDtoCompanyDbService {
 
 	public static DtoCompanyDbService mapperDtoFromCompanyDbService(Company company) {

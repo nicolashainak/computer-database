@@ -1,21 +1,20 @@
 package com.excilys.cdb.binding.validation;
-
-import java.time.LocalDate;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import com.excilys.cdb.binding.dto.DtoCompanyServletService;
+import com.excilys.cdb.binding.validation.ValidationDtoCompany;
+import com.excilys.cdb.service.MyService;
 import com.excilys.cdb.persistance.DaoCompany;
-import com.excilys.cdb.service.Service;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ValidationDtoCompany {
 	private Boolean isZero = false;
-	private static ValidationDtoCompany instance = new ValidationDtoCompany();
-
-	public static ValidationDtoCompany getInstance() {
-		return instance;
-	}
-
-	DaoCompany daoCompany = DaoCompany.getInstance();
-
+	
+	@Autowired
+	DaoCompany daoCompany ;
+	@Autowired
+	MyService service;
 	public Boolean isValidDto(DtoCompanyServletService dtoCompany) {
 		this.isZero = false;
 		if (this.validId(dtoCompany.getId()) ) {
@@ -36,7 +35,7 @@ public class ValidationDtoCompany {
 		if (id == 0) {
 			this.isZero = true;
 			return true;
-		} else if (id > 0 && Service.getInstance().getNbCompany() + 1 > id) {
+		} else if (id > 0 && service.getNbCompany() + 1 > id) {
 			return true;
 		} else {
 

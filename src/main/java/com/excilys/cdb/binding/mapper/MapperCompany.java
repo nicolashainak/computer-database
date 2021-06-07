@@ -1,11 +1,13 @@
 package com.excilys.cdb.binding.mapper;
-
+import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.excilys.cdb.model.Company;
 
+
+@Component
 public class MapperCompany {
 	public static ArrayList<Company> writeResultSet(ResultSet resultSet) throws SQLException {
 		ArrayList<Company> company_list = new ArrayList<Company>();

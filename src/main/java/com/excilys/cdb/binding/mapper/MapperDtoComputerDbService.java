@@ -1,12 +1,13 @@
 package com.excilys.cdb.binding.mapper;
 
-import java.time.LocalDate;
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.binding.dto.DtoCompanyDbService;
-import com.excilys.cdb.binding.dto.DtoCompanyServletService;
 import com.excilys.cdb.binding.dto.DtoComputerDbService;
 import com.excilys.cdb.model.Computer;
 
+
+@Component
 public class MapperDtoComputerDbService {
 	public static DtoComputerDbService mapperDtoToDbService(Computer computer ) {
 		

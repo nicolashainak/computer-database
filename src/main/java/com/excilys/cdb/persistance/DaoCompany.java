@@ -1,4 +1,5 @@
 package com.excilys.cdb.persistance;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import com.excilys.cdb.model.Company;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Repository
 public class DaoCompany {
 	private final static String RQTSELECTALL = "select id,name from company  ;";
 	private final static String RQTSELECTALLLIMIT = "select id,name from company limit  ? offset ? ;";
@@ -26,11 +28,6 @@ public class DaoCompany {
 	private DaoCompany() {
 	} 
 
-	private static DaoCompany instance = new DaoCompany();
-
-	public static DaoCompany getInstance() {
-		return instance;
-	}
 
 	public List<Company> getListCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
