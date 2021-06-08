@@ -20,10 +20,10 @@ public class MyService {
 	@Autowired
 	private DaoCompany daoCompany ;
 
-	public List<Computer> getListComputer(Page page) {
-		return daoComputer.getListComputer(page);
-
-	}
+//	public List<Computer> getListComputer(Page page) {
+//		return daoComputer.getListComputer(page);
+//
+//	}
 
 	public int nbComputerSearch(String search) {
 		return daoComputer.nbElementSearch(search);
@@ -58,16 +58,16 @@ public class MyService {
 		return daoCompany.nbCompany();
 	}
 	
-	public List<Computer> search(Page page, String search, String collonne) {
-		return daoComputer.searchComputerWith(page,search, collonne);
+	public List<Computer> getListComputer(Page page, String search, String collonne,Boolean reverse) {
+		return daoComputer.getListComputer(page,search, collonne,reverse);
 
 	}
 	
-	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
-
-		return daoComputer.orderBy(page, collonne, reverse);
-
-	}
+//	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
+//
+//		return daoComputer.orderBy(page, collonne, reverse);
+//
+//	}
 	
 	public void deleteCompany(int company_id) {
 		daoCompany.delet(company_id);

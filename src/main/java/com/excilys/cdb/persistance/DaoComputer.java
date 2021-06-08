@@ -56,7 +56,27 @@ public class DaoComputer {
 		}
 		return listComputer;
 	}
-
+	public List<Computer> getListComputer(Page page, String search,String collonne,Boolean reverse) {
+		List<Computer> listComputer = new ArrayList<Computer>();
+		try (Connection connection = CdbConnection.getInstance().getConnection();) {
+			PreparedStatement preparedStatement;
+			if (reverse) {
+				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " DESC limit ? offset ?");
+			} else {
+				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " limit ? offset ?");
+			}
+			preparedStatement.setString(1,"%"+search+"%");
+			preparedStatement.setString(2,"%"+search+"%");
+			preparedStatement.setInt(3, page.getNbComputerParPage());
+			preparedStatement.setInt(4, page.getNbComputerParPage() * (page.getNumPage() - 1));
+			ResultSet resultSet = preparedStatement.executeQuery();
+			listComputer = MapperComputer.writeResultSet(resultSet);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listComputer;
+	}
 	public List<Computer> searchComputerWith(Page page, String search,String collonne) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		try (Connection connection = CdbConnection.getInstance().getConnection();) {

@@ -76,7 +76,7 @@ public class Dashboard extends HttpServlet {
 		this.updateSearch(search);
 		this.updateAffichage();
 		request.setAttribute("tableauAffichage", session.getAttribute(TABLEAUAFFICHAGE));
-		request.setAttribute("computerList", (List<Computer>) session.getAttribute(COMPUTERLIST));
+		request.setAttribute("computerList", service.getListComputer((Page) session.getAttribute(PAGE),(String)session.getAttribute(LASTSEARCH),(String)session.getAttribute(ORDERBY),(Boolean)session.getAttribute(REVERSE)));
 		request.setAttribute("page", (Page) session.getAttribute(PAGE));
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response);
@@ -121,14 +121,7 @@ public class Dashboard extends HttpServlet {
 				session.setAttribute(REVERSE, false);
 				session.setAttribute(ORDERBY, order);
 			}
-			session.setAttribute(COMPUTERLIST,
-					service.orderBy((Page) session.getAttribute(PAGE), order, (Boolean) session.getAttribute(REVERSE)));
-		} else if (!"".equals(session.getAttribute(ORDERBY))) {
-			session.setAttribute(COMPUTERLIST, service.orderBy((Page) session.getAttribute(PAGE),
-					(String) session.getAttribute(ORDERBY), (Boolean) session.getAttribute(REVERSE)));
-
-		} else {
-			session.setAttribute(COMPUTERLIST, service.getListComputer((Page) session.getAttribute(PAGE)));
+			
 		}
 	}
 
@@ -137,21 +130,20 @@ public class Dashboard extends HttpServlet {
 		if ("".equals(search)) {
 			session.setAttribute(ISSEARCHING, false);
 			session.setAttribute(ORDERBY, "computer.id");
+			session.setAttribute(LASTSEARCH, "");
 			this.initPage();
 
 		} else if (search != null) {
 			session.setAttribute(ISSEARCHING, true);
 			Page page = (Page) session.getAttribute(PAGE);
 			page.setNumPage(1);
-			session.setAttribute(COMPUTERLIST, service.search(page, search, (String) session.getAttribute(ORDERBY)));
 			page.setNbComputerRequest(service.nbComputerSearch(search));
 			session.setAttribute(LASTSEARCH, search);
 			session.setAttribute(PAGE, page);
 
 		} else if ((Boolean) session.getAttribute(ISSEARCHING)) {
 			Page page = (Page) session.getAttribute(PAGE);
-			session.setAttribute(COMPUTERLIST, service.search(page, (String) session.getAttribute(LASTSEARCH),
-					(String) session.getAttribute(ORDERBY)));
+			
 			page.setNbComputerRequest(service.nbComputerSearch((String) session.getAttribute(LASTSEARCH)));
 			session.setAttribute(PAGE, page);
 		}
