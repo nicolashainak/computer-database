@@ -1,4 +1,5 @@
 package com.excilys.cdb.persistance;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import com.excilys.cdb.binding.mapper.MapperComputer;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
+import com.zaxxer.hikari.HikariDataSource;
 
 @Repository
 public class DaoComputer {
@@ -23,7 +25,7 @@ public class DaoComputer {
 
 	private DaoComputer() {
 	}
-
+	HikariDataSource datasource;
 	private static DaoComputer instance = new DaoComputer();
 	private final static String RQTSELECTCOMPUTERALL = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id limit ? offset ? ;";
 	private final static String RQTINSERT = "INSERT INTO computer( name,introduced,discontinued,company_id) VALUES(?,?,?,?);";
@@ -37,7 +39,29 @@ public class DaoComputer {
 	public static DaoComputer getInstance() {
 		return instance;
 	}
+	//version jdbc
+	public List<Computer> getListComputer(Page page, String search,String collonne,Boolean reverse) {
+		List<Computer> listComputer = new ArrayList<Computer>();
+		
+	   
+	        String vSQL
+	            = "SELECT COUNT(*) FROM ticket"
+	            + " WHERE auteur_id = ?"
+	            + "   AND projet_id = ?";
 
+	        JdbcTemplate vJdbcTemplate = new JdbcTemplate(datasource.getDataSource());
+	        int vNbrTickets = vJdbcTemplate.queryForObject(
+	            vSQL, Integer.class
+	            );
+
+	        
+	    	return listComputer;
+	}
+	
+	
+	
+	
+	
 	public List<Computer> getListComputer(Page page) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 
@@ -56,27 +80,27 @@ public class DaoComputer {
 		}
 		return listComputer;
 	}
-	public List<Computer> getListComputer(Page page, String search,String collonne,Boolean reverse) {
-		List<Computer> listComputer = new ArrayList<Computer>();
-		try (Connection connection = CdbConnection.getInstance().getConnection();) {
-			PreparedStatement preparedStatement;
-			if (reverse) {
-				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " DESC limit ? offset ?");
-			} else {
-				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " limit ? offset ?");
-			}
-			preparedStatement.setString(1,"%"+search+"%");
-			preparedStatement.setString(2,"%"+search+"%");
-			preparedStatement.setInt(3, page.getNbComputerParPage());
-			preparedStatement.setInt(4, page.getNbComputerParPage() * (page.getNumPage() - 1));
-			ResultSet resultSet = preparedStatement.executeQuery();
-			listComputer = MapperComputer.writeResultSet(resultSet);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return listComputer;
-	}
+//	public List<Computer> getListComputer(Page page, String search,String collonne,Boolean reverse) {
+//		List<Computer> listComputer = new ArrayList<Computer>();
+//		try (Connection connection = CdbConnection.getInstance().getConnection();) {
+//			PreparedStatement preparedStatement;
+//			if (reverse) {
+//				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " DESC limit ? offset ?");
+//			} else {
+//				preparedStatement = connection.prepareStatement(RQTSEARCHWITH + collonne + " limit ? offset ?");
+//			}
+//			preparedStatement.setString(1,"%"+search+"%");
+//			preparedStatement.setString(2,"%"+search+"%");
+//			preparedStatement.setInt(3, page.getNbComputerParPage());
+//			preparedStatement.setInt(4, page.getNbComputerParPage() * (page.getNumPage() - 1));
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			listComputer = MapperComputer.writeResultSet(resultSet);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return listComputer;
+//	}
 	public List<Computer> searchComputerWith(Page page, String search,String collonne) {
 		List<Computer> listComputer = new ArrayList<Computer>();
 		try (Connection connection = CdbConnection.getInstance().getConnection();) {

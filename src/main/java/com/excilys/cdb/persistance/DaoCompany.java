@@ -1,4 +1,5 @@
 package com.excilys.cdb.persistance;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -27,8 +28,21 @@ public class DaoCompany {
 
 	private DaoCompany() {
 	} 
+	//version jdbc
+	public List<Company> getlistCompany() {
+        String vSQL
+            = "SELECT COUNT(*) FROM ticket"
+            + " WHERE auteur_id = ?"
+            + "   AND projet_id = ?";
 
+        JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+        int vNbrTickets = vJdbcTemplate.queryForObject(
+            vSQL, Integer.class,
+            pRechercheTicket.getAuteurId(),
+            pRechercheTicket.getProjetId());
 
+        return vNbrTicket;
+    }
 	public List<Company> getListCompany() {
 		List<Company> listCompany = new ArrayList<Company>();
 
