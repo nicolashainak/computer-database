@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MapperDtoCompanyServletService {
-	@Autowired
+	
 	private MyService service;
+	
+	public MapperDtoCompanyServletService(MyService service) {
+		this.service=service;
+	}
 	public  Company mapperDtoToCompanyServletService(DtoCompanyOutput dtoCompany) {
 		if (dtoCompany.getId()!= 0) {
 			return service.getCompanyById(dtoCompany.getId());

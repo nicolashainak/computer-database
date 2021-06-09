@@ -8,8 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.excilys.cdb.configuration.Configurationjdbc;
 
-import com.excilys.cdb.App;
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
 import com.excilys.cdb.binding.validation.ValidationDtoComputer;
@@ -31,7 +31,7 @@ public class EditComputer extends HttpServlet {
 	public void init() {
 		try {
 			super.init();
-			ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+			ApplicationContext context = new AnnotationConfigApplicationContext(Configurationjdbc.class);
 			service = context.getBean(MyService.class);
 			validationDtoComputer = context.getBean(ValidationDtoComputer.class);
 			mapperDtoComputerServletService = context.getBean(MapperDtoComputerServletService.class);

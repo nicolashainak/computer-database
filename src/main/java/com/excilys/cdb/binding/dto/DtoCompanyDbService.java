@@ -9,8 +9,7 @@ import com.excilys.cdb.service.MyService;
 public class DtoCompanyDbService {
 	private Integer id;
 	private String name;
-	@Autowired
-	MyService service;
+	
 	public DtoCompanyDbService(int id, String name) {
 		this.id=id;
 		this.name=name;
@@ -24,15 +23,6 @@ public class DtoCompanyDbService {
 		}
 		this.name=computer.getName();
 	}
-	public DtoCompanyDbService(int id) {
-		this.id=id;
-		this.name=service.getCompanyById(id).getName();
-	}
-	public DtoCompanyDbService(String name) {
-		this.id=service.getCompanyByName(name).getId();;
-		this.name=name;
-	}
-	
 	
 	public int getId() {
 		return this.id;

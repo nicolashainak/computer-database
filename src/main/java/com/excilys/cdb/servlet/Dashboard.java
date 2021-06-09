@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.excilys.cdb.App;
+import com.excilys.cdb.configuration.Configurationjdbc;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.MyService;
@@ -48,7 +49,7 @@ public class Dashboard extends HttpServlet {
 	public void init() {
 		try {
 			super.init();
-			ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+			ApplicationContext context = new AnnotationConfigApplicationContext(Configurationjdbc.class);
 			service = context.getBean(MyService.class);
 		} catch (Exception e) {
 			System.out.println(e);

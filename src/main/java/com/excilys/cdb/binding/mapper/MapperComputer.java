@@ -1,4 +1,5 @@
 package com.excilys.cdb.binding.mapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,34 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 @Component 
-public class MapperComputer {
+public class MapperComputer implements RowMapper<Computer> {
+	 @Override
+	    public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		 Computer computer = new Computer();
+		 Company company = new Company();
+		 LocalDate introduced = null;
+ 		 LocalDate discontinued =null;
+		 computer.setId(rs.getInt("id"));
+		 computer.setName(rs.getString("name"));
+		 
+		 if (rs.getDate("introduced")!=null) {
+         	introduced = rs.getDate("introduced").toLocalDate();
+         }
+         if (rs.getDate("discontinued")!=null) {            
+         	discontinued = rs.getDate("discontinued").toLocalDate();
+         
+         }
+         computer.setIntroduced(introduced);
+		 computer.setDiscontinued(discontinued);
+		 company.setId(rs.getInt("company_id"));
+		 company.setName(rs.getString("company.name"));
+		 computer.setCompany_id(company);
+	        return computer;
+	    }
+	
+	
+	
+	
 	
 	public static ArrayList<Computer> writeResultSet(ResultSet resultSet) throws SQLException {
 		

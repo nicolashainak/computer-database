@@ -7,7 +7,14 @@ import java.time.LocalDate;
 public class DtoComputerDbService {
 
 	
-    private String name  ;
+    @Override
+	public String toString() {
+		return "DtoComputerDbService [name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", company=" + company + "]";
+	}
+
+
+	private String name  ;
     private Date introduced ;
     private Date discontinued ;
     private DtoCompanyDbService company  ;

@@ -15,15 +15,18 @@ import com.excilys.cdb.persistance.DaoComputer;
 public class MyService {
 
 	
-	@Autowired
+	
 	private DaoComputer daoComputer ;
-	@Autowired
 	private DaoCompany daoCompany ;
 
 //	public List<Computer> getListComputer(Page page) {
 //		return daoComputer.getListComputer(page);
 //
 //	}
+	public MyService(DaoComputer daoComputer,DaoCompany daoCompany) {
+		this.daoComputer=daoComputer;
+		this.daoCompany=daoCompany;
+	}
 
 	public int nbComputerSearch(String search) {
 		return daoComputer.nbElementSearch(search);
@@ -35,7 +38,7 @@ public class MyService {
 	
 	public int getNbComputerTotal(Page page) {
 
-		return daoComputer.nbComputer();
+		return nbComputerSearch("");
 	}
 
 	public List<Company> getListCompany() {
@@ -63,15 +66,11 @@ public class MyService {
 
 	}
 	
-//	public List<Computer> orderBy(Page page, String collonne, Boolean reverse) {
-//
-//		return daoComputer.orderBy(page, collonne, reverse);
-//
-//	}
+
 	
-	public void deleteCompany(int company_id) {
-		daoCompany.delet(company_id);
-	}
+//	public void deleteCompany(int company_id) {
+//		daoCompany.delet(company_id);
+//	}
 	public void updateComputer(int id,Computer computer) {
 		daoComputer.updateComputer(id, computer);
 	}

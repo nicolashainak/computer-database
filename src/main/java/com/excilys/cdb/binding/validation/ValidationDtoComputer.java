@@ -9,12 +9,16 @@ import com.excilys.cdb.persistance.DaoCompany;
 
 @Component
 public class ValidationDtoComputer {
-
-	private ValidationDtoComputer() {
+	private DaoCompany daoCompany;
+	
+	public ValidationDtoComputer(DaoCompany daoCompany) {
+	this.daoCompany=daoCompany;
 	}
 
-	@Autowired
-	DaoCompany daoCompany;
+	
+	
+	
+	
 	
 	public Boolean isValidDto(DtoComputerServletService dtoComputer) {
 		

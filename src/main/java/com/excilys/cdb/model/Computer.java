@@ -13,6 +13,21 @@ public class Computer {
     public Computer() {
     	
     };
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setIntroduced(LocalDate introduced) {
+		this.introduced = introduced;
+	}
+	public void setDiscontinued(LocalDate discontinued) {
+		this.discontinued = discontinued;
+	}
+	public void setCompany_id(Company company_id) {
+		this.company_id = company_id;
+	}
 	public Computer( String name,LocalDate introduced,LocalDate discontinued,Company company_id ) {
 		this.id=null;
 		this.name = name;
