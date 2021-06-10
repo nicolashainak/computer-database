@@ -1,18 +1,27 @@
 package com.excilys.cdb.configuration;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.servlet","com.excilys.cdb.ui"})
+@EnableWebMvc
+@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.servlet","com.excilys.cdb.session"})
 
-public class Configurationjdbc {
+public class Configurationjdbc implements WebMvcConfigurer{
 	 private static HikariConfig config = new HikariConfig();
 	 private static HikariDataSource ds;
 	@Bean
@@ -24,4 +33,19 @@ public class Configurationjdbc {
 	        ds = new HikariDataSource( config );
 	        return ds;
 	    }
+	
+
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver bean = 
+          new InternalResourceViewResolver();
+        bean.setPrefix("/WEB-INF/jsp/");
+        bean.setSuffix(".jsp");
+        return bean;
+    }
+    
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        /*Add css file resource url here*/
+          registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        }
 }

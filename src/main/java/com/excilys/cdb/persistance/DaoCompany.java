@@ -1,14 +1,10 @@
 package com.excilys.cdb.persistance;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -72,47 +68,22 @@ public class DaoCompany {
 
 		return nbCompany;
 	}
+	
+	@Transactional
+	public boolean delete(int id) {
+		
+		if(id < 1) {
+			logger.trace("Tentative de suppression d'une company sans id");
+			return false;
+		}
+		
+		vJdbcTemplate.update(RQTDELETECOMPUTER,id);
+		vJdbcTemplate.update(RQTDELETECOMPANY,id);
+		return true;
+		
+		
+	}
+	
 
-//	public void delet(int company_id) {
-//		try (Connection connection = CdbConnection.getInstance().getConnection();) {
-//
-//			try (PreparedStatement preparedStatement1 = connection.prepareStatement(RQTDELETECOMPUTER);
-//					PreparedStatement preparedStatement2 = connection.prepareStatement(RQTDELETECOMPANY);) {
-//				
-//				//instruction 1 à 1
-//				connection.setAutoCommit(false);
-//				
-//				preparedStatement1.setInt(1, company_id);
-//				preparedStatement1.execute();
-//
-//				preparedStatement2.setInt(2,company_id);
-//				preparedStatement2.execute();
-//				
-//				connection.commit();
-//
-//				
-//			} catch (SQLException del) {
-//				
-//				if (connection != null) {
-//					try {
-//						logger.error(" error  Delete: " + del);
-//						connection.rollback();
-//					} catch (SQLException e) {
-//						logger.error("MySQL error : " + e);
-//					}
-//				}
-//			} finally {
-//				try {
-//					connection.setAutoCommit(true);
-//				} catch (SQLException ero) {
-//					logger.error("MySQL error : " + ero);
-//				}
-//			}
-//
-//		} catch (SQLException error) {
-//			logger.error("MySQL error connection : " + error);
-//			
-//		}
-//	}
 
 }

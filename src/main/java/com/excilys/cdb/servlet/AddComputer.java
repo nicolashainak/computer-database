@@ -1,14 +1,17 @@
 package com.excilys.cdb.servlet;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.excilys.cdb.configuration.Configurationjdbc;
+
 
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
@@ -18,25 +21,23 @@ import com.excilys.cdb.service.MyService;
 import java.io.*;
 import java.util.*;
 
-@WebServlet("/AddComputer")
+@Controller
 public class AddComputer extends HttpServlet {
 
 	private MyService service;
 	private ValidationDtoComputer validationDtoComputer;
 	private MapperDtoComputerServletService mapperDtoComputerServletService;
 
-	@Override
-	public void init() {
-		try {
-			super.init();
-			ApplicationContext context = new AnnotationConfigApplicationContext(Configurationjdbc.class);
-			service = context.getBean(MyService.class);
-			validationDtoComputer = context.getBean(ValidationDtoComputer.class);
-			mapperDtoComputerServletService = context.getBean(MapperDtoComputerServletService.class);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 
+	
+	
+	
+	public AddComputer(MyService service, ValidationDtoComputer validationDtoComputer,
+			MapperDtoComputerServletService mapperDtoComputerServletService) {
+		super();
+		this.service = service;
+		this.validationDtoComputer = validationDtoComputer;
+		this.mapperDtoComputerServletService = mapperDtoComputerServletService;
 	}
 
 	private void addComputer(String name, String introduced, String discontinued, String company_id) {
@@ -50,19 +51,31 @@ public class AddComputer extends HttpServlet {
 
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+	@GetMapping("/AddComputer")
+	public ModelAndView getTestData() {
 		List<Company> listCompany = service.getListCompany();
-		request.setAttribute("listCompany", listCompany);
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp").forward(request, response);
-
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("addComputer");
+		mv.addObject("listCompany", listCompany);
+		return mv;
+		
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name");
-		String introduced = request.getParameter("introduced");
-		String discontinued = request.getParameter("discontinued");
-		String company = request.getParameter("company");
+	@PostMapping("/AddComputer")
+	public ModelAndView postTestData(@RequestParam String name,@RequestParam String introduced,@RequestParam String discontinued,@RequestParam String company){
 		this.addComputer(name, introduced, discontinued, company);
-		doGet(request, response);
+		return getTestData() ;
 	}
+	
+	
+//	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		String name = request.getParameter("name");
+//		String introduced = request.getParameter("introduced");
+//		String discontinued = request.getParameter("discontinued");
+//		String company = request.getParameter("company");
+//		this.addComputer(name, introduced, discontinued, company);
+//		doGet(request, response);
+//	}
 }

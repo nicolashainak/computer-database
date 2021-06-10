@@ -1,93 +1,63 @@
 package com.excilys.cdb.servlet;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import org.springframework.stereotype.Controller;
+
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.excilys.cdb.App;
-import com.excilys.cdb.configuration.Configurationjdbc;
-import com.excilys.cdb.model.Computer;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.MyService;
+import com.excilys.cdb.session.Session;
 
-import java.io.*;
-import java.util.*;
 
-@WebServlet("/Dashboard")
+
+@Controller
+
 public class Dashboard extends HttpServlet {
 
-	// regarder http session Mettre page en attribut de ca .
-	private static final String PAGE = "page";
-	private static final String ORDERBY = "orderBy";
-	private static final String REVERSE = "reverse";
-	private static final String ISSEARCHING = "isSearching";
-	private static final String LASTSEARCH = "lastSearch";
-	private static final String COMPUTERLIST = "computerList";
-	private static final String TABLEAUAFFICHAGE = "tableauAffichage";
-	private HttpSession session;
+	private Session session;
 	private MyService service;
 
-	private void initialisationSession(HttpSession session) {
-		session.setAttribute(PAGE, new Page());
-		session.setAttribute(ORDERBY, "computer.id");
-		session.setAttribute(REVERSE, false);
-		session.setAttribute(ISSEARCHING, false);
-		session.setAttribute(LASTSEARCH, "");
-		session.setAttribute(COMPUTERLIST, new ArrayList());
-		session.setAttribute(TABLEAUAFFICHAGE, new int[5]);
-
+	public Dashboard(Session session, MyService service) {
+		super();
+		this.session = session;
+		this.service = service;
 	}
 
-	@Override
-	public void init() {
-		try {
-			super.init();
-			ApplicationContext context = new AnnotationConfigApplicationContext(Configurationjdbc.class);
-			service = context.getBean(MyService.class);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
 
-	}
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.session = request.getSession();
-
-		if (session.getAttribute(PAGE) == null) {
-			this.initialisationSession(session);
-			this.initPage();
-
-		}
-
-		String search = request.getParameter("search");
-		String order = request.getParameter("order");
-		String button = request.getParameter("button");
-		String numeroPage = request.getParameter("num");
-
-		this.updateNumPage(numeroPage);
+	@GetMapping("/Dashboard")
+	public ModelAndView getTestData(@RequestParam(required = false) String search,
+			@RequestParam(required = false) String order, @RequestParam(required = false) String button,
+			@RequestParam(required = false) String num) {
+		this.initPage();
+		this.updateNumPage(num);
 		this.updateNbParPage(button);
 		this.updateOrder(order);
 		this.updateSearch(search);
 		this.updateAffichage();
-		request.setAttribute("tableauAffichage", session.getAttribute(TABLEAUAFFICHAGE));
-		request.setAttribute("computerList", service.getListComputer((Page) session.getAttribute(PAGE),(String)session.getAttribute(LASTSEARCH),(String)session.getAttribute(ORDERBY),(Boolean)session.getAttribute(REVERSE)));
-		request.setAttribute("page", (Page) session.getAttribute(PAGE));
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response);
-
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("dashboard");
+		mv.addObject("tableauAffichage", session.getTableauAffichage());
+		mv.addObject("page", session.getPage());
+		mv.addObject("computerList", service.getListComputer( session.getPage(),session.getLastSearch(),session.getOrderBy(),session.getReverse()));
+		return mv;
+		
 	}
 
 	private void updateNbParPage(String button) {
 
 		if (button != null) {
-			Page page = (Page) session.getAttribute(PAGE);
+			Page page = (Page) session.getPage();
 			if ("button1".equals(button)) {
 				page.setNumPage(1);
 				page.setNbComputerParPage(10);
@@ -98,93 +68,95 @@ public class Dashboard extends HttpServlet {
 				page.setNumPage(1);
 				page.setNbComputerParPage(100);
 			}
-			session.setAttribute(PAGE, page);
+			session.setPage(page);
 		}
 	}
 
 	private void updateNumPage(String numeroPage) {
 
 		if (numeroPage != null && !numeroPage.isEmpty()) {
-			Page page = (Page) session.getAttribute(PAGE);
+			Page page = session.getPage();
 
 			page.setNumPage(Integer.parseInt(numeroPage));
 
-			session.setAttribute(PAGE, page);
+			session.setPage(page);
 		}
 	}
 
 	private void updateOrder(String order) {
 
 		if (order != null) {
-			if (order.equals(session.getAttribute(ORDERBY))) {
-				session.setAttribute(REVERSE, !(Boolean) session.getAttribute(REVERSE));
+			if (order.equals(session.getOrderBy())) {
+				session.setReverse(!(Boolean) session.getReverse());
 			} else {
-				session.setAttribute(REVERSE, false);
-				session.setAttribute(ORDERBY, order);
+				session.setReverse(false);
+				session.setOrderBy(order);
 			}
-			
+
 		}
 	}
 
 	private void updateSearch(String search) {
 
 		if ("".equals(search)) {
-			session.setAttribute(ISSEARCHING, false);
-			session.setAttribute(ORDERBY, "computer.id");
-			session.setAttribute(LASTSEARCH, "");
+			session.setIssearching(false);
+			session.setOrderBy("computer.id");
+			session.setLastSearch("");
 			this.initPage();
 
 		} else if (search != null) {
-			session.setAttribute(ISSEARCHING, true);
-			Page page = (Page) session.getAttribute(PAGE);
+			session.setIssearching(true);
+			Page page = (Page) session.getPage();
 			page.setNumPage(1);
 			page.setNbComputerRequest(service.nbComputerSearch(search));
-			session.setAttribute(LASTSEARCH, search);
-			session.setAttribute(PAGE, page);
+			session.setLastSearch(search);
+			session.setPage(page);
 
-		} else if ((Boolean) session.getAttribute(ISSEARCHING)) {
-			Page page = (Page) session.getAttribute(PAGE);
-			
-			page.setNbComputerRequest(service.nbComputerSearch((String) session.getAttribute(LASTSEARCH)));
-			session.setAttribute(PAGE, page);
+		} else if ((Boolean) session.getIssearching()) {
+			Page page = (Page) session.getPage();
+
+			page.setNbComputerRequest(service.nbComputerSearch((String) session.getLastSearch()));
+			session.setPage(page);
 		}
 
 	}
 
 	private void initPage() {
-		Page page = (Page) session.getAttribute(PAGE);
+		Page page = (Page) session.getPage();
 		page.setNumPage(1);
 		page.setNbComputerRequest(service.getNbComputerTotal(page));
-		session.setAttribute(PAGE, page);
+		session.setPage(page);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.session = request.getSession();
-		List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
-		System.out.println(request.getParameter("selection"));
+	@PostMapping("/Dashboard")
+	public ModelAndView postTestData(@RequestParam String selection){
+		List<String> selectionP = Arrays.asList(selection.split(","));
+		System.out.println(selectionP);
 		try {
-			System.out.println("try");
 			int id_computer;
-			for (String stringID : selection) {
-				System.out.println(stringID);
+			for (String stringID : selectionP) {
 				id_computer = Integer.parseInt(stringID);
 				service.deleteComputer(id_computer);
 			}
 		} catch (NumberFormatException e) {
 			System.out.println("catch");
+			e.printStackTrace();
 		}
-		doGet(request, response);
+		return getTestData(null,null,null,null) ;
 	}
+	
+	
+	
 
 	private void updateAffichage() {
-		int[] tableau = (int[]) session.getAttribute(TABLEAUAFFICHAGE);
-		Page page = (Page) session.getAttribute(PAGE);
+		int[] tableau = (int[]) session.getTableauAffichage();
+		Page page = (Page) session.getPage();
 		for (int i = 0; i < 5; i++) {
 			tableau[i] = page.getNumPage() + i - 2 < 1 || page.getNumPage() + i - 2 > page.getNbPageMax() ? -1
 					: page.getNumPage() + i - 2;
 		}
 
-		session.setAttribute(TABLEAUAFFICHAGE, tableau);
+		session.setTableauAffichage(tableau);
 	}
 
 }

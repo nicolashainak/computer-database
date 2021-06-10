@@ -23,6 +23,8 @@ public class MyService {
 //		return daoComputer.getListComputer(page);
 //
 //	}
+	
+	
 	public MyService(DaoComputer daoComputer,DaoCompany daoCompany) {
 		this.daoComputer=daoComputer;
 		this.daoCompany=daoCompany;
@@ -68,9 +70,11 @@ public class MyService {
 	
 
 	
-//	public void deleteCompany(int company_id) {
-//		daoCompany.delet(company_id);
-//	}
+	public void deleteCompany(int company_id) {
+		if (!daoCompany.delete(company_id)) {
+			
+		}
+	}
 	public void updateComputer(int id,Computer computer) {
 		daoComputer.updateComputer(id, computer);
 	}
