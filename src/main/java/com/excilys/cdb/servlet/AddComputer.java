@@ -1,7 +1,10 @@
 package com.excilys.cdb.servlet;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,16 +43,7 @@ public class AddComputer extends HttpServlet {
 		this.mapperDtoComputerServletService = mapperDtoComputerServletService;
 	}
 
-	private void addComputer(String name, String introduced, String discontinued, String company_id) {
-
-		DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
-				company_id);
-		if (validationDtoComputer.isValidDto(dtoComputer)) {
-
-			service.addComputer(mapperDtoComputerServletService.dtoToComputer(dtoComputer));
-		}
-
-	}
+	
 
 
 
@@ -64,11 +58,23 @@ public class AddComputer extends HttpServlet {
 	}
 
 	@PostMapping("/AddComputer")
-	public ModelAndView postTestData(@RequestParam String name,@RequestParam String introduced,@RequestParam String discontinued,@RequestParam String company){
-		this.addComputer(name, introduced, discontinued, company);
-		return getTestData() ;
-	}
+	public ModelAndView postTestData(@ModelAttribute("computer") @Validated DtoComputerServletService dtoComputer,
+			BindingResult bindingResult ) {
+		
+		validationDtoComputer.validate(dtoComputer, bindingResult);
+		if (! bindingResult.hasErrors() ) {
+
+			try {
+					this.service.addComputer(this.mapperDtoComputerServletService.dtoToComputer(dtoComputer));
+					
+			 }catch ( Exception e){
+				  System.out.println("soucis");
+			 }
+		}
+			return getTestData() ;
 	
+	}
+}
 	
 //	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		String name = request.getParameter("name");
@@ -78,4 +84,3 @@ public class AddComputer extends HttpServlet {
 //		this.addComputer(name, introduced, discontinued, company);
 //		doGet(request, response);
 //	}
-}

@@ -1,47 +1,68 @@
 package com.excilys.cdb.binding.validation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
 
 import java.time.LocalDate;
 
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
-import com.excilys.cdb.persistance.DaoCompany;
 
 @Component
-public class ValidationDtoComputer {
-	private DaoCompany daoCompany;
+public class ValidationDtoComputer implements Validator{
 	
-	public ValidationDtoComputer(DaoCompany daoCompany) {
-	this.daoCompany=daoCompany;
-	}
+	
 
 	
 	
+	@Override
+	public void validate (Object target , Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "computer name required");
 	
-	
-	
-	public Boolean isValidDto(DtoComputerServletService dtoComputer) {
+			DtoComputerServletService computerDto = (DtoComputerServletService) target;
+			nameValidator(errors, computerDto.getName());
+			dateValidator(errors, computerDto.getIntroduced(), computerDto.getDiscontinued());
+			companyValidator(errors, computerDto.getCompany());
 		
-		if( "".equals(dtoComputer.getName()) ){
-			return false ;
-		}
-		if (!"".equals(dtoComputer.getIntroduced()) && !"".equals(dtoComputer.getDiscontinued())){
-			try {
-				if (LocalDate.parse(dtoComputer.getIntroduced()).isAfter(LocalDate.parse(dtoComputer.getDiscontinued()))) {
-					return false;
-				}
-				if( !"".equals(dtoComputer.getCompany()) &&  Integer.parseInt(dtoComputer.getCompany())<=0  ) {
-					return false;
-				}
-			}catch(RuntimeException e){
-				e.getStackTrace();
-				return false;
-			}
-		
-		}
-		
-		return true;
 	}
+
+	private void nameValidator(Errors errors, String name) {
+		if (name == null || "null".equals(name) || "".equals(name)) {
+			errors.rejectValue("name", "the computer name is invalid");
+		}
+		
+	}
+	
+	private void companyValidator(Errors errors, String company) {
+		if (! company.isEmpty() ) {
+			int companyId = Integer.parseInt(company);
+			if (companyId < 0) {
+				errors.rejectValue("company", "company is invalid" );
+			}
+		}
+		
+	}
+	
+	private void dateValidator(Errors errors, String introduced, String discontinued) {
+		if (!introduced.isEmpty() && introduced != null) {
+			LocalDate dateIntroduced = LocalDate.parse(introduced);
+			if (!discontinued.isEmpty() && discontinued != null) {
+				LocalDate dateDiscontinued = LocalDate.parse(discontinued);
+				if (dateIntroduced.isAfter(dateDiscontinued)) {
+					errors.rejectValue("discontinued", "computer discontinued invalid");
+				}
+			}
+		}
+		
+	}
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return DtoComputerServletService.class.equals(clazz);
+	}
+
+
 	
 	
 	

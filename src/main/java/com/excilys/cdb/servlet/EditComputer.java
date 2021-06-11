@@ -16,7 +16,10 @@ import com.excilys.cdb.service.MyService;
 import java.io.*;
 import java.util.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,16 +41,7 @@ public class EditComputer extends HttpServlet {
 		this.mapperDtoComputerServletService = mapperDtoComputerServletService;
 	}
 
-	private void updateComputer(String name, String introduced, String discontinued, String companyId, int id) {
-
-		DtoComputerServletService dtoComputer = new DtoComputerServletService(name, introduced, discontinued,
-				companyId);
-		if (validationDtoComputer.isValidDto(dtoComputer)) {
-			
-			service.updateComputer(id, mapperDtoComputerServletService.dtoToComputer(dtoComputer));
-		}
-
-	}
+	
 
 	public boolean isCorrectInt(String id) {
 		try {
@@ -59,18 +53,7 @@ public class EditComputer extends HttpServlet {
 
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String id = request.getParameter("id");
-		request.setAttribute("id", id);
-		if (isCorrectInt(id)) {
-			Computer computer = service.searchComputer(Integer.parseInt(id));
-			request.setAttribute("computer", computer);
-		}
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp").forward(request, response);
-
-	}
+	
 
 	@GetMapping("/EditComputer")
 	public ModelAndView getTestData(@RequestParam String id) {
@@ -88,11 +71,29 @@ public class EditComputer extends HttpServlet {
 		return mv;
 		
 	}
-	@PostMapping("/EditComputer")
-	public ModelAndView postTestData(@RequestParam String id,@RequestParam String name,@RequestParam String introduced,@RequestParam String discontinued,@RequestParam String company){
-		this.updateComputer(name, introduced, discontinued, company, Integer.parseInt(id));
-		return getTestData(id) ;
-	}
+
+		
+		@PostMapping("/EditComputer")
+		public ModelAndView postTestData(@RequestParam String id ,@ModelAttribute("computer") @Validated DtoComputerServletService dtoComputer,
+				BindingResult bindingResult ) {
+				if (isCorrectInt(id)) {
+					
+				
+					validationDtoComputer.validate(dtoComputer, bindingResult);
+					if (! bindingResult.hasErrors() ) {
+		
+						try {
+								this.service.updateComputer(Integer.parseInt(id),this.mapperDtoComputerServletService.dtoToComputer(dtoComputer));
+								
+						 }catch ( Exception e){
+							  System.out.println("soucis");
+						 }
+					}
+						
+				}
+				return getTestData(id) ;
+		}
+	
 	
 	
 }
