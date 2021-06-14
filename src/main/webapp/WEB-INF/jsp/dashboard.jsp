@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,20 +30,20 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-              ${page.nbComputerRequest} Computers found
+              ${page.nbComputerRequest} <fmt:message key="label.foundComputers"/>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.searchName"/>" />
+                        <input type="submit" id="searchsubmit" value="<fmt:message key="label.filterName"/>"
                         class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="../cdb/AddComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="../cdb/AddComputer"><fmt:message key="label.addComputer"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.edit"/></a>
                 </div>
             </div>
         </div>
@@ -67,18 +68,18 @@
                             </span>
                         </th>
                         <th>
-                            <a href="?order=computer.name">Computer name</a>
+                            <a href="?order=computer.name"><fmt:message key="label.computerName"/></a>
                         </th>
                         <th>
-                            <a href="?order=computer.introduced">Introduced date</a>
+                            <a href="?order=computer.introduced"><fmt:message key="label.computerIntroduced"/></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href="?order=computer.discontinued">Discontinued date</a>
+                            <a href="?order=computer.discontinued"><fmt:message key="label.computerDiscontinued"/></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href="?order=company.name">Company</a>
+                            <a href="?order=company.name"><fmt:message key="label.company"/></a>
                         </th>
 
                     </tr>

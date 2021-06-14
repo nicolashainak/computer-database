@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
+<title><fmt:message key="label.editComputer"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -14,7 +15,7 @@ pageEncoding="UTF-8"%>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/Dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/Dashboard"> <fmt:message key="label.applicationName"/> </a>
         </div>
     </header>
     <section id="main">
@@ -24,25 +25,25 @@ pageEncoding="UTF-8"%>
                     <div class="label label-default pull-right">
                         id: ${id}
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><fmt:message key="label.editComputer"/></h1>
 
                     <form action="EditComputer" method="POST">
                         <input type="hidden" name="id" value="${id}" id="id"/>
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
+                                <label for="computerName"><fmt:message key="label.computerName"/></label>
                                 <input type="text" name="name" class="form-control" id="computerName" placeholder="Computer name" value="${computer.name}">
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
+                                <label for="introduced"><fmt:message key="label.computerIntroduced"/></label>
                                 <input type="date" name="introduced"class="form-control" id="introduced" placeholder="Introduced date" value="${computer.introduced}">
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
+                                <label for="discontinued"><fmt:message key="label.computerDiscontinued"/></label>
                                 <input type="date" name="discontinued"class="form-control" id="discontinued" placeholder="Discontinued date" value="${computer.discontinued}">
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
+                                <label for="companyId"><fmt:message key="label.company"/></label>
                                 <select class="form-control" name="company" id="companyId" >
                                     <option value="0">--</option>
                                     <c:forEach items="${listCompany}" var="company" >
@@ -57,9 +58,9 @@ pageEncoding="UTF-8"%>
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Edit" class="btn btn-primary">
-                            or
-                            <a href="../cdb/Dashboard" class="btn btn-default">Cancel</a>
+                            <input type="submit" value="<fmt:message key="label.edit"/>" class="btn btn-primary">
+                            <fmt:message key="label.or"/>
+                            <a href="../cdb/Dashboard" class="btn btn-default"><fmt:message key="label.cancel"/></a>
                         </div>
                     </form>
                 </div>

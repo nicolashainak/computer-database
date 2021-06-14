@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 
 import com.excilys.cdb.binding.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
-import com.zaxxer.hikari.HikariDataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ import org.slf4j.LoggerFactory;
 public class DaoCompany {
 
 	private final static String RQTSELECTALL = "select id,name from company  ;";
-	private final static String RQTSELECTALLLIMIT = "select id,name from company limit  ? offset ? ;";
 	private final static String RQTCOMPANYBYID = "select id,name from company where id =? ";
 	private final static String RQTCOMPANYBYNAME = "select id,name from company where name = ? ";
 	private final static String RQTNBCOMPANY = "SELECT COUNT(*) FROM company ;";

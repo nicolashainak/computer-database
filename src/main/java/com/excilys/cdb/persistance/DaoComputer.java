@@ -3,10 +3,7 @@ package com.excilys.cdb.persistance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,24 +15,27 @@ import org.slf4j.LoggerFactory;
 import com.excilys.cdb.binding.dto.DtoComputerDbService;
 import com.excilys.cdb.binding.mapper.MapperComputer;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
-import com.excilys.cdb.model.Company;
+
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.zaxxer.hikari.HikariDataSource;
+
 
 @Repository
 public class DaoComputer {
 	Logger logger = LoggerFactory.getLogger(DaoComputer.class);
 
-	private final static String RQTINSERT = "INSERT INTO computer( name,introduced,discontinued,company_id) VALUES(?,?,?,?);";
-	private final static String RQTSELECTCOMPuTERALL = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id limit ? offset ? ;";
-	private final static String RQTSEARCH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id where computer.id = ? ; ";
-	private final static String RQTUPDATE = "update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? where id = ?";
-	private final static String RQTDELETEBYID = "delete from computer where id=?";
-	private final static String RQTNBCOMPUTER = "SELECT COUNT(*) FROM computer ;";
-	private final static String RQTORDERBY = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id ORDER BY ";
-	private final static String RQTSEARCHWITH = "select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  left join company on computer.company_id = company.id  WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY ";
-	private static final String RQTNOMBREELEMENTSSEARCH = "SELECT COUNT(computer.id)FROM computer LEFT JOIN company on company.id = computer.company_id WHERE computer.name LIKE ? OR company.name LIKE ? ";
+	private final static String RQTGETCOMPUTER = "Select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  "
+			+ "left join company on computer.company_id = company.id  "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ? " + "ORDER BY ? ?" + "Limit ? Offset ?";
+	private final static String RQTNBCOMPUTER = "SELECT COUNT(computer.id)"
+			+ "FROM computer LEFT JOIN company on company.id = computer.company_id "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ? ";
+	private final static String RQTNEWCOMPUTER ="INSERT INTO computer( name,introduced,discontinued,company_id) VALUES(?,?,?,?);";
+	private final static String RQTSEARCHCOMPUTER ="Select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  "
+	+ "left join company on computer.company_id = company.id  " + "WHERE computer.id = ? ";
+	private final static String RQTDELETECOMPUTER ="delete from computer where id= ? ";
+	private final static String RQTUPDATECOMPUTER ="update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? "
+	+ "where id = ?;";
 	private JdbcTemplate vJdbcTemplate;
 
 	public DaoComputer(DataSource datasource) {
@@ -50,9 +50,7 @@ public class DaoComputer {
 			order = "DESC";
 		}
 
-		String vSQL = "Select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  "
-				+ "left join company on computer.company_id = company.id  "
-				+ "WHERE computer.name LIKE ? OR company.name LIKE ? " + "ORDER BY ? ?" + "Limit ? Offset ?";
+		String vSQL = RQTGETCOMPUTER ;
 
 		listComputer = vJdbcTemplate.query(vSQL, new MapperComputer(), "%" + search + "%", "%" + search + "%", collonne,
 				order, page.getNbComputerParPage(), page.getNbComputerParPage() * (page.getNumPage() - 1));
@@ -61,9 +59,7 @@ public class DaoComputer {
 	}
 
 	public int nbElementSearch(String search) {
-		String vSQL = "SELECT COUNT(computer.id)"
-				+ "FROM computer LEFT JOIN company on company.id = computer.company_id "
-				+ "WHERE computer.name LIKE ? OR company.name LIKE ? ";
+		String vSQL = RQTNBCOMPUTER ;
 
 		int nbElementSearch = vJdbcTemplate.queryForObject(vSQL, int.class, "%" + search + "%", "%" + search + "%");
 
@@ -74,7 +70,7 @@ public class DaoComputer {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 		Integer id =null;
 		System.out.println(c);
-		String vSQL = "INSERT INTO computer( name,introduced,discontinued,company_id) VALUES(?,?,?,?);";
+		String vSQL = RQTNEWCOMPUTER;
 		if(c.getCompany().getId()!=0) {
 			id =c.getCompany().getId();
 		}
@@ -84,8 +80,7 @@ public class DaoComputer {
 
 	public Computer searchComputer(int idComputer) {
 		Computer computer = new Computer();
-		String vSQL = "Select computer.id,computer.name,computer.introduced,computer.discontinued,computer.company_id,company.name from computer  "
-				+ "left join company on computer.company_id = company.id  " + "WHERE computer.id = ? ";
+		String vSQL = RQTSEARCHCOMPUTER ;
 
 		computer = vJdbcTemplate.queryForObject(vSQL,new MapperComputer(),idComputer);
 		
@@ -96,15 +91,14 @@ public class DaoComputer {
 	public void updateComputer(int idComputer, Computer computer) {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 
-		String vSQL = "update computer set name = ?,introduced = ? , discontinued = ?, company_id = ? "
-				+ "where id = ?;";
+		String vSQL = RQTUPDATECOMPUTER;
 
 		vJdbcTemplate.update(vSQL, c.getName(), c.getIntroduced(), c.getDiscontinued(), c.getCompany().getId(), idComputer);
 
 	}
 
 	public void deleteComputer(int idComputer) {
-		String vSQL = "delete from computer where id= ? ";
+		String vSQL = RQTDELETECOMPUTER;
 
 		vJdbcTemplate.update(vSQL, idComputer);
 	}
