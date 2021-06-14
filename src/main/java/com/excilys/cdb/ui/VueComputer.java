@@ -1,12 +1,12 @@
 package com.excilys.cdb.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.cdb.model.Computer;
 
 public class VueComputer {
 	
-	public static void affComputer(ArrayList<Computer> computer_list) {
+	public static void affComputer(List<Computer> computer_list) {
 		System.out.println("id \t Name \t Introduced \t Discontinued \t Company_id \t Company_name");
 		System.out.println("-------------------------------");
 		for (Computer c : computer_list) {

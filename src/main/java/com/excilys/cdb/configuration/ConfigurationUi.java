@@ -11,7 +11,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 
 	@Configuration
-	@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.ui"})
+	@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.ui","com.excilys.cdb.cli"})
 	public class ConfigurationUi {
 	
 		 private static HikariConfig config = new HikariConfig();

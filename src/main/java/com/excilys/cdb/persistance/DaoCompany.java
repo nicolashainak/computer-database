@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 public class DaoCompany {
 
 	private final static String RQTSELECTALL = "select id,name from company  ;";
+	private final static String RQTSELECTALLOFFSET = "select id,name from company Limit ? Offset ?";
 	private final static String RQTCOMPANYBYID = "select id,name from company where id =? ";
 	private final static String RQTCOMPANYBYNAME = "select id,name from company where name = ? ";
 	private final static String RQTNBCOMPANY = "SELECT COUNT(*) FROM company ;";
@@ -66,6 +67,12 @@ public class DaoCompany {
 
 		return nbCompany;
 	}
+	
+	public List<Company> getListCompanyOffset(int offset){
+		String vSQL = RQTSELECTALLOFFSET;
+		return vJdbcTemplate.query(vSQL,new MapperCompany(),20 ,20*offset);
+	}
+	
 	
 	@Transactional
 	public boolean delete(int id) {

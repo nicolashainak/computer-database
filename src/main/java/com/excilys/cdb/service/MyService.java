@@ -46,6 +46,10 @@ public class MyService {
 	public List<Company> getListCompany() {
 		return daoCompany.getListCompany();
 	}
+	
+	public List<Company> getListCompanyOffset(int offset) {
+		return daoCompany.getListCompanyOffset(offset);
+	}
 
 	public void addComputer(Computer computer) {
 		daoComputer.newComputer(computer);

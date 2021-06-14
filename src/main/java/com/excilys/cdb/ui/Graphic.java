@@ -9,7 +9,8 @@ public class Graphic {
 		System.out.println("[4] Add a Computer");
 		System.out.println("[5] Change a Computer");
 		System.out.println("[6] Delete a Computer ");
-		System.out.println("[7] Exit");
+		System.out.println("[7] Delete a Company");
+		System.out.println("[8] Exit");
 	}
 	
 	public static void drawPage(int numeroPage,int nbPage )  {
