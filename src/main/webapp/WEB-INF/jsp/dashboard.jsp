@@ -15,7 +15,14 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/Dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="../cdb/Dashboard"> <fmt:message key="label.applicationName"/> </a>
+       		<ul>
+       			<li><a href="?lang=en"><fmt:message key="label.lang.en"/></a> </li>
+       			<li><a href="?lang=fr"><fmt:message key="label.lang.fr"/></a> </li>
+       			
+       		
+       		</ul>
+       
         </div>
     </header>
 
