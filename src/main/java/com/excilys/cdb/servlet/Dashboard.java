@@ -32,6 +32,7 @@ public class Dashboard extends HttpServlet {
 		super();
 		this.session = session;
 		this.service = service;
+		System.out.println("Dasboard");
 	}
 
 
