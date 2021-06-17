@@ -68,14 +68,14 @@
                             </span>
                         </th>
                         <th>
-                            <a href="?order=computer.name"><fmt:message key="label.computerName"/></a>
+                            <a href="?order=name"><fmt:message key="label.computerName"/></a>
                         </th>
                         <th>
-                            <a href="?order=computer.introduced"><fmt:message key="label.computerIntroduced"/></a>
+                            <a href="?order=introduced"><fmt:message key="label.computerIntroduced"/></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href="?order=computer.discontinued"><fmt:message key="label.computerDiscontinued"/></a>
+                            <a href="?order=discontinued"><fmt:message key="label.computerDiscontinued"/></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>

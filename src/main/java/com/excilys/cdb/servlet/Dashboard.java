@@ -1,6 +1,10 @@
 package com.excilys.cdb.servlet;
 
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 
 import java.util.Arrays;
@@ -32,10 +36,15 @@ public class Dashboard extends HttpServlet {
 		super();
 		this.session = session;
 		this.service = service;
-		System.out.println("Dasboard");
+		System.out.println("Dashboard");
 	}
 
 
+//	Sort currentSort = 	Sort.by(Order.asc("name"));
+//
+//	Pageable currentPageable = PageRequest.of(page.getNumPage()-1, page.getNbComputerParPage(), currentSort);
+//	System.out.println(service.getListComputer("apple", currentPageable));
+	
 	@GetMapping("/Dashboard")
 	public ModelAndView getTestData(@RequestParam(required = false) String search,
 			@RequestParam(required = false) String order, @RequestParam(required = false) String button,
@@ -48,9 +57,25 @@ public class Dashboard extends HttpServlet {
 		this.updateAffichage();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("dashboard");
+
 		mv.addObject("tableauAffichage", session.getTableauAffichage());
+
 		mv.addObject("page", session.getPage());
-		mv.addObject("computerList", service.getListComputer( session.getPage(),session.getLastSearch(),session.getOrderBy(),session.getReverse()));
+
+		Sort currentSort;
+		if (session.getReverse()) {
+			 currentSort = 	Sort.by(Order.desc(session.getOrderBy()));
+		}else {
+			 currentSort = 	Sort.by(Order.asc(session.getOrderBy()));
+		}
+		
+
+		Pageable currentPageable = PageRequest.of(session.getPage().getNumPage()-1, session.getPage().getNbComputerParPage(), currentSort);
+	
+////ca crash la  !! 
+		mv.addObject("computerList", service.getListComputer(session.getLastSearch(),currentPageable));
+		
+
 		return mv;
 		
 	}
@@ -101,7 +126,7 @@ public class Dashboard extends HttpServlet {
 
 		if ("".equals(search)) {
 			session.setIssearching(false);
-			session.setOrderBy("computer.id");
+			session.setOrderBy("id");
 			session.setLastSearch("");
 			this.initPage();
 

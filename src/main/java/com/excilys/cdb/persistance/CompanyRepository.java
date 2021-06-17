@@ -15,6 +15,7 @@ public interface CompanyRepository extends JpaRepository<DtoCompanyDbService,Int
 	public DtoCompanyDbService findById(int id);
 	public int countByNameLike(String search);
 	public void deleteById(int id);
+	public List<DtoCompanyDbService> searchByNameLike(String name);
 	
 
 }

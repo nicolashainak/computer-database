@@ -36,7 +36,7 @@ public class App
 		Sort currentSort = 	Sort.by(Order.asc("name"));
 
 		Pageable currentPageable = PageRequest.of(page.getNumPage()-1, page.getNbComputerParPage(), currentSort);
-		System.out.println(service.getListComputer("apple", currentPageable));
+		System.out.println(service.getListComputer(" ", currentPageable));
 		System.out.println();
 		//		Cli cli = context.getBean(Cli.class);
 //		cli.boucle();

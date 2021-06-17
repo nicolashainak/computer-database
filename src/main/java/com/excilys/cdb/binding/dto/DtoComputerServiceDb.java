@@ -1,6 +1,5 @@
 package com.excilys.cdb.binding.dto;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -11,9 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.excilys.cdb.model.Company;
 
-@Entity(name = "DtoComputer")
+@Entity
 @Table(name = "computer")
 public class DtoComputerServiceDb {
 

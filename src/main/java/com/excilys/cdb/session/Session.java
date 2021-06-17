@@ -13,7 +13,7 @@ public class Session {
 	
 	
 	private Page page = new Page();
-	private String orderBy = "computer.id";
+	private String orderBy = "id";
 	private Boolean reverse = false;
 	private Boolean issearching = false;
 	private String lastSearch = "";

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 import com.excilys.cdb.model.Computer;
 
-@Entity(name="DtoCompanyDbService")
+@Entity
 @Table(name="company")
 public class DtoCompanyDbService {
 	
