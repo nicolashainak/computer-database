@@ -11,8 +11,10 @@ import com.excilys.cdb.model.Company;
 @Repository
 public interface CompanyRepository extends JpaRepository<DtoCompanyDbService,Integer>{
 	
-	
+	public DtoCompanyDbService findByName(String name);
 	public DtoCompanyDbService findById(int id);
+	public int countByNameLike(String search);
 	public void deleteById(int id);
+	
 
 }

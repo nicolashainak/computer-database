@@ -1,6 +1,8 @@
 package com.excilys.cdb.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.excilys.cdb.binding.dto.DtoCompanyDbService;
 import com.excilys.cdb.binding.dto.DtoComputerDbService;
 import com.excilys.cdb.binding.dto.DtoComputerServiceDb;
 import com.excilys.cdb.binding.mapper.MapperDtoCompanyDbService;
+import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
@@ -48,7 +51,7 @@ public class MyService {
 	}
 	public Computer searchComputer(int id) {
 		
-		return daoComputer.searchComputer(id);
+		return MapperDtoComputerDbService.mapperDtoToDbService(computerRepository.findById(id));
 	}
 	
 	public int getNbComputerTotal(Page page) {
@@ -56,33 +59,26 @@ public class MyService {
 		return computerRepository.countByNameLikeOrDtoCompanyDbServiceNameLike("% %","% %");
 	}
 
-	public List<Company> getListCompany() {
-		return daoCompany.getListCompany();
-	}
-	
-	public List<Company> getListCompanyOffset(int offset) {
-		return daoCompany.getListCompanyOffset(offset);
-	}
-
 	public void addComputer(Computer computer) {
-		daoComputer.newComputer(computer);
+		DtoComputerServiceDb dtoComputerServiceDb=  MapperDtoComputerDbService.mapperDtoToServiceDb(computer);
+		this.computerRepository.save(dtoComputerServiceDb);
 	}
 
-	public DtoCompanyDbService getCompanyById(int id_company) {
-		return(companyRepository.findById(id_company));
+	public Company getCompanyById(int id_company) {
+		return MapperDtoCompanyDbService.mapperDtoToCompanyDbService((companyRepository.findById(id_company)));
 	}
 
 	public Company getCompanyByName(String name) {
-		return daoCompany.getCompanyByName(name);
+		return(MapperDtoCompanyDbService.mapperDtoToCompanyDbService(companyRepository.findByName(name)));
 	}
 
 	public int getNbCompany() {
-		return daoCompany.nbCompany();
+		return companyRepository.countByNameLike("% %");
 	}
 	
-	public List<DtoComputerServiceDb> getListComputer(String search,Pageable pageable ) {
+	public List<Computer> getListComputer(String search,Pageable pageable ) {
 		
-		return computerRepository.searchByNameLikeOrDtoCompanyDbServiceNameLike("%"+ search+"%","%"+ search+"%", pageable);
+		return computerRepository.searchByNameLikeOrDtoCompanyDbServiceNameLike("%"+ search+"%","%"+ search+"%", pageable).stream().map(c->MapperDtoComputerDbService.mapperDtoToDbService(c)).collect(Collectors.toList());
 		//return daoComputer.getListComputer(page,search, collonne,reverse);
 
 	}
@@ -90,15 +86,15 @@ public class MyService {
 
 	
 	public void deleteCompany(int company_id) {
-		if (!daoCompany.delete(company_id)) {
-			
-		}
+		companyRepository.deleteById(company_id);
 	}
 	public void updateComputer(int id,Computer computer) {
-		daoComputer.updateComputer(id, computer);
+		computer.setId(id);
+		DtoComputerServiceDb dtoComputerServiceDb=  MapperDtoComputerDbService.mapperDtoToServiceDb(computer);
+		computerRepository.save(dtoComputerServiceDb);
 	}
 	public void deleteComputer(int idComputer) {
-		daoComputer.deleteComputer(idComputer);
+		computerRepository.deleteById(idComputer);
 	}
 	
 

@@ -68,7 +68,6 @@ public class DaoComputer {
 	public void newComputer(Computer computer) {
 		DtoComputerDbService c = MapperDtoComputerDbService.mapperDtoToDbService(computer);
 		Integer id =null;
-		System.out.println(c);
 		String vSQL = RQTNEWCOMPUTER;
 		if(c.getCompany().getId()!=0) {
 			id =c.getCompany().getId();

@@ -11,8 +11,6 @@ public class Company {
 	private String name;
 	
 	public Company () {
-		
-		System.out.println("lsllsaflfla");
 	}
 	
 	public Company(int id, String name) {

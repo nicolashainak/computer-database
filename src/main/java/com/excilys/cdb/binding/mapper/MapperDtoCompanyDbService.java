@@ -14,6 +14,9 @@ public class MapperDtoCompanyDbService {
 	}
 	
 	public static Company mapperDtoToCompanyDbService(DtoCompanyDbService dtoCompany) {
+		if (dtoCompany==null) {
+			return new Company();
+		}
 		return new Company(dtoCompany.getId(),dtoCompany.getName());
 		
 		

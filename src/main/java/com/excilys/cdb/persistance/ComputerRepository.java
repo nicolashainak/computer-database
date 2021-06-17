@@ -21,6 +21,7 @@ public interface ComputerRepository extends JpaRepository<DtoComputerServiceDb,I
 	
 	public List<DtoComputerServiceDb> findByNameLike(String search,Pageable pageable);
 	
+	public void deleteById(int id);
 
 	
 }
