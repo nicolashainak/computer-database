@@ -8,9 +8,9 @@ import javax.sql.DataSource;
 
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
@@ -42,8 +42,9 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.servlet","com.excilys.cdb.session"})
-
+@EnableJpaRepositories(basePackages= {"com.excilys.cdb.persistance"})
+@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.session"})
+//,"com.excilys.cdb.servlet"
 public class ConfigurationWeb implements WebMvcConfigurer{
 	 private static HikariConfig config = new HikariConfig();
 	 private static HikariDataSource ds;
@@ -63,7 +64,7 @@ public class ConfigurationWeb implements WebMvcConfigurer{
 	      LocalContainerEntityManagerFactoryBean em 
 	        = new LocalContainerEntityManagerFactoryBean();
 	      em.setDataSource(getDataConnection());
-	      em.setPackagesToScan(new String[] { "com.baeldung.persistence.model" });
+	      em.setPackagesToScan(new String[] { "com.excilys.cdb.binding.dto" });
 
 	      JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	      em.setJpaVendorAdapter(vendorAdapter);

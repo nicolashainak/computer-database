@@ -1,12 +1,18 @@
 package com.excilys.cdb.model;
 
+
+
+
 public class Company {
+	
+	
 	private int id;
+	
 	private String name;
 	
 	public Company () {
-		this.id =0;
-		this.name=null;
+		
+		System.out.println("lsllsaflfla");
 	}
 	
 	public Company(int id, String name) {
@@ -19,13 +25,17 @@ public class Company {
 	}
 	
 	public String getName() {
+		
 		return this.name;
 	}
 	public void setId(int id) {
+		System.out.println("id");
 		this.id = id;
 	}
 	public void setName(String name) {
 		this.name=name;
+		System.out.println("name");
+
 	}
 	public String toString() {
 		String str = "Id = " + this.id + " Name = " + this.name;

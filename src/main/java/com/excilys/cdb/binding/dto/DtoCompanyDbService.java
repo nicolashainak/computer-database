@@ -1,14 +1,26 @@
 package com.excilys.cdb.binding.dto;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.MyService;
 
-
-
+@Entity(name="DtoCompanyDbService")
+@Table(name="company")
 public class DtoCompanyDbService {
+	
+	
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
+	
+	public DtoCompanyDbService() {
+	
+	}
 	
 	public DtoCompanyDbService(int id, String name) {
 		this.id=id;

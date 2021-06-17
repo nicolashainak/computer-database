@@ -3,16 +3,11 @@ package com.excilys.cdb.binding.dto;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
 
 public class DtoComputerDbService {
 
 	
-    @Override
-	public String toString() {
-		return "DtoComputerDbService [name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + company + "]";
-	}
-
 
 	private String name  ;
     private Date introduced ;
@@ -78,7 +73,13 @@ public class DtoComputerDbService {
 		this.company = company;
 	}
 	
-	
+
+    @Override
+	public String toString() {
+		return "DtoComputerDbService [name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", company=" + company + "]";
+	}
+
 	
 	
 }

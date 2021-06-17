@@ -51,7 +51,6 @@ public class DaoComputer {
 		}
 
 		String vSQL = RQTGETCOMPUTER ;
-
 		listComputer = vJdbcTemplate.query(vSQL, new MapperComputer(), "%" + search + "%", "%" + search + "%", collonne,
 				order, page.getNbComputerParPage(), page.getNbComputerParPage() * (page.getNumPage() - 1));
 

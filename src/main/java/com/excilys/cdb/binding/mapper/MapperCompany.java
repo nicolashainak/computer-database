@@ -10,6 +10,7 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 @Component
+
 public class MapperCompany implements RowMapper<Company> {
 
 	@Override

@@ -15,11 +15,12 @@ public class MapperDtoCompanyServletService {
 		this.service=service;
 	}
 	public  Company mapperDtoToCompanyServletService(DtoCompanyOutput dtoCompany) {
-		if (dtoCompany.getId()!= 0) {
-			return service.getCompanyById(dtoCompany.getId());
-		}else if(dtoCompany.getName()!=null) {
-			return service.getCompanyByName(dtoCompany.getName());
-		}else return new Company();
+//		if (dtoCompany.getId()!= 0) {
+//			return service.getCompanyById(dtoCompany.getId());
+//		}else if(dtoCompany.getName()!=null) {
+//			return service.getCompanyByName(dtoCompany.getName());
+//		}else return new Company();
+	return new Company();
 	}
 	
 	public  DtoCompanyOutput mapperDtoFromCompanyServletService(Company company) {
