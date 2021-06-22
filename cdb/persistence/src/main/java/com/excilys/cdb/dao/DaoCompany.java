@@ -1,4 +1,4 @@
-package com.excilys.cdb;
+package com.excilys.cdb.dao;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.jdbc.core.JdbcTemplate;

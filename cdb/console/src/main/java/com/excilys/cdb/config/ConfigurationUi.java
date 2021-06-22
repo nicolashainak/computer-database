@@ -1,9 +1,10 @@
-package com.excilys.cdb.configuration;
+package com.excilys.cdb.config;
 
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +18,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-
 	@Configuration
-	@EnableJpaRepositories(basePackages= {"com.excilys.cdb.persistance"})
-	@ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.ui","com.excilys.cdb.cli"})
+	@EnableJpaRepositories(basePackages= {"com.excilys.cdb.dao"})
+	@ComponentScan(basePackages = {"com.excilys.cdb.dao","com.excilys.cdb.dto","com.excilys.cdb.mapper","com.excilys.cdb.validation","com.excilys.cdb.persistance","com.excilys.cdb.service","com.excilys.cdb.cli"})
 	public class ConfigurationUi {
 	
 		 private static HikariConfig config = new HikariConfig();

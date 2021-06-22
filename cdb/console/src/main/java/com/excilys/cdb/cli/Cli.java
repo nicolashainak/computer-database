@@ -9,9 +9,11 @@ import com.excilys.cdb.model.Page;
 import com.excilys.cdb.cli.Graphic;
 import com.excilys.cdb.cli.VueCompany;
 import com.excilys.cdb.cli.VueComputer;
+import com.excilys.cdb.dao.DaoCompany;
+import com.excilys.cdb.dao.DaoComputer;
+
 import java.util.List;
-import com.excilys.cdb.DaoCompany;
-import com.excilys.cdb.DaoComputer;
+
 import com.excilys.cdb.service.MyService;
 
 import org.springframework.data.domain.PageRequest;

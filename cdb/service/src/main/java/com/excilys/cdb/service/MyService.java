@@ -15,8 +15,8 @@ import com.excilys.cdb.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.CompanyRepository;
-import com.excilys.cdb.ComputerRepository;
+import com.excilys.cdb.dao.CompanyRepository;
+import com.excilys.cdb.dao.ComputerRepository;
 
 import java.util.ArrayList;
 

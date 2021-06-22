@@ -1,4 +1,4 @@
-package com.excilys.cdb.cli;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.PageRequest;
@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 
 import com.excilys.cdb.cli.Cli;
-import com.excilys.cdb.configuration.ConfigurationUi;
+import com.excilys.cdb.config.ConfigurationUi;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.MyService;
 

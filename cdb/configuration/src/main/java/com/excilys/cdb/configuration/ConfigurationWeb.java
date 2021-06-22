@@ -1,7 +1,5 @@
 package com.excilys.cdb.configuration;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.sql.DataSource;
 
 
@@ -16,6 +14,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
 
 
@@ -23,7 +22,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.CacheControl;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -42,7 +40,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages= {"com.excilys.cdb.persistance"})
+@EnableJpaRepositories(basePackages= {"com.excilys.cdb.dao"})
 @ComponentScan(basePackages = {"com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistance","com.excilys.cdb.servlet","com.excilys.cdb.service","com.excilys.cdb.session"})
 //,"com.excilys.cdb.servlet"
 public class ConfigurationWeb implements WebMvcConfigurer{
