@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.cdb.dto.DtoComputerServletService;
-import com.excilys.cdb.mapper.MapperDtoComputerServletService;
-import com.excilys.cdb.validation.ValidationDtoComputer;
+import com.excilys.cdb.binding.dto.DtoComputerServletService;
+import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
+import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.MyService;

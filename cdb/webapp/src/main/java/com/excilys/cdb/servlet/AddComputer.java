@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServlet;
 
 
-import com.excilys.cdb.dto.DtoComputerServletService;
-import com.excilys.cdb.mapper.MapperDtoComputerServletService;
-import com.excilys.cdb.validation.ValidationDtoComputer;
+import com.excilys.cdb.binding.dto.DtoComputerServletService;
+import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
+import com.excilys.cdb.binding.validation.ValidationDtoComputer;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.MyService;
 import java.io.*;

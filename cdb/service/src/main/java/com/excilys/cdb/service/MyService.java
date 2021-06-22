@@ -7,17 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.excilys.cdb.dto.DtoCompanyDbService;
-import com.excilys.cdb.dto.DtoComputerDbService;
-import com.excilys.cdb.dto.DtoComputerServiceDb;
-import com.excilys.cdb.mapper.MapperDtoCompanyDbService;
-import com.excilys.cdb.mapper.MapperDtoComputerDbService;
+import com.excilys.cdb.binding.dto.DtoCompanyDbService;
+import com.excilys.cdb.binding.dto.DtoComputerDbService;
+import com.excilys.cdb.binding.dto.DtoComputerServiceDb;
+import com.excilys.cdb.binding.mapper.MapperDtoCompanyDbService;
+import com.excilys.cdb.binding.mapper.MapperDtoComputerDbService;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
-import com.excilys.cdb.dao.CompanyRepository;
-import com.excilys.cdb.dao.ComputerRepository;
-
+import com.excilys.cdb.persistence.CompanyRepository;
+import com.excilys.cdb.persistence.ComputerRepository;
+import com.excilys.cdb.persistence.DaoCompany;
+import com.excilys.cdb.persistence.DaoComputer;
 import java.util.ArrayList;
 
 @Service
@@ -25,6 +26,7 @@ public class MyService {
 
 	
 	private ComputerRepository computerRepository;
+	
 	private CompanyRepository companyRepository;
 	private MapperDtoCompanyDbService mapperDtoCompanyDbService;
 //	public List<Computer> getListComputer(Page page) {
