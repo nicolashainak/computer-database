@@ -7,8 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="")
-
+@Table(name="user_table")
 public class DtoUser {
 
 
@@ -27,15 +26,9 @@ public class DtoUser {
 		this.role = builder.role;
 	}
 
-	@Override
-	public String toString() {
-		String res = "User n°" + id +
-				" : {" + username +
-				", password: " + password +
-				", role: " + role + "}";
-		return res;
+	public DtoUser() {
+		
 	}
-
 	public static class DtoUserBuilder{
 		private String id;
 		private String username;
@@ -99,5 +92,14 @@ public class DtoUser {
 	public String getRole() {
 		return role;
 	}
+	@Override
+	public String toString() {
+		String res = "User n°" + id +
+				" : {" + username +
+				", password: " + password +
+				", role: " + role + "}";
+		return res;
+	}
+
 }
 
