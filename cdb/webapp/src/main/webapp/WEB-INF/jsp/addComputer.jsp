@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/Dashboard"> <fmt:message key="label.applicationName"/> </a>
+            <a class="navbar-brand" href="../webapp/Dashboard"> <fmt:message key="label.applicationName"/> </a>
         </div>
     </header>
 
@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
                         <div class="actions pull-right">
                             <input  type="submit" value="<fmt:message key="label.add"/>" class="btn btn-primary">
                             <fmt:message key="label.or"/>
-                            <a href="../cdb/Dashboard" class="btn btn-default"><fmt:message key="label.cancel"/></a>
+                            <a href="../webapp/Dashboard" class="btn btn-default"><fmt:message key="label.cancel"/></a>
                         </div>
                     </form>
                 </div>

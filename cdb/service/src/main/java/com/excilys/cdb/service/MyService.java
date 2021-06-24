@@ -75,7 +75,6 @@ public class MyService {
 	}
 	
 	public List<Computer> getListComputer(String search,Pageable pageable ) {
-		System.out.println("meo ");
 		return computerRepository.searchByNameLikeOrDtoCompanyDbServiceNameLike("%"+ search+"%","%"+ search+"%", pageable).stream().map(c->MapperDtoComputerDbService.mapperDtoToDbService(c)).collect(Collectors.toList());
 		//return daoComputer.getListComputer(page,search, collonne,reverse);
 

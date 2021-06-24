@@ -43,7 +43,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages= {"com.excilys.cdb.persistence"})
-@ComponentScan(basePackages = {"com.excilys.cdb.config","com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistence","com.excilys.cdb.servlet","com.excilys.cdb.service","com.excilys.cdb.session"})
+@ComponentScan(basePackages = {"com.excilys.cdb.advice","com.excilys.cdb.config","com.excilys.cdb.binding.dto","com.excilys.cdb.binding.mapper","com.excilys.cdb.binding.validation","com.excilys.cdb.persistence","com.excilys.cdb.servlet","com.excilys.cdb.service","com.excilys.cdb.session"})
 //,"com.excilys.cdb.servlet"
 public class ConfigurationWeb implements WebMvcConfigurer{
 	 private static HikariConfig config = new HikariConfig();

@@ -16,7 +16,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../cdb/Dashboard"> <fmt:message key="label.applicationName"/> </a>
+            <a class="navbar-brand" href="../webapp/Dashboard"> <fmt:message key="label.applicationName"/> </a>
        		<ul>
        			<li><a href="?lang=en"><fmt:message key="label.lang.en"/></a> </li>
        			<li><a href="?lang=fr"><fmt:message key="label.lang.fr"/></a> </li>
@@ -42,7 +42,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="../cdb/AddComputer"><fmt:message key="label.addComputer"/></a> 
+                    <a class="btn btn-success" id="addComputer" href="../webapp/AddComputer"><fmt:message key="label.addComputer"/></a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.edit"/></a>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                             <input type="checkbox" name="cb" class="cb" value="${computer.id.get()}">
                         </td>
                         <td>
-                            <a href="../cdb/EditComputer?id=${computer.id.get()}" onclick="">${computer.name}</a>
+                            <a href="../webapp/EditComputer?id=${computer.id.get()}" onclick="">${computer.name}</a>
                         </td>
                         <td>${computer.introduced}</td>
                         <td>${computer.discontinued}</td>

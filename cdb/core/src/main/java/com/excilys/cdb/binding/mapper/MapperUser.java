@@ -18,7 +18,7 @@ public class MapperUser {
 			builder.password(dtoUser.getPassword());
 		}
 		if (! "".equals(dtoUser.getRole())) {
-			builder.password(dtoUser.getRole());
+			builder.role(dtoUser.getRole());
 		}
 		return builder.build();
 	}
@@ -31,7 +31,7 @@ public class MapperUser {
 			builder.password(user.getPassword());
 		}
 		if (! "".equals(user.getRole())) {
-			builder.password(user.getRole());
+			builder.role(user.getRole());
 		}
 		return builder.build();
 	}

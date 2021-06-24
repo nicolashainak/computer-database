@@ -16,40 +16,37 @@ import com.excilys.cdb.service.UserDetailServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailServiceImpl();
-    }
-	
+	public UserDetailsService userDetailsService() {
+		return new UserDetailServiceImpl();
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        System.out.println(passwordEncoder().encode("admin"));
-        return authProvider;
-    }
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setPasswordEncoder(passwordEncoder());
+		System.out.println(passwordEncoder().encode("test"));
+		return authProvider;
+	}
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider());
-    }
-
-    
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(authenticationProvider());
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().mvcMatchers("/login").permitAll()
-			.mvcMatchers("/addComputer", "/editComputer", "/adminPage").hasRole("ADMIN")
-			.anyRequest().authenticated()
-			.and().formLogin().defaultSuccessUrl("/dashboard", true)
-			.and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID");
+		http.authorizeRequests().mvcMatchers("/login").permitAll().mvcMatchers("/AddComputer", "/EditComputer")
+				.hasRole("admin").anyRequest().authenticated().and().formLogin().defaultSuccessUrl("/Dashboard", true)
+				.and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+				.and().exceptionHandling().accessDeniedPage("/403");
 		http.csrf().disable();
-	} 
+	}
 }
