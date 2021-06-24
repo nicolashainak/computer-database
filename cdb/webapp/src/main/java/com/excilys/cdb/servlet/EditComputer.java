@@ -1,10 +1,9 @@
 package com.excilys.cdb.servlet;
 
 
-import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 import com.excilys.cdb.binding.dto.DtoComputerServletService;
 import com.excilys.cdb.binding.mapper.MapperDtoComputerServletService;
@@ -13,7 +12,7 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.MyService;
 
-import java.io.*;
+
 import java.util.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
