@@ -1,5 +1,8 @@
 package com.excilys.cdb.binding.dto;
 
+import javax.persistence.Entity;
+
+@Entity
 public class DtoComputerServletService {
 	@Override
 	public String toString() {
